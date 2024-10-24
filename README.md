@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # National Irrigation Administrator (NIA) Project Templates
 
 This repository provides templates for developing web applications using modern technology stacks. It includes both a **client** (front-end) and a **server** (back-end) that can be used to kickstart development for NIA projects.
@@ -64,34 +63,3 @@ Ensure you have the following installed on your machine:
      ```
 
 That's it! Your application should be up and running.
-=======
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Ignore node_modules and dist for both client and server
-CLIENT/node_modules
-CLIENT/dist
-CLIENT/dist-ssr
-CLIENT/*.local
-
-SERVER/node_modules
-SERVER/dist
-SERVER/*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
->>>>>>> 602dff6b39128ae9671a52b37741f6e02bc3ec98
