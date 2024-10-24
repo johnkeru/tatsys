@@ -1,4 +1,5 @@
 const assignedRole = require('../models/assignedRole')
+const jwt = require('jsonwebtoken')
 
 exports.login = async (req, res) => {
     const { username, password } = req.body;
@@ -24,16 +25,21 @@ exports.login = async (req, res) => {
 
         // Set the access_token as a cookie
         const accessToken = credentials.access_token;
-        res.cookie('access_token', accessToken, {
+        // jwt time unit is seconds
+        const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, { expiresIn: credentials.expires_in * 2 })
+
+        // cookie time unit is milliseconds
+        res.cookie('jwtToken', jwtToken, {
             httpOnly: true, // To prevent access from JavaScript
             secure: true,   // Set true if you are using https
-            maxAge: credentials.expires_in * 2  // Set the cookie expiration
+            maxAge: credentials.expires_in * 1000  // Set the cookie expiration
         });
 
-        // Return the credentials object (you can adjust what you return based on your needs)
+        // Return ok
         res.sendStatus(200)
 
     } catch (e) {
+        console.error(e)
         res.status(500).json({ error: 'Server error' });
     }
 };
