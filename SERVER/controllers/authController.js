@@ -61,6 +61,6 @@ exports.getUser = async (req, res) => {
 }
 
 exports.logout = (req, res) => {
-    res.clearCookie('access_token');
+    res.clearCookie('jwtToken');
     res.status(200).json({ message: 'Logged out successfully' });
 };
