@@ -52,7 +52,7 @@ Ensure you have the following installed on your machine:
      npm install
      ```
 
-5. **SERVER .env configuration:**
+5. **Configuration:**
    - Before running the application, reach out to **Sir Ransey** about the account API details. You will need the following configurations in your `.env` file:
 
    ```plaintext
@@ -63,8 +63,8 @@ Ensure you have the following installed on your machine:
    # sir ransey's api for accounts
    CLIENT_ID = 
    OWNER_ID = 
-   ACCOUNT_TOKEN_API_URL = 
-   ACCOUNT_USER_API_URL = 
+   ACCOUNT_TOKEN_API = 
+   ACCOUNT_USER_API = 
 
    # mongo database url
    MONGODB_URL = 
@@ -88,4 +88,10 @@ Ensure you have the following installed on your machine:
      npm start
      ```
 
-That's it! Your application should be up and running.
+7. **Set Roles and Super Admin in the Database:**
+   - AFTER YOU SET EVERYTHING ABOVE ENV DETAILS
+   - GO TO `zrest/set.rest` AND RUN:
+     - **GET** `http://localhost:5000/set-roles` -- this will set all roles you created.
+     - **GET** `http://localhost:5000/set-role-super-admins` -- this will set all super admins for the user, e.g., `SUPER_ADMIN_1`.
+
+That's it! Your application should be up and running in **http://localhost:3000/login**.
