@@ -8,7 +8,7 @@ exports.setRoles = async (_req, res) => {
             permission: 'Has full access to all systems.' // SUPER ADMIN has full permission
         },
         {
-            name: process.env.USER, // 'USER'
+            name: process.env.DEFAULT_USER, // 'USER'
             permission: 'View only.'
         },
     ]
