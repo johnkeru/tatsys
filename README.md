@@ -60,28 +60,31 @@ npm install</code></pre>
     </li>
     <li><strong>Configuration:</strong>
         <p>Before running the application, reach out to <strong>Sir Ransey</strong> about the account API details. You will need the following configurations in your <code>.env</code> file:</p>
-        <pre><code># your react.js url
-CLIENT1 = http://localhost:3000
-CLIENT2 = http://localhost:3001
+        <pre><code>#!/bin/bash
 
-# sir ransey's api for accounts
-CLIENT_ID = 
-OWNER_ID = 
-ACCOUNT_TOKEN_API_URL = 
-ACCOUNT_USER_API_URL = 
+# Your React.js URLs
+export CLIENT1="http://localhost:3000"
+export CLIENT2="http://localhost:3001"
 
-# mongo database url
-MONGODB_URL = 
+# Sir Ransey's API for accounts
+export CLIENT_ID=""
+export OWNER_ID=""
+export ACCOUNT_TOKEN_API_URL=""
+export ACCOUNT_USER_API_URL=""
 
-JWT_SECRET_KEY = 
+# Mongo database URL
+export MONGODB_URL=""
 
-# your system's super admin
-SUPER_ADMIN_1 = 123456
-# SUPERADMIN2 = 123457
+export JWT_SECRET_KEY=""
 
-# system's roles
-SUPER_ADMIN = 'SUPER ADMIN'
-DEFAULT_USER = 'USER'</code></pre>
+# Your system's super admin
+export SUPER_ADMIN_1="123456"
+# export SUPER_ADMIN_2="123457"
+
+# System's roles
+export SUPER_ADMIN="SUPER ADMIN"
+export DEFAULT_USER="USER"
+</code></pre>
     </li>
     <li><strong>Start the Application:</strong>
         <p>In one terminal, for CLIENT, run:</p>
@@ -89,7 +92,7 @@ DEFAULT_USER = 'USER'</code></pre>
         <p>In the second terminal, for SERVER, run:</p>
         <pre><code>npm start</code></pre>
     </li>
-    <li><strong>Generate jwt secret. Set Roles and Super Admin in the Database:</strong>
+    <li><strong>Generate JWT secret. Set Roles and Super Admin in the Database:</strong>
         <p>AFTER YOU SET EVERYTHING ABOVE ENV DETAILS</p>
         <p>GO TO <code>zrest/set.rest</code> AND RUN:</p>
         <ul>
