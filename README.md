@@ -62,26 +62,20 @@ npm install</code></pre>
         <p>Before running the application, reach out to <strong>Sir Ransey</strong> about the account API details. You will need the following configurations in your <code>.env</code> file:</p>
         <pre><code>
 
-# your react.js url
 CLIENT1 = http://localhost:3000
 CLIENT2 = http://localhost:3001
 
-# sir ransey's api for accounts
 CLIENT_ID = 
 OWNER_ID = 
 ACCOUNT_TOKEN_API_URL = 
 ACCOUNT_USER_API_URL = 
 
-# mongo database url
 MONGODB_URL = 
 
 JWT_SECRET_KEY = 
 
-# your system's super admin
 SUPER_ADMIN_1 = 123456
-# SUPERADMIN2 = 123457
 
-# system's roles
 SUPER_ADMIN = 'SUPER ADMIN'
 DEFAULT_USER = 'USER'
 
