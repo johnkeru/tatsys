@@ -25,7 +25,7 @@ const DisplayRoles = () => {
             >
                 <FaUserCircle size={25} />
                 <Box display="flex" alignItems="center" gap={1}>
-                    <span>{currentUser.Roles[0]}</span>
+                    <span>{currentUser.Roles[0] || 'User'}</span>
                     <IconButton
                         size="small"
                         sx={{ color: 'white' }}
@@ -37,11 +37,13 @@ const DisplayRoles = () => {
             <Box color='white' mt={-.7}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="nav">
-                        {currentUser.Roles.map((role, index) => (
+                        {currentUser.Roles.length > 1 ? currentUser.Roles.map((role, index) => (
                             <ListItem key={index} >
                                 {role}
                             </ListItem>
-                        ))}
+                        )) : <ListItem key={1} >
+                            User
+                        </ListItem>}
                     </List>
                 </Collapse>
             </Box>

@@ -22,6 +22,7 @@ The server side is built with **Node.js**, **Express.js**, and **MongoDB** for d
 - **dotenv**: Loads environment variables from a `.env` file into `process.env`.
 - **cors**: Enables Cross-Origin Resource Sharing.
 - **cookie-parser**: Parses cookies attached to client requests.
+- **jsonwebtoken (JWT)**: Used to securely transmit information between the server and client as JSON objects, typically for authentication and authorization purposes.
 
 ### Getting Started
 
@@ -38,6 +39,7 @@ Ensure you have the following installed on your machine:
    cd NIA_TEMPLATES
    ```
 2. **Open two terminal or cmd prompt for CLIENT and SERVER.**
+
 3. **Install Client Dependencies:**
    - Open a terminal and navigate to the CLIENT folder:
      ```bash
@@ -68,6 +70,7 @@ Ensure you have the following installed on your machine:
 
    # mongo database url
    MONGODB_URL = 
+   JWT_SECRET_KEY = 
 
    # your system's super admin
    SUPER_ADMIN_1 = 123456
@@ -91,7 +94,7 @@ Ensure you have the following installed on your machine:
 7. **Set Roles and Super Admin in the Database:**
    - AFTER YOU SET EVERYTHING ABOVE ENV DETAILS
    - GO TO `zrest/set.rest` AND RUN:
-     - **GET** `http://localhost:5000/set-roles` -- this will set all roles you created.
-     - **GET** `http://localhost:5000/set-role-super-admins` -- this will set all super admins for the user, e.g., `SUPER_ADMIN_1`.
+     - **GET** `http://localhost:5000/generate-jwt-secret` — It will respond with a `secretKey`. Get the value and set it as `JWT_SECRET_KEY` in the `.env` file.
+     - **GET** `http://localhost:5000/set-roles-and-assign` -- this will set roles and super admins for the user, e.g., `SUPER_ADMIN_1`.
 
 That's it! Your application should be up and running in **http://localhost:3000/login**.
