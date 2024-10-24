@@ -60,30 +60,31 @@ npm install</code></pre>
     </li>
     <li><strong>Configuration:</strong>
         <p>Before running the application, reach out to <strong>Sir Ransey</strong> about the account API details. You will need the following configurations in your <code>.env</code> file:</p>
-        <pre><code>#!/bin/bash
+        <pre><code>
 
-# Your React.js URLs
-export CLIENT1="http://localhost:3000"
-export CLIENT2="http://localhost:3001"
+# your react.js url
+CLIENT1 = http://localhost:3000
+CLIENT2 = http://localhost:3001
 
-# Sir Ransey's API for accounts
-export CLIENT_ID=""
-export OWNER_ID=""
-export ACCOUNT_TOKEN_API_URL=""
-export ACCOUNT_USER_API_URL=""
+# sir ransey's api for accounts
+CLIENT_ID = 
+OWNER_ID = 
+ACCOUNT_TOKEN_API_URL = 
+ACCOUNT_USER_API_URL = 
 
-# Mongo database URL
-export MONGODB_URL=""
+# mongo database url
+MONGODB_URL = 
 
-export JWT_SECRET_KEY=""
+JWT_SECRET_KEY = 
 
-# Your system's super admin
-export SUPER_ADMIN_1="123456"
-# export SUPER_ADMIN_2="123457"
+# your system's super admin
+SUPER_ADMIN_1 = 123456
+# SUPERADMIN2 = 123457
 
-# System's roles
-export SUPER_ADMIN="SUPER ADMIN"
-export DEFAULT_USER="USER"
+# system's roles
+SUPER_ADMIN = 'SUPER ADMIN'
+DEFAULT_USER = 'USER'
+
 </code></pre>
     </li>
     <li><strong>Start the Application:</strong>
@@ -92,7 +93,7 @@ export DEFAULT_USER="USER"
         <p>In the second terminal, for SERVER, run:</p>
         <pre><code>npm start</code></pre>
     </li>
-    <li><strong>Generate JWT secret. Set Roles and Super Admin in the Database:</strong>
+    <li><strong>Generate jwt secret. Set Roles and Super Admin in the Database:</strong>
         <p>AFTER YOU SET EVERYTHING ABOVE ENV DETAILS</p>
         <p>GO TO <code>zrest/set.rest</code> AND RUN:</p>
         <ul>
@@ -100,6 +101,11 @@ export DEFAULT_USER="USER"
             <li><strong>GET</strong> <code>http://localhost:5000/set-roles-and-assign</code> — this will set roles and super admins for the user, e.g., <code>SUPER_ADMIN_1</code>.</li>
         </ul>
     </li>
+   <li><strong>Restart the server after some changes in .env:</strong>
+      <p>Press <strong>CTRL + C</strong> to stop the server in the terminal.</p>
+      <p>For macOS and Linux users, you may also use <strong>CMD + C</strong> to stop the server.</p>
+      <pre><code>npm start</code></pre>
+   </li>
 </ol>
 
 <p>That's it! Your application should be up and running at <strong><code>http://localhost:3000/login</code></strong>.</p>
