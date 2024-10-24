@@ -52,7 +52,7 @@ Ensure you have the following installed on your machine:
      npm install
      ```
 
-5. **Configuration:**
+5. **SERVER .env configuration:**
    - Before running the application, reach out to **Sir Ransey** about the account API details. You will need the following configurations in your `.env` file:
 
    ```plaintext
