@@ -37,22 +37,22 @@ Ensure you have the following installed on your machine:
    git clone https://github.com/johnkeru/NIA_TEMPLATES.git
    cd NIA_TEMPLATES
    ```
-
-2. **Install Client Dependencies:**
+2. **Open two terminal or cmd prompt for CLIENT and SERVER.**
+3. **Install Client Dependencies:**
    - Open a terminal and navigate to the CLIENT folder:
      ```bash
      cd CLIENT
      npm install
      ```
 
-3. **Install Server Dependencies:**
+4. **Install Server Dependencies:**
    - Open another terminal window and navigate to the SERVER folder:
      ```bash
      cd SERVER
      npm install
      ```
 
-4. **Start the Application:**
+5. **Start the Application:**
    - In one terminal, navigate to the CLIENT folder and run:
      ```bash
      npm start
