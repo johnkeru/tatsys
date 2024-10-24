@@ -13,6 +13,9 @@ exports.setRoles = async (_req, res) => {
         },
     ]
     try {
+        // Delete all existing roles
+        await role.deleteMany({});
+
         roles.map(async ({ name, permission }) => {
             const newRole = new role({ name, permission });
             await newRole.save()
@@ -28,6 +31,10 @@ exports.setRoleSuperAdmins = async (_req, res) => {
     try {
         const adminRole = await role.findOne({ name: process.env.SUPER_ADMIN })
         const superAdmins = [process.env.SUPER_ADMIN_1,] // list all super admins here
+
+        // Delete all existing roles assigned to super admins
+        await assignedRole.deleteMany({})
+
         superAdmins.forEach(async (adminId) => {
             const assignRole = new assignedRole({ assignedBy: adminId, user: adminId, roles: [adminRole._id] })
             await assignRole.save()
