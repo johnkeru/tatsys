@@ -22,12 +22,14 @@ exports.login = async (req, res) => {
             })
         })).json();
 
+        console.log(credentials)
+
         // Set the access_token as a cookie
         const accessToken = credentials.access_token;
         res.cookie('access_token', accessToken, {
             httpOnly: true, // To prevent access from JavaScript
             secure: true,   // Set true if you are using https
-            maxAge: credentials.expires_in * 1000  // Set the cookie expiration
+            maxAge: credentials.expires_in * 2  // Set the cookie expiration
         });
 
         // Return the credentials object (you can adjust what you return based on your needs)
