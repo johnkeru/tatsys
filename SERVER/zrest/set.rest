@@ -1,0 +1,7 @@
+
+# Make sure to install REST Client extension first to be able to run this endpoints.
+
+GET http://localhost:5000/set-roles
+###
+GET http://localhost:5000/set-role-super-admins
+###
