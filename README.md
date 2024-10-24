@@ -63,8 +63,8 @@ Ensure you have the following installed on your machine:
    # sir ransey's api for accounts
    CLIENT_ID = 
    OWNER_ID = 
-   ACCOUNT_TOKEN_API = 
-   ACCOUNT_USER_API = 
+   ACCOUNT_TOKEN_API_ENDPOINT = 
+   ACCOUNT_USER_API_ENDPOINT = 
 
    # mongo database url
    MONGODB_URL = 
