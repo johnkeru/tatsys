@@ -3,7 +3,7 @@ const assignedRole = require('../models/assignedRole')
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     try {
-        const tokenApi = process.env.ACCOUNT_TOKEN_API;
+        const tokenApi = process.env.ACCOUNT_TOKEN_API_URL;
         const clientId = process.env.CLIENT_ID;
         const ownerId = process.env.OWNER_ID;
         const encodedCredentials = Buffer.from(`${clientId}:${ownerId}`).toString('base64');
