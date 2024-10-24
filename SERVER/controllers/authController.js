@@ -22,8 +22,6 @@ exports.login = async (req, res) => {
             })
         })).json();
 
-        console.log(credentials)
-
         // Set the access_token as a cookie
         const accessToken = credentials.access_token;
         res.cookie('access_token', accessToken, {
