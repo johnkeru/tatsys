@@ -70,6 +70,7 @@ Ensure you have the following installed on your machine:
 
    # mongo database url
    MONGODB_URL = 
+  
    JWT_SECRET_KEY = 
 
    # your system's super admin
@@ -82,11 +83,11 @@ Ensure you have the following installed on your machine:
    ```
 
 6. **Start the Application:**
-   - In one terminal, navigate to the CLIENT folder and run:
+   - In one terminal, for CLIENT, run:
      ```bash
      npm start
      ```
-   - In the second terminal, navigate to the SERVER folder and run:
+   - In the second terminal, for SERVER, run:
      ```bash
      npm start
      ```
@@ -95,6 +96,6 @@ Ensure you have the following installed on your machine:
    - AFTER YOU SET EVERYTHING ABOVE ENV DETAILS
    - GO TO `zrest/set.rest` AND RUN:
      - **GET** `http://localhost:5000/generate-jwt-secret` — It will respond with a `secretKey`. Get the value and set it as `JWT_SECRET_KEY` in the `.env` file.
-     - **GET** `http://localhost:5000/set-roles-and-assign` -- this will set roles and super admins for the user, e.g., `SUPER_ADMIN_1`.
+     - **GET** `http://localhost:5000/set-roles-and-assign` — this will set roles and super admins for the user, e.g., `SUPER_ADMIN_1`.
 
 That's it! Your application should be up and running in **http://localhost:3000/login**.
