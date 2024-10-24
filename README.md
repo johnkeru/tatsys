@@ -34,8 +34,8 @@ Ensure you have the following installed on your machine:
 ### Installation
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/nia-project.git
-   cd nia-project
+   git clone https://github.com/johnkeru/NIA_TEMPLATES.git
+   cd NIA_TEMPLATES
    ```
 
 2. **Install Client Dependencies:**
