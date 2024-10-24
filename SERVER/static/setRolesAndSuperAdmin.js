@@ -7,10 +7,6 @@ exports.setRoles = async (_req, res) => {
             name: process.env.SUPER_ADMIN, // 'SUPER ADMIN'
             permission: 'Has full access to all systems.' // SUPER ADMIN has full permission
         },
-        {
-            name: process.env.DEFAULT_USER, // 'USER'
-            permission: 'View only.'
-        },
     ]
     try {
         // Delete all existing roles
