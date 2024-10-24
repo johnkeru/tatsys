@@ -89,7 +89,7 @@ DEFAULT_USER = 'USER'</code></pre>
         <p>In the second terminal, for SERVER, run:</p>
         <pre><code>npm start</code></pre>
     </li>
-    <li><strong>Set Roles and Super Admin in the Database:</strong>
+    <li><strong>Generate jwt secret. Set Roles and Super Admin in the Database:</strong>
         <p>AFTER YOU SET EVERYTHING ABOVE ENV DETAILS</p>
         <p>GO TO <code>zrest/set.rest</code> AND RUN:</p>
         <ul>
