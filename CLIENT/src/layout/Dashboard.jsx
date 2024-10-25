@@ -37,7 +37,7 @@ const Dashboard = () => {
             <DisplayRoles />
             <Divider />
             <List>
-                <LinkTo icon={<MdSpaceDashboard />} name="Dashboard" link="/" />
+                <LinkTo icon={<MdSpaceDashboard />} name="Dashboard" link="/dashboard" />
                 {isAllowAdminsOnly(currentUser) ? <LinkTo
                     icon={<FaUserGear />}
                     name="Role Management"
