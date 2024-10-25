@@ -120,7 +120,7 @@ const LoginForm = () => {
                             <Typography
                                 variant="body2"
                                 color="error"
-                                sx={{ backgroundColor: '#f8d7da', p: 1, border: '1px solid #f5c6cb', mb: 3 }}
+                                sx={{ backgroundColor: '#f8d7da', p: 1, border: '1px solid #f5c6cb', mb: 2 }}
                             >
                                 Invalid Credentials
                             </Typography>
