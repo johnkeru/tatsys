@@ -12,6 +12,8 @@ const DisplayRoles = () => {
         setOpen(!open);
     };
 
+    const isOneRole = currentUser.Roles.length === 1
+
     return (
         <>
             <Box
@@ -19,25 +21,27 @@ const DisplayRoles = () => {
                 color='white'
                 display='flex'
                 gap={2}
+                borderBottom={1}
+                borderColor='secondary.main'
                 alignItems='center'
                 onClick={handleClick}
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: !isOneRole ? 'pointer' : 'default' }}
             >
-                <FaUserCircle size={25} />
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box display="flex" alignItems="center" justifyContent={!isOneRole ? 'space-between' : 'flex-start'} width='100%' gap={2}>
+                    <FaUserCircle size={25} />
                     <span>{currentUser.Roles[0] || 'User'}</span>
-                    <IconButton
+                    {!isOneRole ? <IconButton
                         size="small"
                         sx={{ color: 'white' }}
                     >
                         {open ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
-                    </IconButton>
+                    </IconButton> : undefined}
                 </Box>
             </Box>
-            <Box color='white' mt={-.7}>
+            {!isOneRole ? <Box color='white' mt={-.7}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="nav">
-                        {currentUser.Roles.length > 1 ? currentUser.Roles.map((role, index) => (
+                    <List component="nav" sx={{ borderBottom: 1, borderColor: 'secondary.main' }}>
+                        {currentUser.Roles.length > 0 ? currentUser.Roles.map((role, index) => (
                             <ListItem key={index} >
                                 {role}
                             </ListItem>
@@ -46,8 +50,9 @@ const DisplayRoles = () => {
                         </ListItem>}
                     </List>
                 </Collapse>
-            </Box>
+            </Box> : undefined}
         </>
     );
 };
 export default DisplayRoles;
+
