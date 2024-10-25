@@ -88,17 +88,19 @@ exports.deleteRole = async (req, res) => {
 
 exports.assignRoles = async (req, res) => {
     try {
-        // user: 6 digits, roles: ['SUPER ADMIN', 'DV']
+        // user: 6 digits, roles: ['SUPER ADMIN', DV]
         const { user, roles, assignedBy } = req.body
         // check if user is already assigned before
-        const isAssigned = await assignedRole.findOne({ user })
+        const isAssigned = await assignedRole.findOne({ user }).populate({ path: 'roles', select: 'name' })
         // if exist then updating
         if (isAssigned) {
+            const isSuperAdmin = isAssigned.roles.find(r => r.name === process.env.SUPER_ADMIN)
             // if assignedBy is not same with isAssigned's assignedBy value then error
-            if (isAssigned.assignedBy != assignedBy) return res.status(403).json({ error: 'You cannot update assigned roles' })
+            if (isAssigned.assignedBy != assignedBy || isSuperAdmin) return res.status(403).json({ error: 'You cannot update assigned roles' })
             await assignedRole.findByIdAndUpdate(isAssigned._id, { roles, assignedBy })
             return res.json({ message: 'Roles updated successfully' })
         }
+
         // if not then creating new
         const newAssignedRole = new assignedRole({ user, roles, assignedBy })
         await newAssignedRole.save()
