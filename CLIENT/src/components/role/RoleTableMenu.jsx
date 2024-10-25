@@ -69,7 +69,6 @@ export default function RoleTableMenu({ data }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 variant="contained"
-                color='secondary'
                 disableElevation
                 onClick={handleClick}
                 endIcon={<IoMdArrowDropdown />}

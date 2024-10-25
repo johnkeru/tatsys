@@ -1,15 +1,16 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import env from '../../utils/env'
 
 // Define your custom theme
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#046937', // Change to your custom color
-            contrastText: '#fff', // Text color for primary buttons
+            main: env('PRIMARY_COLOR'), // Change to your custom color
+            contrastText: env('PRIMARY_CONTRAST_COLOR'), // Text color for primary buttons
         },
         secondary: {
-            main: '#01872c', // Change to your custom color
-            contrastText: '#fff',
+            main: env('SECONDARY_COLOR'), // Change to your custom color
+            contrastText: env('SECONDARY_CONTRAST_COLOR'),
         },
         background: {
             default: '#f4f6f8', // Background color for the app
@@ -39,14 +40,21 @@ const theme = createTheme({
         },
     },
     components: {
-        // Example of overriding styles for specific components
-        // MuiButton: {
-        //     styleOverrides: {
-        //         root: {
-        //             padding: '6px 17px',
-        //         },
-        //     },
-        // },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    padding: '6px 17px',
+                },
+                containedPrimary: {
+                    backgroundColor: env('SECONDARY_COLOR'), // Secondary main color
+                    color: env('SECONDARY_CONTRAST_COLOR'), // Secondary contrastText color
+                    '&:hover': {
+                        backgroundColor: env('PRIMARY_COLOR'), // Darker shade of secondary color for hover effect
+                    },
+                },
+
+            },
+        },
         // MuiAppBar: {
         //     styleOverrides: {
         //         root: {

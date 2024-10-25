@@ -48,7 +48,7 @@ const LogoutDialog = () => {
                     <CustomButton size='large' plain loading={loading} onClick={handleClose} sx={{ color: '#333' }} >
                         Cancel
                     </CustomButton>
-                    <CustomButton size='large' loading={loading} onClick={handleLogout} sx={{ bgcolor: '#333' }}>
+                    <CustomButton size='large' loading={loading} onClick={handleLogout} sx={{ bgcolor: '#4a4a4a', ":hover": { bgcolor: '#333' }, }}>
                         Logout
                     </CustomButton>
                 </DialogActions>

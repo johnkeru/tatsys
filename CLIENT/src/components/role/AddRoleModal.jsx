@@ -75,7 +75,6 @@ const AddRoleModal = () => {
             <Button
                 variant="contained"
                 size='large'
-                color="success"
                 onClick={handleOpen}
                 aria-label="Create new role"
                 startIcon={<IoMdAdd />}

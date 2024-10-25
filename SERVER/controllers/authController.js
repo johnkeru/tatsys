@@ -2,7 +2,7 @@ const assignedRole = require('../models/assignedRole')
 const jwt = require('jsonwebtoken')
 
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, rememberMe } = req.body;
     try {
         const tokenApi = process.env.ACCOUNT_TOKEN_API_URL;
         const clientId = process.env.CLIENT_ID;
@@ -23,16 +23,21 @@ exports.login = async (req, res) => {
             })
         })).json();
 
+        // Calculate the expiration times based on rememberMe
+        const expiresIn = credentials.expires_in;
+        const cookieExpiration = expiresIn * 1000 * (rememberMe ? 2 : 1); // In milliseconds
+        const tokenExpiration = expiresIn * (rememberMe ? 2 : 1);         // In seconds
+
         // Set the access_token as a cookie
         const accessToken = credentials.access_token;
         // jwt time unit is seconds
-        const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, { expiresIn: credentials.expires_in * 2 })
+        const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, { expiresIn: tokenExpiration })
 
         // cookie time unit is milliseconds
         res.cookie('jwtToken', jwtToken, {
             httpOnly: true, // To prevent access from JavaScript
             secure: true,   // Set true if you are using https
-            maxAge: credentials.expires_in * 1000  // Set the cookie expiration
+            maxAge: cookieExpiration  // Set the cookie expiration
         });
 
         // Return ok
