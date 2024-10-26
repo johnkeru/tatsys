@@ -82,7 +82,7 @@ const Dashboard = () => {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
-                        bgcolor: 'primary.main', // Use secondary color for drawer background
+                        background: 'linear-gradient(169deg, rgba(55,94,56,1) 20%, rgba(0,0,0,0.8996848739495799) 100%)'
                     },
                 }}
                 variant="persistent" // Keep as persistent
