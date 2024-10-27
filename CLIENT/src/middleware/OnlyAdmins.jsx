@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom'
 
 const OnlyAdmins = ({ children }) => {
     const { currentUser } = useUser()
-    if (!isAllowAdminsOnly(currentUser)) return <Navigate to='/' />
+    if (!isAllowAdminsOnly(currentUser)) return <Navigate to='/dashboard' />
     return children
 }
 
