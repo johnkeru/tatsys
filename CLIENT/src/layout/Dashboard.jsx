@@ -11,18 +11,19 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { CiViewTable } from "react-icons/ci";
-import { FaAngleLeft, FaTablets, FaUserGear, FaUserPen } from "react-icons/fa6";
+import { FaAngleLeft, FaUserGear, FaUserPen } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Outlet } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import DisplayRoles from '../global/components/DisplayRoles';
 import LinkTo from '../global/components/LinkTo';
 import UserAvatarMenu from '../global/components/UserAvatarMenu';
-import { isAllowAdminsOnly } from '../utils/checkRole';
-import { useUser } from '../context/UserContext';
+import { isAllowAdminsOnly, isSuperAdmin } from '../utils/checkRole';
 import env from '../utils/env';
 
-const drawerWidth = 260;
+
+const drawerWidth = 280;
 const Dashboard = () => {
 
     const { currentUser } = useUser()
@@ -42,11 +43,11 @@ const Dashboard = () => {
                     icon={<FaUserGear />}
                     name="Role Management"
                     subLinks={[
-                        { name: 'Roles', link: '/role-management', icon: <CiViewTable /> },
-                        { name: 'Roles Assign', link: '/role-management/assign', icon: <FaUserPen /> },
-                        { name: 'Test', link: '/role-management/test', icon: <FaTablets /> },
+                        { name: 'Roles', link: '/role-management', icon: <CiViewTable />, isAllow: isSuperAdmin(currentUser) },
+                        { name: 'Roles Assign', link: '/role-management/assign', icon: <FaUserPen />, isAllow: isAllowAdminsOnly(currentUser) },
                     ]}
                 /> : undefined}
+
             </List>
             <Divider />
         </div>
@@ -55,7 +56,7 @@ const Dashboard = () => {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: 'primary.main', }}>
+            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: 'primary.main', boxShadow: 0, borderBottom: 1, borderColor: 'secondary.main' }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -98,6 +99,7 @@ const Dashboard = () => {
                     bgcolor: 'background.default',
                     transition: 'margin 0.3s ease',
                     marginLeft: open ? `${drawerWidth}px` : '0', // Only apply margin when drawer is open
+                    mb: 3
                 }}
             >
                 <Toolbar />

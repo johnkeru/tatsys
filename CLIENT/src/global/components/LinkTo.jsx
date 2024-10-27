@@ -44,20 +44,26 @@ const CustomListItem = ({ icon, name, link, subLinks }) => {
                 <Collapse in={open} timeout="auto" unmountOnExit sx={{ ml: 3 }}>
                     <List component="div" disablePadding>
                         {subLinks.map((subLink) => (
-                            <ListItem
-                                key={subLink.link}
-                                component={Link}
-                                to={subLink.link}
-                                sx={{
-                                    borderLeft: '1px solid rgba(250,250,250,0.3)',
-                                    bgcolor: location.pathname === subLink.link ? 'secondary.main' : 'transparent',
-                                }}
-                            >
-                                <ListItemIcon sx={{ color: 'white' }}> {/* Set sub-link icon color to white */}
-                                    {subLink.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={subLink.name} sx={{ color: 'white' }} /> {/* Set sub-link text color to white */}
-                            </ListItem>
+                            subLink.isAllow ?
+                                <ListItem
+                                    key={subLink.link}
+                                    component={Link}
+                                    to={subLink.link}
+                                    sx={{
+                                        '&:hover': {
+                                            bgcolor: 'secondary.main',
+                                        },
+                                        borderLeft: '1px solid rgba(250,250,250,0.3)',
+                                        bgcolor: location.pathname === subLink.link ? 'secondary.main' : 'transparent',
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ color: 'white' }}> {/* Set sub-link icon color to white */}
+                                        {subLink.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={subLink.name} sx={{ color: 'white' }} /> {/* Set sub-link text color to white */}
+                                </ListItem>
+                                :
+                                undefined
                         ))}
                     </List>
                 </Collapse>

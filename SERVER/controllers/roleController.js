@@ -1,6 +1,7 @@
 const assignedRole = require('../models/assignedRole')
 const role = require('../models/role')
 
+// this only works for one admin per system
 exports.getRoles = async (req, res) => {
     try {
         let roles = []
@@ -14,22 +15,28 @@ exports.getRoles = async (req, res) => {
                 roles = await role.find({
                     enabled: true,
                     name: {
-                        $regex: prefix,          // Match roles starting with "BUDGET_"
+                        $regex: prefix,          // Match roles starting with "BUDGET"
                         $not: { $regex: 'ADMIN' }  // Exclude roles containing "ADMIN"
                     }
                 }).sort({ name: 1 })
             }
         } else {
-            // get only roles with admin in it
-            const admin = rolesFromRequest.find(role => role.includes('ADMIN'))
-            const prefix = admin.split(' ')[0] // if normal admin, get the roles with same name but prefix
-            roles = await role.find({
-                enabled: true,
-                name: {
-                    $regex: prefix,          // Match roles starting with "BUDGET_"
-                    $not: { $regex: 'ADMIN' }  // Exclude roles containing "ADMIN"
-                }
-            }).sort({ name: 1 })
+            const adminRoles = rolesFromRequest.filter(role => role.includes('ADMIN'));
+            const roleQueries = adminRoles.map(admin => {
+                const prefix = admin.split(' ')[0]; // Extract the prefix from each admin role
+                console.log(prefix);
+                return {
+                    enabled: true,
+                    name: {
+                        $regex: new RegExp(`^${prefix}`, 'i'),          // Match roles starting with the prefix, case-insensitive
+                        $not: { $regex: new RegExp('ADMIN', 'i') }     // Exclude roles containing "ADMIN", case-insensitive
+                    }
+                };
+            });
+
+            // Execute the role queries
+            roles = await role.find({ $or: roleQueries }).sort({ name: 1 });
+
         }
         res.json({ roles })
     } catch (e) {
