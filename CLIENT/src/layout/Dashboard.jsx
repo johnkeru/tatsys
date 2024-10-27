@@ -39,14 +39,15 @@ const Dashboard = () => {
             <Divider />
             <List>
                 <LinkTo icon={<MdSpaceDashboard />} name="Dashboard" link="/dashboard" />
-                {isAllowAdminsOnly(currentUser) ? <LinkTo
+                <LinkTo
+                    isAllow={isSuperAdmin(currentUser)}
                     icon={<FaUserGear />}
                     name="Role Management"
                     subLinks={[
-                        { name: 'Roles', link: '/role-management', icon: <CiViewTable />, isAllow: isSuperAdmin(currentUser) },
+                        { name: 'Roles', link: '/role-management', icon: <CiViewTable /> },
                         { name: 'Roles Assign', link: '/role-management/assign', icon: <FaUserPen />, isAllow: isAllowAdminsOnly(currentUser) },
                     ]}
-                /> : undefined}
+                />
 
             </List>
             <Divider />

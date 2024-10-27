@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 
-const CustomListItem = ({ icon, name, link, subLinks }) => {
+const CustomListItem = ({ icon, name, link, subLinks, isAllow }) => {
     const location = useLocation();
     const isActive = location.pathname === link; // Check if the current path matches the link
     const [open, setOpen] = useState(false); // State to manage sub-link visibility
@@ -44,7 +44,7 @@ const CustomListItem = ({ icon, name, link, subLinks }) => {
                 <Collapse in={open} timeout="auto" unmountOnExit sx={{ ml: 3 }}>
                     <List component="div" disablePadding>
                         {subLinks.map((subLink) => (
-                            subLink.isAllow ?
+                            isAllow || subLink.isAllow ?
                                 <ListItem
                                     key={subLink.link}
                                     component={Link}
