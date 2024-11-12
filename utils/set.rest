@@ -1,0 +1,13 @@
+GET http://localhost:5000/setData
+###
+
+
+
+# CLIENT = https://fmis.nia.gov.ph
+# SERVER = https://auth-fmis.nia.gov.ph
+
+# res.sendCookie
+# 	domain: .nia.gov.ph
+
+# browser cookie:
+# 	.auth-fmis.nia.gov.ph

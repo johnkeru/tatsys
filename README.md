@@ -71,13 +71,8 @@ ACCOUNT_TOKEN_API_URL =
 ACCOUNT_USER_API_URL = 
 
 MONGODB_URL = 
-
 JWT_SECRET_KEY = 
 
-SUPER_ADMIN_1 = 123456
-
-SUPER_ADMIN = 'SUPER ADMIN'
-DEFAULT_USER = 'USER'
 
 </code></pre>
     </li>
@@ -87,12 +82,11 @@ DEFAULT_USER = 'USER'
         <p>In the second terminal, for SERVER, run:</p>
         <pre><code>npm start</code></pre>
     </li>
-    <li><strong>Generate jwt secret. Set Roles and Super Admin in the Database:</strong>
+    <li><strong>Set Roles and Super Admin in the Database:</strong>
         <p>AFTER YOU SET EVERYTHING ABOVE ENV DETAILS</p>
-        <p>GO TO <code>zrest/set.rest</code> AND RUN:</p>
+        <p>GO TO <code>utils/set.rest</code> AND RUN:</p>
         <ul>
-            <li><strong>GET</strong> <code>http://localhost:5000/generate-jwt-secret</code> — It will respond with a <code>secretKey</code>. Get the value and set it as <code>JWT_SECRET_KEY</code> in the <code>.env</code> file.</li>
-            <li><strong>GET</strong> <code>http://localhost:5000/set-roles-and-assign</code> — this will set roles and super admins for the user, e.g., <code>SUPER_ADMIN_1</code>.</li>
+            <li><strong>GET</strong> <code>http://localhost:5000/setData</code> — this will set roles and super admins for the user</li>
         </ul>
     </li>
    <li><strong>Restart the server after some changes in .env:</strong>
