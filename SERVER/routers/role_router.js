@@ -1,5 +1,5 @@
-const { getRoles, createRole, updateRole, deleteRole, assignRoles } = require('../controllers/roleController')
-const { setRolesAndAssign } = require('../static/setRolesAndSuperAdmin');
+const { getRoles, createRole, updateRole, deleteRole, assignRoles, getRolesYouHaveAssigned } = require('../controllers/role_controller')
+const checkToken = require('../middleware/check_token')
 
 const Router = require('express').Router
 
@@ -11,7 +11,7 @@ roleRouter.put('/update-role/:id', updateRole)
 roleRouter.delete('/delete-role/:id', deleteRole)
 roleRouter.post('/assign-role', assignRoles)
 
-// set roles and assign roles. PLEASE ONLY CALL THIS ONCE!
-roleRouter.get('/set-roles-and-assign', setRolesAndAssign)
+roleRouter.get('/get-roles-you-assigned', checkToken, getRolesYouHaveAssigned)
+
 
 module.exports = roleRouter

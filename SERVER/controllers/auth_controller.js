@@ -1,4 +1,4 @@
-const assignedRole = require('../models/assignedRole')
+const assignedRole = require('../models/assigned_role')
 const jwt = require('jsonwebtoken')
 
 exports.login = async (req, res) => {
@@ -32,12 +32,16 @@ exports.login = async (req, res) => {
         const accessToken = credentials.access_token;
         // jwt time unit is seconds
         const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, { expiresIn: tokenExpiration })
-
         // cookie time unit is milliseconds
+
+        const isProduction = process.env.NODE_ENV === 'production';
+
         res.cookie('jwtToken', jwtToken, {
-            httpOnly: true, // To prevent access from JavaScript
-            secure: true,   // Set true if you are using https
-            maxAge: cookieExpiration  // Set the cookie expiration
+            domain: isProduction ? '.nia.gov.ph' : 'localhost',
+            secure: true,          // ensure secure if using https
+            sameSite: 'None',       // if required for cross-site access
+            httpOnly: true,
+            maxAge: cookieExpiration
         });
 
         // Return ok
@@ -66,6 +70,13 @@ exports.getUser = async (req, res) => {
 }
 
 exports.logout = (req, res) => {
-    res.clearCookie('jwtToken');
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.clearCookie('jwtToken', {
+        domain: isProduction ? '.nia.gov.ph' : 'localhost',
+        httpOnly: true,             // For security (if necessary)
+        secure: true,               // Use this if your site uses HTTPS
+    });  // Clear the cookie);
+
     res.status(200).json({ message: 'Logged out successfully' });
 };

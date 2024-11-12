@@ -2,9 +2,11 @@ require('dotenv').config()
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
-require('./config/mongoDB')()
-const authRouter = require('./routers/authRouter');
-const roleRouter = require('./routers/roleRouter');
+require('./config/mongo_db')()
+const auth_router = require('./routers/auth_router');
+const role_router = require('./routers/role_router');
+const setterDataRouter = require('./routers/setter_data');
+
 
 const app = express();
 
@@ -19,7 +21,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 // ROUTES
-app.use(authRouter)
-app.use(roleRouter)
+app.use(setterDataRouter)
+
+app.use(auth_router)
+app.use(role_router)
 
 app.listen(5000, () => console.log('🚀: http://localhost:5000'))

@@ -1,7 +1,0 @@
-
-# Make sure to install REST Client extension first to be able to run this endpoints.
-
-GET http://localhost:5000/generate-jwt-secret
-###
-GET http://localhost:5000/set-roles-and-assign
-###
