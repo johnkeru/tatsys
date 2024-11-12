@@ -51,7 +51,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function RoleTableMenu({ data }) {
+export default function RoleTableMenu({ data, currentTab }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -86,7 +86,7 @@ export default function RoleTableMenu({ data }) {
                 onClose={handleClose}
             >
                 <EditRoleDialog data={data} onSucess={handleClose} />
-                <DeleteRoleModal data={data} onSucess={handleClose} />
+                <DeleteRoleModal data={data} onSucess={handleClose} currentTab={currentTab} />
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleClose} sx={{ display: 'flex', gap: 2 }}>
                     <IoMdClose />

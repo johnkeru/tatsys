@@ -1,11 +1,11 @@
-// CustomListItem.js
+// LinkTo.js
 import React, { useEffect, useState } from 'react';
 import { ListItem, ListItemIcon, ListItemText, Collapse, List } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 
-const CustomListItem = ({ icon, name, link, subLinks, isAllow }) => {
+const LinkTo = ({ icon, name, link, subLinks, isAllow }) => {
     const location = useLocation();
     const isActive = location.pathname === link; // Check if the current path matches the link
     const [open, setOpen] = useState(false); // State to manage sub-link visibility
@@ -22,7 +22,7 @@ const CustomListItem = ({ icon, name, link, subLinks, isAllow }) => {
 
     return (
         <>
-            <ListItem
+            {isAllow ? <ListItem
                 component={link ? Link : 'div'} // Use Link for navigation if link is provided
                 to={link}
                 onClick={subLinks ? handleToggle : undefined} // Toggle sub-links on click if they exist
@@ -38,7 +38,7 @@ const CustomListItem = ({ icon, name, link, subLinks, isAllow }) => {
                 </ListItemIcon>
                 <ListItemText primary={name} sx={{ color: 'white', }} /> {/* Set text color to white */}
                 {!subLinks ? undefined : !open ? <IoMdArrowDropdown style={{ color: 'white' }} /> : <IoMdArrowDropup style={{ color: 'white' }} />}
-            </ListItem>
+            </ListItem> : undefined}
 
             {subLinks && (
                 <Collapse in={open} timeout="auto" unmountOnExit sx={{ ml: 3 }}>
@@ -72,4 +72,4 @@ const CustomListItem = ({ icon, name, link, subLinks, isAllow }) => {
     );
 };
 
-export default CustomListItem;
+export default LinkTo;

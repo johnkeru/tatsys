@@ -1,28 +1,27 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import UserProvider from './context/UserContext';
+import Example from './example/Example';
 import Dashboard from './layout/Dashboard';
-import OnlyAdmins from './middleware/OnlyAdmins';
 import OnlySuperAdmins from './middleware/OnlySuperAdmins';
 import Login from './pages/Login';
-import RoleAssign from './pages/RoleAssign';
-import RolesManagement from './pages/RoleManagement';
-import RolesTable from './pages/RolesTable';
-import UserProvider from './context/UserContext';
+import RoleAssign from './pages/role/RoleAssign';
+import RolesTable from './pages/role/RolesTable';
+import RolesAssignedTable from './pages/role/RolesAssignedTable';
 
 const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path='/example' element={<Example />} />
 
       <Route path='/' element={<UserProvider><Dashboard /></UserProvider>}>
         <Route path='/dashboard' element={<h1>Home page</h1>} />
-        <Route path='/settings' element={<h1>Home page</h1>} />
-        <Route path='/reports' element={<h1>Home page</h1>} />
+        {/* replace dashboard with your own component */}
 
-        <Route path='role-management' element={<OnlyAdmins><RolesManagement /></OnlyAdmins>} >
-          <Route index element={<OnlySuperAdmins><RolesTable /></OnlySuperAdmins>} />
-          <Route path='assign' element={<RoleAssign />} />
-        </Route>
+        <Route path='role-management' element={<OnlySuperAdmins><RolesTable /></OnlySuperAdmins>} />
+        <Route path='role-management/assign' element={<RoleAssign />} />
+        <Route path='role-management/roles-assigned' element={<RolesAssignedTable />} />
 
       </Route>
 

@@ -5,8 +5,9 @@ import toast from 'react-hot-toast';
 import { MdDelete } from 'react-icons/md';
 import api from '../../config/api';
 import CustomButton from '../../global/components/CustomButton';
+import { LuArchiveRestore } from "react-icons/lu";
 
-const DeleteRoleDialog = ({ data: role, onSucess }) => {
+const DeleteRoleDialog = ({ data: role, onSucess, currentTab }) => {
     const [loading, setLoading] = useState(false)
     const queryClient = useQueryClient()
 
@@ -14,7 +15,7 @@ const DeleteRoleDialog = ({ data: role, onSucess }) => {
         mutationFn: async (id) => {
             setLoading(true)
             try {
-                const res = await api.delete(`/delete-role/${id}`)
+                const res = await api.delete(`/delete-role/${id}?tab=${currentTab}`)
                 return res.data.message
             } catch (e) {
                 throw e
@@ -45,23 +46,33 @@ const DeleteRoleDialog = ({ data: role, onSucess }) => {
     return (
         <div>
             <MenuItem onClick={handleOpen} sx={{ display: 'flex', gap: 2 }}>
-                <MdDelete />
-                Delete
+                {currentTab == 'active' ? <MdDelete /> : <LuArchiveRestore />}
+                {currentTab == 'active' ? 'Delete' : 'Enable'}
             </MenuItem>
 
             <Dialog open={isOpen} onClose={loading ? handleOpen : handleClose} maxWidth='xs'>
-                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogTitle>
+                    {currentTab == 'active' ? 'Confirm Deletion' : 'Enable Role'}
+                </DialogTitle>
                 <DialogContent dividers>
-                    <Typography variant="body2" gutterBottom>
-                        Are you sure you want to delete the role <strong>{role.name}</strong>? All users assigned to this role will be set as <strong>USER</strong>.
-                    </Typography>
+                    {
+                        currentTab == 'active' ?
+                            <Typography variant="body2" gutterBottom>
+                                Are you sure you want to delete the role <strong>{role.name}</strong>? All users assigned to this role will be set as <strong>USER</strong>.
+                            </Typography> :
+                            <Typography variant="body2" gutterBottom>
+                                Are you sure you want to enable the role <strong>{role.name}</strong>?
+                            </Typography>
+                    }
                 </DialogContent>
                 <DialogActions>
                     <CustomButton loading={loading} plain color='error' onClick={handleClose}>
                         Cancel
                     </CustomButton>
-                    <CustomButton loading={loading} color='error' onClick={handleDelete}>
-                        Delete
+                    <CustomButton loading={loading} color={currentTab == 'active' ? 'error' : 'success'} onClick={handleDelete}>
+                        {
+                            currentTab == 'active' ? 'Delete' : 'Enable'
+                        }
                     </CustomButton>
                 </DialogActions>
             </Dialog>

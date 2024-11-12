@@ -1,15 +1,16 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const DashboardHeader = ({ title = 'Dashboard', description }) => {
+const DashboardHeader = ({ title = 'Dashboard', description, }) => {
     return (
         <Box
             sx={{
-                p: 2,
-                pl: 3,
+                py: 2,
+                px: 3,
                 boxShadow: 2,
                 color: 'white',
-                bgcolor: 'secondary.main',
+                // bgcolor: 'secondary.main',
+                background: 'rgba(55, 94, 56, .9)'
             }}
         >
             <Box >

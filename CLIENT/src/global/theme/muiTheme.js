@@ -1,17 +1,21 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import env from '../../utils/env'
+import { red } from '@mui/material/colors';
 
 // Define your custom theme
 const theme = createTheme({
     palette: {
         primary: {
-            main: env('PRIMARY_COLOR'), // Change to your custom color
-            contrastText: env('PRIMARY_CONTRAST_COLOR'), // Text color for primary buttons
+            main: '#264524', // Change to your custom color
+            contrastText: '#ffffff', // Text color for primary buttons
         },
         secondary: {
-            main: env('SECONDARY_COLOR'), // Change to your custom color
-            contrastText: env('SECONDARY_CONTRAST_COLOR'),
+            main: '#375e38', // Change to your custom color
+            contrastText: '#ffffff',
         },
+        error: {
+            main: red[400], // Error color for form validation errors
+            contrastText: '#ffffff', // Text color for error buttons
+        }, // Error color for form validation errors
         background: {
             default: '#f4f6f8', // Background color for the app
             paper: '#ffffff', // Background color for cards and other elements
@@ -46,15 +50,23 @@ const theme = createTheme({
                     padding: '6px 17px',
                 },
                 containedPrimary: {
-                    backgroundColor: env('SECONDARY_COLOR'), // Secondary main color
-                    color: env('SECONDARY_CONTRAST_COLOR'), // Secondary contrastText color
+                    backgroundColor: '#375e38', // Secondary main color
+                    color: '#ffffff', // Secondary contrastText color
                     '&:hover': {
-                        backgroundColor: env('PRIMARY_COLOR'), // Darker shade of secondary color for hover effect
+                        backgroundColor: '#264524', // Darker shade of secondary color for hover effect
                     },
                 },
 
             },
         },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    fontWeight: 600,
+                    marginBottom: '0.4rem', // Adjusted margin to match 'mb: .5' style
+                },
+            },
+        }
         // MuiAppBar: {
         //     styleOverrides: {
         //         root: {

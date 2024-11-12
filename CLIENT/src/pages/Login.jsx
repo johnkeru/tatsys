@@ -1,32 +1,40 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import api from '../config/api';
-import { useUser } from '../context/UserContext';
 import {
     Box,
-    Button,
     Checkbox,
     FormControlLabel,
     TextField,
     Typography,
-    useTheme,
-    useMediaQuery, // Import to handle responsiveness
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import api from '../config/api';
+import { useUser } from '../context/UserContext';
 import CustomButton from '../global/components/CustomButton';
+import { useNavigate } from 'react-router-dom';
 
+// Validation schema
 // Validation schema
 const schema = yup.object().shape({
     username: yup
         .string()
-        .matches(/^\d{6}$/, 'Username must be 6 digits')
+        .test(
+            'is-username-or-email',
+            'Username must be a 6-digit number or a valid email address',
+            (value) =>
+                /^\d{6}$/.test(value) || // Check for 6-digit username
+                yup.string().email().isValidSync(value) // Check if it's a valid email
+        )
         .required('Username is required'),
     password: yup.string().required('Password is required'),
 });
 
+
 const LoginForm = () => {
+    const nav = useNavigate()
     const theme = useTheme(); // Access the MUI theme
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Check for screen size
     const { setCurrentUser } = useUser();
@@ -37,14 +45,13 @@ const LoginForm = () => {
         resolver: yupResolver(schema),
     });
 
-    const nav = useNavigate();
-
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-            const res = await api.post('/login', data);
+            await api.post('/login', data);
             await setCurrentUser();
-            nav('/role-management');
+            // location.href = nextLink || '/dashboard';
+            nav('/dashboard');
         } catch {
             setSubmitError('An error occurred');
         } finally {
@@ -65,7 +72,7 @@ const LoginForm = () => {
             justifyContent="center"
             height="100vh"
             sx={{
-                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.main})`,
+                background: `linear-gradient(135deg, ${theme.palette.primary.main}, #0c1f0b)`,
             }}
         >
             <Box
@@ -73,6 +80,7 @@ const LoginForm = () => {
                 flexDirection={isSmallScreen ? 'column' : 'row'} // Stack vertically on small screens
                 alignItems="center"
                 sx={{
+                    borderRadius: isSmallScreen ? 2 : 0,
                     background: theme.palette.primary.main,
                     boxShadow: 1,
                     m: 2,
@@ -88,7 +96,7 @@ const LoginForm = () => {
                     justifyContent="center"
                     sx={{
                         width: isSmallScreen ? '100%' : '50%', // Full width on small screens
-                        padding: isSmallScreen ? '1rem' : '0',
+                        p: isSmallScreen ? 4 : '0',
                     }}
                 >
                     <img
@@ -112,7 +120,7 @@ const LoginForm = () => {
                     width={isSmallScreen ? '100%' : '50%'} // Full width on small screens
                 >
                     <Box px={{ xs: 2, sm: 2 }}>
-                        <Typography variant="h5" color={theme.palette.secondary.main} mb={2}>
+                        <Typography variant="h5" color={theme.palette.secondary.main} fontWeight={600} mb={2}>
                             FMIS
                         </Typography>
 
@@ -128,7 +136,7 @@ const LoginForm = () => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <TextField
                                 {...register('username')}
-                                label="Enter 6-digit username"
+                                label="Enter 6-digit username or email"
                                 variant="outlined"
                                 fullWidth
                                 size="small"
