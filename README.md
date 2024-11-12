@@ -3,97 +3,103 @@
     <h1 style="color: #046937;">National Irrigation Administrator (NIA) Project Templates</h1>
 </div>
 
-<p style="color: #046937;">This repository provides templates for developing web applications using modern technology stacks. It includes both a <strong>client</strong> (front-end) and a <strong>server</strong> (back-end) that can be used to kickstart development for NIA projects.</p>
+<p align="center" style="color: #046937; font-size: 1.2em;">
+    Kickstart your NIA projects with comprehensive templates for developing web applications using modern technology stacks. This repository includes both a <strong>client</strong> (front-end) and a <strong>server</strong> (back-end).
+</p>
 
-<h2 style="color: #037628;">Tech Stack</h2>
+---
 
-<h3 style="color: #046937;">Client (Front-End)</h3>
-<p>The client side is built with <strong>React</strong> and incorporates the following key technologies:</p>
-<ul>
-    <li><strong>@emotion/react & @emotion/styled</strong>: CSS-in-JS styling solutions.</li>
-    <li><strong>@mui/material</strong>: Material-UI component library for UI design.</li>
-    <li><strong>@tanstack/react-query</strong>: Efficient server-state management and caching.</li>
-    <li><strong>axios</strong>: For making HTTP requests.</li>
-    <li><strong>react-hook-form</strong>: For form management and validation.</li>
-    <li><strong>yup</strong>: Schema validation for <code>react-hook-form</code>.</li>
-    <li><strong>react-router-dom</strong>: For client-side routing management.</li>
-    <li><strong>react-hot-toast</strong>: For displaying notifications and toast messages.</li>
-</ul>
+## 🚀 Tech Stack
 
-<h3 style="color: #046937;">Server (Back-End)</h3>
-<p>The server side is built with <strong>Node.js</strong>, <strong>Express.js</strong>, and <strong>MongoDB</strong> for data management:</p>
-<ul>
-    <li><strong>express</strong>: A fast, minimalist web framework for Node.js.</li>
-    <li><strong>mongoose</strong>: ODM for MongoDB, providing schema-based data models.</li>
-    <li><strong>dotenv</strong>: Loads environment variables from a <code>.env</code> file into <code>process.env</code>.</li>
-    <li><strong>cors</strong>: Enables Cross-Origin Resource Sharing.</li>
-    <li><strong>cookie-parser</strong>: Parses cookies attached to client requests.</li>
-    <li><strong>jsonwebtoken (JWT)</strong>: Used to securely transmit information between the server and client as JSON objects, typically for authentication and authorization purposes.</li>
-</ul>
+### 💻 Client (Front-End)
+Built with **React** and includes the following technologies:
 
-<h2 style="color: #037628;">Getting Started</h2>
+- **@emotion/react & @emotion/styled** - CSS-in-JS styling solutions
+- **@mui/material** - Material-UI component library for UI design
+- **@tanstack/react-query** - Server-state management and caching
+- **axios** - HTTP request library
+- **react-hook-form** - Form management and validation
+- **yup** - Schema validation for forms
+- **react-router-dom** - Client-side routing
+- **react-hot-toast** - For notifications and toast messages
 
-<h3 style="color: #046937;">Prerequisites</h3>
-<p>Ensure you have the following installed on your machine:</p>
-<ul>
-    <li><strong>Node.js</strong> (version 16.x or later)</li>
-    <li><strong>npm</strong> (comes bundled with Node.js)</li>
-    <li><strong>MongoDB</strong> (for running the server-side database)</li>
-</ul>
+### 🖥️ Server (Back-End)
+Built with **Node.js**, **Express.js**, and **MongoDB** for data management:
 
-<h3 style="color: #046937;">Installation</h3>
-<ol>
-    <li><strong>Clone the repository:</strong>
-        <pre><code>git clone https://github.com/johnkeru/NIA_TEMPLATES.git
-cd NIA_TEMPLATES</code></pre>
-    </li>
-    <li><strong>Open two terminal or cmd prompt for CLIENT and SERVER.</strong></li>
-    <li><strong>Install Client Dependencies:</strong>
-        <p>Open a terminal and navigate to the CLIENT folder:</p>
-        <pre><code>cd CLIENT
-npm install</code></pre>
-    </li>
-    <li><strong>Install Server Dependencies:</strong>
-        <p>Open another terminal window and navigate to the SERVER folder:</p>
-        <pre><code>cd SERVER
-npm install</code></pre>
-    </li>
-    <li><strong>Configuration:</strong>
-        <p>Before running the application, reach out to <strong>Sir Ransey</strong> about the account API details. You will need the following configurations in your <code>.env</code> file:</p>
-        <pre><code>
+- **express** - Fast, minimalist web framework for Node.js
+- **mongoose** - ODM for MongoDB with schema-based data models
+- **dotenv** - Environment variables management
+- **cors** - Cross-Origin Resource Sharing management
+- **cookie-parser** - Parses cookies in client requests
+- **jsonwebtoken (JWT)** - For secure client-server communication (authentication & authorization)
 
-CLIENT1 = http://localhost:3000
-CLIENT2 = http://localhost:3001
+---
 
-CLIENT_ID = 
-OWNER_ID = 
-ACCOUNT_TOKEN_API_URL = 
-ACCOUNT_USER_API_URL = 
+## ⚙️ Getting Started
 
-MONGODB_URL = 
-JWT_SECRET_KEY = 
+### Prerequisites
+Make sure you have the following installed:
+- **Node.js** (v16.x or later)
+- **npm** (bundled with Node.js)
+- **MongoDB** (for server-side database)
 
+### Installation
 
-</code></pre>
-    </li>
-    <li><strong>Start the Application:</strong>
-        <p>In one terminal, for CLIENT, run:</p>
-        <pre><code>npm start</code></pre>
-        <p>In the second terminal, for SERVER, run:</p>
-        <pre><code>npm start</code></pre>
-    </li>
-    <li><strong>Set Roles and Super Admin in the Database:</strong>
-        <p>AFTER YOU SET EVERYTHING ABOVE ENV DETAILS</p>
-        <p>GO TO <code>utils/set.rest</code> AND RUN:</p>
-        <ul>
-            <li><strong>GET</strong> <code>http://localhost:5000/setData</code> — this will set roles and super admins for the user</li>
-        </ul>
-    </li>
-   <li><strong>Restart the server after some changes in .env:</strong>
-      <p>Press <strong>CTRL + C</strong> to stop the server in the terminal.</p>
-      <p>For macOS and Linux users, you may also use <strong>CMD + C</strong> to stop the server.</p>
-      <pre><code>npm start</code></pre>
-   </li>
-</ol>
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/johnkeru/NIA_TEMPLATES.git
+   cd NIA_TEMPLATES
+   ```
 
-<p>That's it! Your application should be up and running at <strong><code>http://localhost:3000/login</code></strong>.</p>
+2. **Open Two Terminals for CLIENT and SERVER**
+
+3. **Install Client Dependencies**
+   Open a terminal, navigate to the CLIENT folder, and install dependencies:
+   ```bash
+   cd CLIENT
+   npm install
+   ```
+
+4. **Install Server Dependencies**
+   In another terminal, navigate to the SERVER folder and install dependencies:
+   ```bash
+   cd SERVER
+   npm install
+   ```
+
+5. **Configuration**
+   Set up your `.env` file configurations. Contact **Sir Ransey** for API account details. Here are the required configurations:
+   ```dotenv
+   CLIENT1=http://localhost:3000
+   CLIENT2=http://localhost:3001
+   CLIENT_ID=
+   OWNER_ID=
+   ACCOUNT_TOKEN_API_URL=
+   ACCOUNT_USER_API_URL=
+   MONGODB_URL=
+   JWT_SECRET_KEY=
+   ```
+
+6. **Start the Application**
+   - In the CLIENT terminal, run:
+     ```bash
+     npm start
+     ```
+   - In the SERVER terminal, run:
+     ```bash
+     npm start
+     ```
+
+7. **Set Roles and Super Admin in the Database**
+   Once configured, go to `utils/set.rest` and run:
+   - **GET** `http://localhost:5000/setData` — This will set roles and super admins for the user.
+
+8. **Restart the Server after Changes**
+   To restart after updating `.env` details:
+   ```bash
+   Press CTRL + C (or CMD + C for macOS/Linux) to stop the server, then:
+   npm start
+   ```
+
+## 🎉 That's it!
+Your application should now be running at **[http://localhost:3000/login](http://localhost:3000/login)**.
