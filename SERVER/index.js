@@ -26,4 +26,4 @@ app.use(setterDataRouter)
 app.use(auth_router)
 app.use(role_router)
 
-app.listen(process.env.PORT, () => console.log('🚀: http://localhost:5000'))
+app.listen(process.env.PORT, () => console.log(`🚀: http://localhost:${process.env.PORT}`))
