@@ -25,4 +25,6 @@ app.use(setterDataRouter)
 app.use(auth_router)
 app.use(role_router)
 
+app.get('/', (req, res) => res.json({message: 'server is UP!'}))
+
 app.listen(process.env.PORT, () => console.log(`🚀: http://localhost:${process.env.PORT}`))
