@@ -1,20 +1,20 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 
 // Define your custom theme
 const theme = createTheme({
     palette: {
         primary: {
             main: '#264524', // Change to your custom color
-            contrastText: '#ffffff', // Text color for primary buttons
+            contrastText: '#eee', // Text color for primary buttons
         },
         secondary: {
             main: '#375e38', // Change to your custom color
-            contrastText: '#ffffff',
+            contrastText: '#eee',
         },
         error: {
             main: red[400], // Error color for form validation errors
-            contrastText: '#ffffff', // Text color for error buttons
+            contrastText: '#eee', // Text color for error buttons
         }, // Error color for form validation errors
         background: {
             default: '#f4f6f8', // Background color for the app
@@ -48,6 +48,7 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px 17px',
+                    fontWeight: 600,
                 },
                 containedPrimary: {
                     backgroundColor: '#375e38', // Secondary main color
@@ -59,11 +60,54 @@ const theme = createTheme({
 
             },
         },
-        MuiInputLabel: {
+        MuiTableSortLabel: {
             styleOverrides: {
                 root: {
-                    fontWeight: 600,
-                    marginBottom: '0.4rem', // Adjusted margin to match 'mb: .5' style
+                    color: '#ffffff', // Default color
+                    '&:hover': {
+                        color: '#ffffff', // Hover effect color
+                    },
+                    '&.Mui-active': {
+                        color: '#ffffff', // Active color
+                    },
+                    '& .MuiTableSortLabel-icon': {
+                        color: '#ffffff !important', // Sort icon color
+                    },
+                },
+            },
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    fontWeight: 600, // Default font weight for TableCell
+                },
+                head: {
+                    fontWeight: 700, // Stronger emphasis for header cells
+                    color: '#ffffff',
+                },
+            },
+        },
+        MuiTableHead: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#375e38',
+                },
+            },
+        },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#375e38',
+                    color: '#ffffff',
+                    fontWeight: 'bold',
+                    padding: '10px 20px'
+                },
+            },
+        },
+        MuiDialogActions: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: grey[100],
                 },
             },
         }
