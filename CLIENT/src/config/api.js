@@ -6,4 +6,9 @@ const api = axios.create({
     withCredentials: true
 })
 
+export const authApi = axios.create({
+    baseURL: env('AUTH_SERVER_URL'),
+    withCredentials: true
+})
+
 export default api
