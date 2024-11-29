@@ -34,10 +34,8 @@ exports.login = async (req, res) => {
         const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, { expiresIn: tokenExpiration })
         // cookie time unit is milliseconds
 
-        const isProduction = process.env.NODE_ENV === 'production';
-
+        // 'domain' is removed because nodejs will automatically know what domain to set.
         res.cookie('jwtToken', jwtToken, {
-            domain: isProduction ? '.nia.gov.ph' : 'localhost',
             secure: true,          // ensure secure if using https
             sameSite: 'None',       // if required for cross-site access
             httpOnly: true,
@@ -70,10 +68,7 @@ exports.getUser = async (req, res) => {
 }
 
 exports.logout = (req, res) => {
-    const isProduction = process.env.NODE_ENV === 'production';
-
     res.clearCookie('jwtToken', {
-        domain: isProduction ? '.nia.gov.ph' : 'localhost',
         httpOnly: true,             // For security (if necessary)
         secure: true,               // Use this if your site uses HTTPS
     });  // Clear the cookie);
