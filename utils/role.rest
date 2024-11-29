@@ -1,19 +1,6 @@
 
 GET http://localhost:5000/roles
 ###
-
-POST http://localhost:5000/assign-role
-Content-Type: application/json
-
-{
-    "assignedBy": "123456",
-    "user": "447589",
-    "roles": [
-        "67192312d87304d47c011ab0" // id of role
-    ]
-}
-
-###
 DELETE http://localhost:5000/delete-role/67172e40dc79a8fb90784365
 ###
 GET http://localhost:5000/get-roles-you-assigned
