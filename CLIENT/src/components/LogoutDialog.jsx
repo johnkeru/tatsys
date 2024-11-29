@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemIcon, MenuItem, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, ListItemIcon, MenuItem, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { LuLogOut } from "react-icons/lu";
