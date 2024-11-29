@@ -2,8 +2,8 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "username": "johnkeru128@gmail.com",
-    "password": ""
+    "username": "your 6 digits or email",
+    "password": "your nia accounts"
 }
 ###
 
