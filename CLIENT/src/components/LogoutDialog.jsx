@@ -3,15 +3,18 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { LuLogOut } from "react-icons/lu";
 import { useUser } from '../context/UserContext';
-import CustomButton from '../global/components/CustomButton'
+import CustomButton from '../global/components/CustomButton';
 
-const LogoutDialog = () => {
+const LogoutDialog = ({ handleCloseMenu }) => {
     const { logout, currentUser } = useUser();
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleOpen = () => setIsOpen(true);
-    const handleClose = () => setIsOpen(false);
+    const handleClose = () => {
+        setIsOpen(false);
+        handleCloseMenu()
+    }
 
     const handleLogout = async () => {
         setLoading(true);
@@ -33,23 +36,23 @@ const LogoutDialog = () => {
                     <LuLogOut />
                 </ListItemIcon>
                 <Typography sx={{ textAlign: 'center' }}>
-                    Logout: {currentUser.Id}
+                    Logout: {currentUser.Username[0]}
                 </Typography>
             </MenuItem>
 
             <Dialog open={isOpen} onClose={loading ? handleOpen : handleClose} aria-labelledby="logout-dialog-title">
                 <DialogTitle id="logout-dialog-title">Logout</DialogTitle>
-                <DialogContent>
+                <DialogContent sx={{ mt: 2 }}>
                     <Typography variant="body1">
                         Are you sure you want to log out from your account?
                     </Typography>
                 </DialogContent>
                 <DialogActions>
-                    <CustomButton size='large' plain loading={loading} onClick={handleClose} sx={{ color: '#333' }} >
+                    <CustomButton size='large' plain loading={loading} onClick={handleClose} color='error'>
                         Cancel
                     </CustomButton>
                     <CustomButton size='large' loading={loading} onClick={handleLogout} sx={{ bgcolor: '#4a4a4a', ":hover": { bgcolor: '#333' }, }}>
-                        Logout
+                        Proceed
                     </CustomButton>
                 </DialogActions>
             </Dialog>
