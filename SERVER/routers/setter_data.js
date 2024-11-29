@@ -3,7 +3,8 @@ const { setRolesAndAssign } = require('../static/set_roles_and_super_admin')
 
 const setterDataRouter = Router()
 
-// PLEASE ONLY CALL THIS ONCE!
+// CALL THIS WHEN NEED TO SAVE/UPDATE THE ROLES OR NEW ADMIN ADDED.
+// IN PRODUCTION CALL THIS ONCE. AND REMOVE THIS FILL OR COMMENT EVERYTHING HERE.
 setterDataRouter.get('/setData', async (req, res) => {
     try {
         const message1 = await setRolesAndAssign() // good
