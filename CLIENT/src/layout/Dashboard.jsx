@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { CiViewTable } from "react-icons/ci";
-import { FaAngleLeft, FaUserGear, FaUserPen } from "react-icons/fa6";
+import { FaCaretLeft, FaUserGear, FaUserPen } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineAssignmentInd, MdSpaceDashboard } from "react-icons/md";
 import { Outlet } from 'react-router-dom';
@@ -76,7 +76,7 @@ const Dashboard = () => {
                         edge="start"
                         sx={{ mr: 2 }}
                     >
-                        {open ? <FaAngleLeft /> : <GiHamburgerMenu />}
+                        {open ? <FaCaretLeft /> : <GiHamburgerMenu />}
                     </IconButton>
                     <img src="/2020-nia-logo.svg" alt="Logo" style={{ height: '40px', marginRight: '10px' }} />
                     <Typography variant="h6" noWrap flexGrow={1}>
