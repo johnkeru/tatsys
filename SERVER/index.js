@@ -7,7 +7,6 @@ const auth_router = require('./routers/auth_router');
 const role_router = require('./routers/role_router');
 const setterDataRouter = require('./routers/setter_data');
 
-
 const app = express();
 
 // MIDDLEWARE 
