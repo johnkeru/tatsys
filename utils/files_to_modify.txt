@@ -1,2 +1,4 @@
+modify some files after successfully run the app.
+
 CLIENT/index.html - line 9: <title>Rename your app in index.html</title>
 CLIENT/.env - line 2: VITE_APP_TITLE = DEFINE YOUR APP TITLE IN .env
