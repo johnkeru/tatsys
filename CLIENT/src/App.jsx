@@ -12,8 +12,8 @@ import RolesAssignedTable from './pages/role/RolesAssignedTable';
 const App = () => {
   return (
     <Routes>
+      <Route path='/' element={<Example />} />
       <Route path="/login" element={<Login />} />
-      <Route path='/example' element={<Example />} />
 
       <Route path='/' element={<UserProvider><Dashboard /></UserProvider>}>
         <Route path='/dashboard' element={<h1>Home page</h1>} />
