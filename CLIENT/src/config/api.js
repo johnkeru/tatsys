@@ -1,14 +1,9 @@
-import axios from 'axios'
-import env from '../utils/env'
+import axios from "axios";
+import env from "../utils/env";
 
 const api = axios.create({
-    baseURL: env('SERVER_URL'),
-    withCredentials: true
-})
+  baseURL: env("SERVER_URL"),
+  withCredentials: true,
+});
 
-export const authApi = axios.create({
-    baseURL: env('AUTH_SERVER_URL'),
-    withCredentials: true
-})
-
-export default api
+export default api;

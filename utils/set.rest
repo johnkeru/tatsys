@@ -1,1 +1,2 @@
-GET http://localhost:5000/setData
+# STRICTLY CALL THIS API ONLY ONCE TO SET THE DATA IN THE DATABASE
+GET http://localhost:5001/setData
