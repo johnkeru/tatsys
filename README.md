@@ -12,6 +12,7 @@
 ## 🚀 Tech Stack
 
 ### 💻 Client (Front-End)
+
 Built with **React** and includes the following technologies:
 
 - **@emotion/react & @emotion/styled** - CSS-in-JS styling solutions
@@ -24,6 +25,7 @@ Built with **React** and includes the following technologies:
 - **react-hot-toast** - For notifications and toast messages
 
 ### 🖥️ Server (Back-End)
+
 Built with **Node.js**, **Express.js**, and **MongoDB** for data management:
 
 - **express** - Fast, minimalist web framework for Node.js
@@ -38,7 +40,9 @@ Built with **Node.js**, **Express.js**, and **MongoDB** for data management:
 ## ⚙️ Getting Started
 
 ### Prerequisites
+
 Make sure you have the following installed:
+
 - **Node.js** (v16.x or later)
 - **npm** (bundled with Node.js)
 - **MongoDB** (for server-side database)
@@ -46,6 +50,7 @@ Make sure you have the following installed:
 ### Installation
 
 1. **Clone the Repository**
+
    ```bash
    git clone https://github.com/johnkeru/NIA_TEMPLATES.git
    cd NIA_TEMPLATES
@@ -55,6 +60,7 @@ Make sure you have the following installed:
 
 3. **Install Client Dependencies**
    Open a terminal, navigate to the CLIENT folder, and install dependencies:
+
    ```bash
    cd CLIENT
    npm install
@@ -62,6 +68,7 @@ Make sure you have the following installed:
 
 4. **Install Server Dependencies**
    In another terminal, navigate to the SERVER folder and install dependencies:
+
    ```bash
    cd SERVER
    npm install
@@ -69,9 +76,9 @@ Make sure you have the following installed:
 
 5. **Configuration**
    Set up your `.env` file configurations. Contact **Sir Ransey** for API account details. Here are the required configurations:
+
    ```dotenv
-   CLIENT1=http://localhost:3000
-   CLIENT2=http://localhost:3001
+   CLIENT1=http://localhost:3001
    CLIENT_ID=
    OWNER_ID=
    ACCOUNT_TOKEN_API_URL=
@@ -81,6 +88,7 @@ Make sure you have the following installed:
    ```
 
 6. **Start the Application**
+
    - In the CLIENT terminal, run:
      ```bash
      npm start
@@ -92,6 +100,7 @@ Make sure you have the following installed:
 
 7. **Set Roles and Super Admin in the Database**
    Once configured, go to `utils/set.rest` and run:
+
    - **GET** `http://localhost:5000/setData` — This will set roles and super admins for the user.
 
 8. **Restart the Server after Changes**
@@ -102,4 +111,5 @@ Make sure you have the following installed:
    ```
 
 ## 🎉 That's it!
+
 Your application should now be running at **[http://localhost:3000/login](http://localhost:3000/login)**.
