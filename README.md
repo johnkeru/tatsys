@@ -82,7 +82,7 @@ Make sure you have the following installed:
    CLIENT_ID=
    OWNER_ID=
    ACCOUNT_TOKEN_API_URL=
-   ACCOUNT_USER_API_URL=
+   ACCOUNT_USER_API_URL=https://accounts.nia.gov.ph/api/user
    MONGODB_URL=
    JWT_SECRET_KEY=
    ```
