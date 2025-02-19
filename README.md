@@ -52,8 +52,8 @@ Make sure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/johnkeru/NIA_TEMPLATES.git
-   cd NIA_TEMPLATES
+   git clone https://github.com/johnkeru/NIA_TEMPLATE_SOLO.git
+   cd NIA_TEMPLATE_SOLO
    ```
 
 2. **Open Two Terminals for CLIENT and SERVER**
