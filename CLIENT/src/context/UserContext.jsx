@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../config/api";
-import LoadingPage from "../global/components/Loading";
+import Loading from "../global/components/Loading";
+import env from "../utils/env";
 
 const UserContext = createContext({
   currentUser: null,
@@ -23,7 +24,7 @@ const UserProvider = ({ children }) => {
   const handleLogout = async () => {
     await api.get("/logout");
     setCurrentUser(null);
-    nav("/login");
+    location.href = env("AUTH_CLIENT_URL") + "/login";
   };
 
   useEffect(() => {
@@ -31,10 +32,10 @@ const UserProvider = ({ children }) => {
       try {
         const res = await api.get("/get-user");
         if (res.data.user) setCurrentUser(res.data.user);
-        else nav("/login");
+        else location.href = env("AUTH_CLIENT_URL") + "/login";
       } catch (error) {
         console.error("Error fetching user:", error);
-        nav("/login");
+        location.href = env("AUTH_CLIENT_URL") + "/login";
       } finally {
         setIsLoading(false);
       }
@@ -49,7 +50,7 @@ const UserProvider = ({ children }) => {
     isLoading,
   };
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <Loading />;
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

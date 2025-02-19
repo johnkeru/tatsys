@@ -17,8 +17,9 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { blueGrey, grey } from "@mui/material/colors";
+import { blueGrey, green, grey } from "@mui/material/colors";
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { TiFilter } from "react-icons/ti";
 import api from "../../config/api";
@@ -36,9 +37,10 @@ const CustomTable = ({
   dataListName = "",
 }) => {
   const { searchValue, setSearchValue } = useSearch();
+  const TEN_SECONDS_AGO = dayjs().subtract(10, "second");
 
   const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("createdAt");
+  const [orderBy, setOrderBy] = useState("updatedAt");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
@@ -390,77 +392,86 @@ const CustomTable = ({
                     </TableCell>
                   </TableRow>
                 ) : (
-                  data[dataListName].map((row, rowIndex) => (
-                    <TableRow
-                      key={rowIndex}
-                      sx={{
-                        backgroundColor:
-                          rowIndex % 2 === 0 ? blueGrey[50] : "#ffffff", // Alternate row colors
-                      }}
-                    >
-                      {/* Render the rows dynamically from columns */}
-                      {columns.map((column, i) => (
-                        <TableCell
-                          key={column.field}
-                          onClick={() =>
-                            handleCellClick(rowIndex, column.field)
-                          } // Focus on click
-                          sx={{
-                            maxWidth: "150px", // Adjust based on your design
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            fontWeight: "500",
-                            ...(focusedCell &&
-                              focusedCell.rowIndex === rowIndex &&
-                              focusedCell.columnKey === column.field && {
-                                outline: "2px solid lightblue", // Focused cell border
-                              }),
-                            borderLeft:
-                              i !== 0
-                                ? rowIndex % 2 === 0
-                                  ? "1px solid white"
-                                  : `1px solid ${grey[200]}`
-                                : focusedCell &&
-                                  focusedCell.rowIndex === rowIndex &&
-                                  focusedCell.columnKey === column.field,
-                          }}
-                        >
-                          {column.type === "action" ? (
-                            column.render(row)
-                          ) : !column.searchable ? (
-                            column.type === "date" ? (
-                              formatDateToMDY(row[column.field])
-                            ) : column.type === "number" ? (
-                              formatCurrency(row[column.field])
-                            ) : column.type === "boolean" ? (
-                              row[column.field] ? (
-                                "Yes"
+                  data[dataListName].map((row, rowIndex) => {
+                    const isRecentlyUpdated =
+                      row.updatedAt &&
+                      dayjs(row.updatedAt).isAfter(TEN_SECONDS_AGO);
+
+                    return (
+                      <TableRow
+                        key={rowIndex}
+                        sx={{
+                          backgroundColor: isRecentlyUpdated
+                            ? green[50] // Highlight modified rows
+                            : rowIndex % 2 === 0
+                            ? blueGrey[50]
+                            : "#ffffff",
+                        }}
+                      >
+                        {/* Render the rows dynamically from columns */}
+                        {columns.map((column, i) => (
+                          <TableCell
+                            key={column.field}
+                            onClick={() =>
+                              handleCellClick(rowIndex, column.field)
+                            } // Focus on click
+                            sx={{
+                              maxWidth: "150px", // Adjust based on your design
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              fontWeight: "500",
+                              ...(focusedCell &&
+                                focusedCell.rowIndex === rowIndex &&
+                                focusedCell.columnKey === column.field && {
+                                  outline: "2px solid lightblue", // Focused cell border
+                                }),
+                              borderLeft:
+                                i !== 0
+                                  ? rowIndex % 2 === 0
+                                    ? "1px solid white"
+                                    : `1px solid ${grey[200]}`
+                                  : focusedCell &&
+                                    focusedCell.rowIndex === rowIndex &&
+                                    focusedCell.columnKey === column.field,
+                            }}
+                          >
+                            {column.render ? (
+                              column.render(row)
+                            ) : !column.searchable ? (
+                              column.type === "date" ? (
+                                formatDateToMDY(row[column.field])
+                              ) : column.type === "number" ? (
+                                formatCurrency(row[column.field])
+                              ) : column.type === "boolean" ? (
+                                row[column.field] ? (
+                                  "Yes"
+                                ) : (
+                                  "No"
+                                ) // Display "Yes" for true, "No" for false
                               ) : (
-                                "No"
-                              ) // Display "Yes" for true, "No" for false
+                                row[column.field]
+                              )
                             ) : (
-                              row[column.field]
-                            )
-                          ) : (
-                            <TextSearchable
-                              columnName={
-                                column.type === "date"
-                                  ? formatDateToMDY(row[column.field])
-                                  : column.type === "number"
-                                  ? formatCurrency(row[column.field])
-                                  : column.type === "boolean"
-                                  ? row[column.field]
-                                    ? "Yes"
-                                    : "No"
-                                  : row[column.field]
-                              }
-                            />
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
+                              <TextSearchable
+                                columnName={
+                                  column.type === "date"
+                                    ? formatDateToMDY(row[column.field])
+                                    : column.type === "number"
+                                    ? formatCurrency(row[column.field])
+                                    : column.type === "boolean"
+                                    ? row[column.field]
+                                      ? "Yes"
+                                      : "No"
+                                    : row[column.field]
+                                }
+                              />
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })
                 )}
               </TableBody>
             )}
@@ -470,7 +481,7 @@ const CustomTable = ({
         {/* PAGINATION AREA */}
         {!isLoading ? (
           <TablePagination
-            rowsPerPageOptions={[10, ROWS_PER_PAGE, 50, 100]}
+            rowsPerPageOptions={[10, ROWS_PER_PAGE, 50]}
             component="div"
             count={data.totalRecords} // Update this if your backend provides a total count
             rowsPerPage={rowsPerPage}

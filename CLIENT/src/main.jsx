@@ -8,6 +8,7 @@ import queryClient from "./config/queryClient.js";
 import ToastWrapper from "./global/components/ToastWrapper.jsx";
 import muiTheme from "./global/theme/muiTheme.js";
 import "./index.css";
+import SearchProvider from "./context/SearchContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
       <ThemeProvider theme={muiTheme}>
         <Router>
           <ToastWrapper />
-          <App />
+          <SearchProvider>
+            <App />
+          </SearchProvider>
         </Router>
       </ThemeProvider>
     </QueryClientProvider>

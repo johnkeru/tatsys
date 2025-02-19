@@ -10,7 +10,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
-const LinkTo = ({ icon, name, link, subLinks, isAllow }) => {
+const LinkTo = ({ icon, name = "", link = "", subLinks, isAllow }) => {
   const location = useLocation();
   const isActive = location.pathname === link; // Check if the current path matches the link
   const [open, setOpen] = useState(false); // State to manage sub-link visibility

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
-const LoadingPage = () => {
+const Loading = () => {
   return (
     <Box
       display="flex"
@@ -27,4 +27,4 @@ const LoadingPage = () => {
   );
 };
 
-export default LoadingPage;
+export default Loading;
