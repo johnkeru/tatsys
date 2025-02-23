@@ -3,6 +3,7 @@ import React from "react";
 import { MdSpaceDashboard } from "react-icons/md";
 import DisplayRoles from "../global/components/DisplayRoles";
 import LinkTo from "../global/components/LinkTo";
+import { GrTest } from "react-icons/gr";
 
 const CustomDrawer = () => {
   return (
@@ -26,6 +27,7 @@ const CustomDrawer = () => {
             link="/dashboard"
             isAllow
           />
+          <LinkTo icon={<GrTest />} name="Test" link="/test" isAllow />
         </List>
       </Box>
       <Box

@@ -8,6 +8,7 @@ import RoleAssign from "./pages/role/RoleAssign";
 import RolesTable from "./pages/role/RolesTable";
 import RolesAssignedTable from "./pages/role/RolesAssignedTable";
 import HomePage from "./pages/HomePage";
+import TestPage from "./pages/TestPage";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
       >
         <Route path="/dashboard" element={<h1>Home page</h1>} />
         {/* replace dashboard with your own component */}
+        <Route path="/test" element={<TestPage />} />
 
         <Route
           path="role-management"

@@ -6,6 +6,7 @@ require("./config/mongo_db")();
 const auth_router = require("./routers/auth_router");
 const role_router = require("./routers/role_router");
 const setterDataRouter = require("./routers/setter_data");
+const testRouter = require("./routers/test_router");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(auth_router);
 app.use(role_router);
 
 app.get("/", (req, res) => res.json({ message: "server is UP!" }));
+app.use(testRouter);
 
 app.listen(process.env.APP_PORT, () =>
   console.log(`🚀: http://localhost:${process.env.APP_PORT}`)
