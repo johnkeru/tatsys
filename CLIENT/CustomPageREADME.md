@@ -1,10 +1,10 @@
-# CustomPage Component
+# CustomPage Component Documentation
 
 ## Overview
-The `CustomPage` component provides a reusable, configurable page layout for managing data lists in a dashboard-like environment. It includes a header, a table with customizable columns, and additional menu options for actions such as editing and deleting items.
+`CustomPage` is a reusable React component designed for dynamically generating pages with table-based data management. It integrates a dashboard header, table, menu, and create/update dialog, making it easy to manage different data entities.
 
 ## Usage
-### Example
+### Example Implementation
 ```jsx
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
@@ -60,46 +60,56 @@ export default TestPage;
 ```
 
 ## Props
-| Prop Name            | Type                                    | Required | Default | Description |
-|----------------------|---------------------------------------|----------|---------|-------------|
-| `dataListName`       | `string`                               | ✅ Yes    | -       | The name of the data list to manage. |
-| `schema`            | `objectOf(shape({}))`                  | ✅ Yes    | -       | Defines the table structure and input fields. |
-| `title`             | `string`                               | No       | `""`    | The title of the page. Defaults to `dataListName`. |
-| `description`       | `string`                               | No       | `"Manage {dataListName}"` | The page description. |
-| `searchable`        | `bool`                                 | No       | `true`  | Enables search functionality. |
-| `hasEdit`           | `bool`                                 | No       | `true`  | Allows editing records. |
-| `hasDelete`         | `bool`                                 | No       | `true`  | Allows deleting records. |
-| `hasAdd`            | `bool`                                 | No       | `true`  | Enables the add new record button. |
-| `customAddElement`  | `React.Element`                        | No       | `null`  | Custom component for the add button. |
-| `customEditElement` | `React.Element`                        | No       | `null`  | Custom component for the edit button. |
-| `additionalMenuOptions` | `arrayOf(React.ComponentType)` | No       | `[]`    | Custom menu options, passed as React components. |
+### Required Props
+| Prop | Type | Description |
+|------|------|-------------|
+| `dataListName` | `string` | The name of the dataset being managed (e.g., "tests"). |
+| `schema` | `object` | Defines the structure of the table columns and input fields. |
 
-## How It Works
-- The `DashboardHeader` component displays the page title and description.
-- The `CustomTable` renders a table based on the `schema`, including actions like edit and delete.
-- The `CustomMenu` inside `CustomTable` handles additional menu options and custom rendering.
-- The `additionalMenuOptions` prop allows passing React components that receive `row`, `endpoint`, `parentClose`, and `dataListName` as props.
+### Optional Props
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | `""` | Custom page title. Defaults to `dataListName` capitalized. |
+| `description` | `string` | `"Manage <dataListName>"` | Custom page description. |
+| `searchable` | `bool` | `true` | Enables search functionality in the table. |
+| `hasEdit` | `bool` | `true` | Allows editing of table rows. |
+| `hasDelete` | `bool` | `true` | Enables delete functionality. |
+| `hasAdd` | `bool` | `true` | Shows the add new record button. |
+| `customAddElement` | `React.Element` | `null` | Custom component for adding records. |
+| `customEditElement` | `React.Element` | `null` | Custom component for editing records. |
+| `additionalMenuOptions` | `arrayOf(React.ElementType)` | `[]` | Additional menu options that render as components. |
 
-### Example of a Custom Menu Component
+## Schema Structure
+Each field in the `schema` object should follow this format:
+```js
+{
+  fieldName: {
+    type: "text" | "number" | "boolean" | "textarea" | "action",
+    label: "Field Label",
+    required: true, // If applicable
+    searchable: true | false,
+    show: true | false, // Whether to display in the table
+    default: any, // Default value if applicable
+    customRender: (row) => <CustomComponent data={row} />, // Optional custom rendering
+  }
+}
+```
+
+## Custom Menu Options
+To add additional actions in the table menu, pass components to `additionalMenuOptions`:
 ```jsx
 const NewCustomComponent = ({ row, endpoint, parentClose, dataListName }) => {
   return <button onClick={() => console.log(row)}>Custom Action</button>;
 };
+
+<CustomPage additionalMenuOptions={[NewCustomComponent]} />
 ```
 
-## Custom Render Function
-The `schema` supports a `customRender` function for any field.
-```jsx
-likes: {
-  type: "number",
-  label: "Likes",
-  default: 0,
-  searchable: false,
-  customRender: (row) => <TextSearchable columnName={row.likes} />,
-  show: true,
-},
-```
+## Notes
+- The `CustomPage` component automatically generates a table and dashboard UI.
+- The `schema` prop controls the structure of the table.
+- Custom components can be passed for additional actions.
 
-## Conclusion
-The `CustomPage` component simplifies the creation of dashboard pages by dynamically rendering forms, tables, and actions. It supports extensive customization, making it adaptable for various use cases.
+## License
+This project is open-source and free to use.
 
