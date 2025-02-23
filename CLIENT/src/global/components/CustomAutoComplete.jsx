@@ -14,6 +14,7 @@ const CustomAutoComplete = ({
   variant = "outlined",
   required = false,
   freeSolo = false,
+  getObject = false,
   ...rest
 }) => {
   const {
@@ -39,12 +40,12 @@ const CustomAutoComplete = ({
       value={field.value || null} // Ensure initial value is null or a valid object
       onChange={(_, value) => {
         // console.log(value);
-        field.onChange(value); // for use form change
+        field.onChange(getObject ? value : value[getOptionLabel]); // for use form change
         onChange && onChange(value); // for dev use
       }}
       onInputChange={(_, value) => {
         // console.log(value);
-        field.onChange(value); // for use form change
+        field.onChange(getObject ? value : value[getOptionLabel]); // for use form change
         onInputChange && onInputChange(value); // for dev use
       }}
       renderInput={(params) => (

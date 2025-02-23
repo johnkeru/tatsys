@@ -37,11 +37,7 @@ const TestPage = () => {
       label: "Actions",
     },
   };
-  return (
-    <div>
-      <CustomPage dataListName="tests" schema={testSchema} />
-    </div>
-  );
+  return <CustomPage dataListName="tests" schema={testSchema} />;
 };
 
 export default TestPage;

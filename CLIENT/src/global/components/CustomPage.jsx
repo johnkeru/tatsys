@@ -89,6 +89,7 @@ CustomPage.propTypes = {
       show: PropTypes.bool,
       searchable: PropTypes.bool,
       customRender: PropTypes.func,
+      default: PropTypes.any, // You can use PropTypes.any if default can be of any type
     })
   ).isRequired,
   title: PropTypes.string,

@@ -120,7 +120,7 @@ const CustomCreateUpdateDialog = ({
           {Object.keys(schema).map((key) => {
             const field = schema[key];
 
-            if (field.type === "action") return null; // Skip non-renderable and action fields
+            if (field.type === "action") return null; // Skip non-renderable / action fields
 
             return (
               <CustomTextField
@@ -131,6 +131,7 @@ const CustomCreateUpdateDialog = ({
                 type={field.type}
                 required={!!field.required}
                 row={3}
+                InputLabelProps={{ shrink: field.type === "date" }}
                 multiline={field.type === "textarea"}
               />
             );
