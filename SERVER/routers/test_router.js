@@ -10,15 +10,15 @@ const Router = require("express").Router;
 const testRouter = Router();
 
 // Get all tests
-testRouter.get("/getAllTests", getAllTests);
+testRouter.get("/tests", getAllTests);
 
 // Add a new test
-testRouter.post("/addTest", addTest);
+testRouter.post("/tests", addTest);
 
 // Edit an existing test
-testRouter.put("/editTest/:id", editTest);
+testRouter.put("/tests/:id", editTest);
 
 // Delete a test
-testRouter.delete("/deleteTest/:id", deleteTest);
+testRouter.delete("/tests/:id", deleteTest);
 
 module.exports = testRouter;

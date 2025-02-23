@@ -53,7 +53,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function MenuTest({ row }) {
+export default function MenuTest({ row, schema, endpoint }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -78,7 +78,12 @@ export default function MenuTest({ row }) {
         open={open}
         onClose={handleClose}
       >
-        <CreateUpdateTestDialog parentClose={handleClose} row={row} />
+        <CreateUpdateTestDialog
+          parentClose={handleClose}
+          row={row}
+          schema={schema}
+          endpoint={endpoint}
+        />
         <DeleteTestDialog row={row} parentClose={handleClose} />
 
         <Divider sx={{ my: 0.5 }} />

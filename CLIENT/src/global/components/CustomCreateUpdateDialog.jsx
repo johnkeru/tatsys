@@ -14,10 +14,17 @@ import { toast } from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 import * as yup from "yup";
 import api from "../../config/api";
-import CustomButton from "../../global/components/CustomButton";
-import CustomTextField from "../../global/components/CustomTextField";
+import CustomButton from "./CustomButton";
+import CustomTextField from "./CustomTextField";
+import { formatLabel } from "../../utils/formatLabel";
 
-const CreateUpdateTestDialog = ({ schema, row, endpoint, parentClose }) => {
+const CustomCreateUpdateDialog = ({
+  schema,
+  row,
+  endpoint,
+  parentClose,
+  dataListName,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const isEditMode = Boolean(row);
   const queryClient = useQueryClient();
@@ -62,7 +69,7 @@ const CreateUpdateTestDialog = ({ schema, row, endpoint, parentClose }) => {
         : await api.post(endpoint, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["data"]);
+      queryClient.invalidateQueries([dataListName]);
       toast.success(
         isEditMode ? "Updated successfully" : "Created successfully"
       );
@@ -84,10 +91,12 @@ const CreateUpdateTestDialog = ({ schema, row, endpoint, parentClose }) => {
     mutation.mutate(data);
   };
 
+  const label = formatLabel(dataListName);
+
   return (
     <div>
       {!row ? (
-        <CustomButton onClick={handleOpen}>Add</CustomButton>
+        <CustomButton onClick={handleOpen}>Add {label}</CustomButton>
       ) : (
         <MenuItem
           onClick={handleOpen}
@@ -144,4 +153,4 @@ const CreateUpdateTestDialog = ({ schema, row, endpoint, parentClose }) => {
   );
 };
 
-export default CreateUpdateTestDialog;
+export default CustomCreateUpdateDialog;

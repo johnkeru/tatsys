@@ -1,14 +1,19 @@
 import TextField from "@mui/material/TextField";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import { useController } from "react-hook-form";
 
 const CustomTextField = ({
   control,
-  fieldName,
+  fieldName = "",
   label = "",
-  sx = { bgcolor: "#ffffff", m: 0 },
+  type = "text",
+  sx = { bgcolor: "#ffffff", mb: 2 },
   size = "small",
   variant = "outlined",
   required = false,
+  multiline = false,
+  rows = 3,
   ...rest
 }) => {
   const {
@@ -19,10 +24,22 @@ const CustomTextField = ({
     control,
     rules: required ? { required: "This field is required" } : undefined,
   });
+  // If the type is boolean, render a Switch instead
+  if (type === "boolean") {
+    return (
+      <FormControlLabel
+        control={<Switch {...field} checked={!!field.value} />}
+        label={label}
+      />
+    );
+  }
 
   return (
     <TextField
       {...field}
+      rows={rows}
+      multiline={multiline}
+      type={type}
       label={label}
       value={field.value || ""}
       fullWidth
@@ -32,7 +49,6 @@ const CustomTextField = ({
       error={!!error}
       helperText={error ? error.message : ""}
       sx={sx}
-      focused={!!field.value} // Focus only when there is a value
       {...rest}
     />
   );
