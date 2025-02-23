@@ -1,126 +1,73 @@
-# CustomPage Component Documentation
+## CustomPage Component Documentation
 
-## Overview
+### Overview
+The `CustomPage` component provides a customizable interface for managing data lists. It integrates search functionality, CRUD operations, and a flexible schema for defining table structures.
 
-`CustomPage` is a reusable component that provides a structured way to display and manage data in a table format. It includes functionalities for creating, updating, deleting, searching, and managing records.
+### Props
 
-## Props
+| Prop Name            | Type                         | Default  | Description |
+|----------------------|----------------------------|----------|-------------|
+| `dataListName`      | `string`                     | Required | The name of the data list to manage. |
+| `schema`            | `object`                     | Required | Defines the structure of the data, including labels, types, and display rules. |
+| `title`             | `string`                     | `""`     | Custom title for the page. Defaults to capitalized `dataListName`. |
+| `description`       | `string`                     | `""`     | Custom description for the page. Defaults to `"Manage {dataListName}"`. |
+| `searchable`        | `bool`                       | `true`   | Enables or disables the search functionality. |
+| `hasEdit`           | `bool`                       | `true`   | Determines if the edit option is available. |
+| `hasDelete`         | `bool`                       | `true`   | Determines if the delete option is available. |
+| `hasAdd`            | `bool`                       | `true`   | Determines if the add option is available. |
+| `customAddElement`  | `React.Element`              | `null`   | Custom component to be used for adding new entries. |
+| `customEditElement` | `React.Element`              | `null`   | Custom component to be used for editing entries. |
+| `additionalMenuOptions` | `Array of Components`  | `[]`     | Custom menu components to be rendered in the action column. |
 
-### Required Props
+### Schema Structure
+Each key in the `schema` object defines a column with the following properties:
 
-| Prop Name      | Type     | Description                                                                                                 |
-| -------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| `dataListName` | `string` | The name of the data list used to generate the API path and display titles.                                 |
-| `schema`       | `object` | Defines the structure of the data, including field labels, types, visibility, and custom rendering options. |
+| Key         | Type       | Required | Description |
+|------------|-----------|----------|-------------|
+| `label`    | `string`   | ✅        | The label displayed for the column. |
+| `type`     | `string`   | ✅        | The type of data in the column (e.g., `text`, `number`, `date`). |
+| `show`     | `bool`     | ❌        | Determines if the column is visible in the table. |
+| `searchable` | `bool`   | ❌        | Indicates if the column should be included in search queries. |
+| `customRender` | `func` | ❌        | Function to customize the rendering of the column. |
+| `default`  | `any`      | ❌        | Default value for the column. |
 
-### Optional Props
-
-| Prop Name               | Type            | Default | Description                                                                            |
-| ----------------------- | --------------- | ------- | -------------------------------------------------------------------------------------- |
-| `title`                 | `string`        | `""`    | The title displayed on the page header. Defaults to the capitalized `dataListName`.    |
-| `description`           | `string`        | `""`    | A short description displayed below the title. Defaults to `"Manage " + dataListName`. |
-| `searchable`            | `bool`          | `true`  | Determines if the table should include a search functionality.                         |
-| `hasEdit`               | `bool`          | `true`  | Enables the edit functionality for records.                                            |
-| `hasDelete`             | `bool`          | `true`  | Enables the delete functionality for records.                                          |
-| `hasAdd`                | `bool`          | `true`  | Determines if the add button should be displayed.                                      |
-| `customAddElement`      | `React.Element` | `null`  | Custom UI element for adding a new record. If not provided, a default dialog is used.  |
-| `customEditElement`     | `React.Element` | `null`  | Custom UI element for editing a record.                                                |
-| `additionalMenuOptions` | `array`         | `[]`    | Extra menu options for each row in the table.                                          |
-
-## Schema Object Structure
-
-Each field in the `schema` object should have the following structure:
-
-```js
-schema: {
-  fieldName: {
-    label: "Field Label", // The displayed name of the column
-    type: "string", // The data type (e.g., string, number, boolean, etc.)
-    show: true, // Determines if the field should be displayed in the table
-    searchable: false, // Highlights rows when searched if set to true
-    customRender: (row) => <CustomComponent data={row} />, // Custom rendering logic for the field
-    default: "Default Value", // The default value used when creating or updating records
-  }
-}
-```
-
-## Features and Functionalities
-
-### 1. **Displaying Data in a Table**
-
-- The table dynamically generates columns based on the `schema` object.
-- The `show` property controls whether a field appears in the table.
-- Action buttons (edit, delete, additional menu options) are included in the last column.
-
-### 2. **Creating and Updating Records**
-
-- Uses `CustomCreateUpdateDialog` for handling form submissions.
-- Fields in the form are dynamically generated based on `schema`.
-- Default values are applied from `default` in the schema if provided.
-
-### 3. **Searching Records**
-
-- The search bar appears in `DashboardHeader` if `searchable` is `true`.
-- If a field is marked `searchable`, matching rows will be highlighted.
-
-### 4. **Custom Rendering of Cells**
-
-- If a field has `customRender`, the provided function is used to render the cell.
-
-### 5. **Custom Menu Options**
-
-- Additional menu actions can be added per row using `additionalMenuOptions`.
-- Actions must include a `label`, an `icon`, and an `onClick` handler.
-
-## Example Usage
-
+### Example Usage
 ```jsx
-const schema = {
-  name: {
-    label: "Name",
-    type: "string",
-    show: true,
-    searchable: true,
-    default: "John Doe",
-  },
-  age: {
-    label: "Age",
-    type: "number",
-    show: true,
-    default: 18,
-  },
-  status: {
-    label: "Status",
-    type: "string",
-    show: true,
-    searchable: false,
-    customRender: (row) => (
-      <span style={{ color: row.status === "Active" ? "green" : "red" }}>
-        {row.status}
-      </span>
-    ),
-  },
+import CustomPage from "./CustomPage";
+import NewCustomComponent from "./NewCustomComponent";
+
+const testSchema = {
+  name: { label: "Name", type: "text", show: true, searchable: true, default: "" },
+  age: { label: "Age", type: "number", show: true, default: 0 },
 };
 
-<CustomPage
-  dataListName="users"
-  schema={schema}
-  title="User Management"
-  description="Manage registered users"
-  searchable={true}
-  hasEdit={true}
-  hasDelete={true}
-  hasAdd={true}
-  additionalMenuOptions={[
-    {
-      label: "View Details",
-      icon: <DetailsIcon />,
-      onClick: (row) => console.log(row),
-    },
-  ]}
-/>;
+const App = () => {
+  return (
+    <CustomPage
+      dataListName="tests"
+      schema={testSchema}
+      additionalMenuOptions={[NewCustomComponent]}
+    />
+  );
+};
+
+export default App;
 ```
 
-## Conclusion
+### Updates in `additionalMenuOptions`
+Instead of passing an array of menu option objects, `additionalMenuOptions` now expects an array of React components. These components will be rendered inside the menu:
 
-The `CustomPage` component simplifies data management by automatically generating a user-friendly table and form based on the provided schema. It supports customization, including custom rendering, default values, and additional menu actions, making it a flexible solution for managing structured data.
+```jsx
+{additionalMenuOptions.map((Component, index) => (
+  <Component
+    key={index}
+    row={row}
+    endpoint={endpoint}
+    parentClose={handleClose}
+    dataListName={dataListName}
+  />
+))}
+```
+
+This allows for dynamic customization of the menu with reusable components.
+
