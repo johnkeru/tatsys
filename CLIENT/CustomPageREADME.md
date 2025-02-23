@@ -51,6 +51,8 @@ The `schema` prop is an object where each key represents a field in the dataset.
 
 ## Example Usage
 
+### Basic Example
+
 ```jsx
 const userSchema = {
   name: { label: "Name", type: "text", show: true, searchable: true },
@@ -69,6 +71,54 @@ const userSchema = {
   hasDelete={true}
   additionalMenuOptions={[CustomActionComponent]}
 />;
+```
+
+### Advanced Example with Custom Rendering
+
+```jsx
+import React from "react";
+import CustomPage from "../global/components/CustomPage";
+import TextSearchable from "../global/components/TextSearchable";
+
+const TestPage = () => {
+  const testSchema = {
+    title: {
+      type: "text",
+      label: "Title",
+      required: true,
+      searchable: true,
+      show: true,
+    },
+    description: {
+      type: "textarea",
+      label: "Description",
+      searchable: true,
+      show: true,
+    },
+    likes: {
+      type: "number",
+      label: "Likes",
+      default: 0,
+      searchable: false,
+      customRender: (row) => <TextSearchable columnName={row.likes} />,
+      show: true,
+    },
+    isPublish: {
+      type: "boolean",
+      label: "Published",
+      default: true,
+      searchable: false,
+      show: true,
+    },
+    action: {
+      type: "action",
+      label: "Actions",
+    },
+  };
+  return <CustomPage dataListName="tests" schema={testSchema} />;
+};
+
+export default TestPage;
 ```
 
 ## Notes
