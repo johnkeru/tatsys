@@ -1,7 +1,9 @@
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Popover from "@mui/material/Popover";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import { alpha, styled } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
@@ -10,20 +12,7 @@ import { IoMdClose } from "react-icons/io";
 import CustomCreateUpdateDialog from "./CustomCreateUpdateDialog";
 import CustomDeleteDialog from "./CustomDeleteDialog";
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "right",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
+const StyledPopover = styled(Popover)(({ theme }) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),
@@ -31,23 +20,18 @@ const StyledMenu = styled((props) => (
     color: "rgb(55, 65, 81)",
     boxShadow:
       "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-    "& .MuiMenu-list": {
+    "& .MuiList-root": {
       padding: "4px 0",
     },
-    "& .MuiMenuItem-root": {
-      "& .MuiSvgIcon-root": {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      "&:active": {
+    "& .MuiListItemButton-root": {
+      "&:hover": {
         backgroundColor: alpha(
           theme.palette.primary.main,
           theme.palette.action.selectedOpacity
         ),
       },
     },
-    ...theme.applyStyles("dark", {
+    ...theme.applyStyles?.("dark", {
       color: theme.palette.grey[300],
     }),
   },
@@ -61,13 +45,11 @@ export default function CustomMenu({
   hasEdit,
   hasDelete,
   customEditElement,
-  additionalMenuOptions = [], // Default to an empty array
+  additionalMenuOptions = [],
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   return (
@@ -78,61 +60,66 @@ export default function CustomMenu({
         </IconButton>
       </Tooltip>
 
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
-        }}
-        anchorEl={anchorEl}
+      <StyledPopover
+        id="custom-menu"
         open={open}
+        anchorEl={anchorEl}
         onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
-        {(hasEdit && customEditElement) || (
-          <CustomCreateUpdateDialog
-            dataListName={dataListName}
-            endpoint={endpoint}
-            parentClose={handleClose}
-            row={row}
-            schema={schema}
-          />
-        )}
-        {hasDelete && (
-          <CustomDeleteDialog
-            row={row}
-            endpoint={endpoint}
-            parentClose={handleClose}
-            dataListName={dataListName}
-          />
-        )}
+        <List>
+          {/* Edit Option */}
+          {(hasEdit && customEditElement) || (
+            <CustomCreateUpdateDialog
+              dataListName={dataListName}
+              endpoint={endpoint}
+              parentClose={handleClose}
+              row={row}
+              schema={schema}
+            />
+          )}
 
-        {/* Render additional menu options */}
-        {additionalMenuOptions.length > 0 && <Divider sx={{ my: 0.5 }} />}
-        {additionalMenuOptions.map((option, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => {
-              option.onClick();
-              handleClose();
-            }}
-            disableRipple
+          {/* Delete Option */}
+          {hasDelete && (
+            <CustomDeleteDialog
+              row={row}
+              endpoint={endpoint}
+              parentClose={handleClose}
+              dataListName={dataListName}
+            />
+          )}
+
+          {/* Additional Options */}
+          {additionalMenuOptions.length > 0 && <Divider sx={{ my: 0.5 }} />}
+          {additionalMenuOptions.map((Component, index) => (
+            <Component
+              key={index}
+              row={row}
+              endpoint={endpoint}
+              parentClose={handleClose}
+              dataListName={dataListName}
+            />
+          ))}
+
+          <Divider sx={{ my: 0.5 }} />
+
+          {/* Close Option */}
+          <ListItemButton
+            onClick={handleClose}
             sx={{ display: "flex", gap: 1 }}
           >
-            {option.icon}
-            {option.label}
-          </MenuItem>
-        ))}
-
-        <Divider sx={{ my: 0.5 }} />
-
-        <MenuItem
-          onClick={handleClose}
-          disableRipple
-          sx={{ display: "flex", gap: 1 }}
-        >
-          <IoMdClose />
-          Close
-        </MenuItem>
-      </StyledMenu>
+            <IoMdClose />
+            <ListItemText primary="Close" />
+          </ListItemButton>
+        </List>
+      </StyledPopover>
     </div>
   );
 }

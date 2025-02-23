@@ -1,15 +1,40 @@
 # CustomPage Component Documentation
 
 ## Overview
-`CustomPage` is a reusable React component designed for dynamically generating pages with table-based data management. It integrates a dashboard header, table, menu, and create/update dialog, making it easy to manage different data entities.
+
+The `CustomPage` component is a reusable page layout designed for managing data lists in a structured and customizable way. It includes a table with configurable columns, search functionality, and action menus.
+
+This component helps developers quickly generate CRUD (Create, Read, Update, Delete) interfaces for different data entities by defining a schema.
+
+---
+
+## Installation
+
+Ensure you have React and PropTypes installed in your project. If not, install them using:
+
+```sh
+npm install prop-types
+```
+
+Then, import the `CustomPage` component:
+
+```jsx
+import CustomPage from "../global/components/CustomPage";
+```
+
+---
 
 ## Usage
-### Example Implementation
+
+To use `CustomPage`, you need to define a `schema` that describes the structure of the data and pass it as a prop.
+
+### Example Usage:
+
 ```jsx
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
 import TextSearchable from "../global/components/TextSearchable";
-import NewCustomComponent from "../global/components/NewCustomComponent";
+import NewCustomComponent from "../components/NewCustomComponent";
 
 const TestPage = () => {
   const testSchema = {
@@ -46,7 +71,6 @@ const TestPage = () => {
       label: "Actions",
     },
   };
-
   return (
     <CustomPage
       dataListName="tests"
@@ -59,57 +83,121 @@ const TestPage = () => {
 export default TestPage;
 ```
 
+---
+
 ## Props
+
 ### Required Props
-| Prop | Type | Description |
-|------|------|-------------|
-| `dataListName` | `string` | The name of the dataset being managed (e.g., "tests"). |
-| `schema` | `object` | Defines the structure of the table columns and input fields. |
+
+| Prop Name      | Type     | Description                              |
+| -------------- | -------- | ---------------------------------------- |
+| `dataListName` | `string` | The name of the data list being managed. |
+| `schema`       | `object` | Defines the structure of the data table. |
 
 ### Optional Props
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | `""` | Custom page title. Defaults to `dataListName` capitalized. |
-| `description` | `string` | `"Manage <dataListName>"` | Custom page description. |
-| `searchable` | `bool` | `true` | Enables search functionality in the table. |
-| `hasEdit` | `bool` | `true` | Allows editing of table rows. |
-| `hasDelete` | `bool` | `true` | Enables delete functionality. |
-| `hasAdd` | `bool` | `true` | Shows the add new record button. |
-| `customAddElement` | `React.Element` | `null` | Custom component for adding records. |
-| `customEditElement` | `React.Element` | `null` | Custom component for editing records. |
-| `additionalMenuOptions` | `arrayOf(React.ElementType)` | `[]` | Additional menu options that render as components. |
 
-## Schema Structure
-Each field in the `schema` object should follow this format:
+| Prop Name               | Type                   | Default | Description                            |
+| ----------------------- | ---------------------- | ------- | -------------------------------------- |
+| `title`                 | `string`               | `""`    | Custom title for the page.             |
+| `description`           | `string`               | `""`    | Description for the page.              |
+| `searchable`            | `bool`                 | `true`  | Enables search functionality.          |
+| `hasEdit`               | `bool`                 | `true`  | Enables the edit option in the menu.   |
+| `hasDelete`             | `bool`                 | `true`  | Enables the delete option in the menu. |
+| `hasAdd`                | `bool`                 | `true`  | Enables the add option in the menu.    |
+| `customAddElement`      | `element`              | `null`  | Custom element for adding new items.   |
+| `customEditElement`     | `element`              | `null`  | Custom element for editing items.      |
+| `additionalMenuOptions` | `arrayOf(elementType)` | `[]`    | Additional menu options as components. |
+| `customBulkActions`     | `arrayOf(elementType)` | `[]`    | Additional bulk action components.     |
+
+---
+
+## Schema Definition
+
+The `schema` prop is an object that defines each column in the table. Each key represents a column, and its value is an object with the following properties:
+
+| Key            | Type       | Required | Description                                           |
+| -------------- | ---------- | -------- | ----------------------------------------------------- |
+| `label`        | `string`   | ✅       | Column label in the table.                            |
+| `type`         | `string`   | ✅       | Column data type (`text`, `number`, `boolean`, etc.). |
+| `show`         | `bool`     | ❌       | Determines if the column is displayed.                |
+| `searchable`   | `bool`     | ❌       | Enables search functionality for the column.          |
+| `customRender` | `function` | ❌       | Function to render custom content in the column.      |
+| `default`      | `any`      | ❌       | Default value for the column.                         |
+
+Example `schema`:
+
 ```js
-{
-  fieldName: {
-    type: "text" | "number" | "boolean" | "textarea" | "action",
-    label: "Field Label",
-    required: true, // If applicable
-    searchable: true | false,
-    show: true | false, // Whether to display in the table
-    default: any, // Default value if applicable
-    customRender: (row) => <CustomComponent data={row} />, // Optional custom rendering
-  }
-}
+const schema = {
+  name: { type: "text", label: "Name", show: true, searchable: true },
+  age: { type: "number", label: "Age", show: true },
+  isActive: { type: "boolean", label: "Active", default: true, show: true },
+  action: { type: "action", label: "Actions" },
+};
 ```
 
-## Custom Menu Options
-To add additional actions in the table menu, pass components to `additionalMenuOptions`:
-```jsx
-const NewCustomComponent = ({ row, endpoint, parentClose, dataListName }) => {
+---
+
+## Additional Menu Options
+
+The `additionalMenuOptions` prop allows you to pass custom menu components that receive useful props like `row`, `endpoint`, and `dataListName`.
+
+Example:
+
+```js
+const NewCustomComponent = ({ row, endpoint, dataListName }) => {
   return <button onClick={() => console.log(row)}>Custom Action</button>;
 };
+```
 
+And include it like this:
+
+```jsx
 <CustomPage additionalMenuOptions={[NewCustomComponent]} />
 ```
 
-## Notes
-- The `CustomPage` component automatically generates a table and dashboard UI.
-- The `schema` prop controls the structure of the table.
-- Custom components can be passed for additional actions.
+---
 
-## License
-This project is open-source and free to use.
+## Bulk Actions
 
+The `customBulkActions` prop allows defining custom bulk actions applied to multiple selected items.
+
+Example:
+
+```js
+const CustomBulkAction = ({ selectedRows }) => {
+  return <button onClick={() => console.log(selectedRows)}>Bulk Delete</button>;
+};
+```
+
+And include it like this:
+
+```jsx
+<CustomPage customBulkActions={[CustomBulkAction]} />
+```
+
+---
+
+## Custom Render Example
+
+If you want to customize how a column is displayed, use `customRender`:
+
+```js
+const schema = {
+  status: {
+    type: "text",
+    label: "Status",
+    show: true,
+    customRender: (row) => <span>{row.status ? "Active" : "Inactive"}</span>,
+  },
+};
+```
+
+---
+
+## Conclusion
+
+The `CustomPage` component simplifies the creation of dynamic data management pages by allowing flexible schema definitions, additional menu options, bulk actions, and custom column rendering.
+
+This makes it an excellent choice for applications that need scalable CRUD operations with minimal effort.
+
+Happy coding! 🚀

@@ -4,8 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -65,7 +65,7 @@ const CustomDeleteDialog = ({ row, endpoint, parentClose, dataListName }) => {
       <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent sx={{ mt: 2 }}>
-          Are you sure you want to delete "{row.title}"?
+          Are you sure you want to delete?
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="error" disabled={loading}>
@@ -73,7 +73,7 @@ const CustomDeleteDialog = ({ row, endpoint, parentClose, dataListName }) => {
           </Button>
           <Button
             onClick={handleDelete}
-            color="primary"
+            color="error"
             variant="contained"
             disabled={loading}
           >

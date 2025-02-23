@@ -37,7 +37,13 @@ const TestPage = () => {
       label: "Actions",
     },
   };
-  return <CustomPage dataListName="tests" schema={testSchema} />;
+  return (
+    <CustomPage
+      dataListName="tests"
+      schema={testSchema}
+      additionalMenuOptions={[NewCustomComponent]}
+    />
+  );
 };
 
 export default TestPage;

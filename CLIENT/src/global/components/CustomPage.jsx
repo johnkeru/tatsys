@@ -100,13 +100,7 @@ CustomPage.propTypes = {
   hasAdd: PropTypes.bool,
   customAddElement: PropTypes.element,
   customEditElement: PropTypes.element,
-  additionalMenuOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      icon: PropTypes.element,
-      onClick: PropTypes.func.isRequired,
-    })
-  ),
+  additionalMenuOptions: PropTypes.arrayOf(PropTypes.elementType), // Accepts React components
 };
 
 export default CustomPage;
