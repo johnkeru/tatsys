@@ -2,7 +2,7 @@
 
 ## Overview
 
-`CustomPage` is a reusable component that provides a structured way to display and manage data in a table format. It includes functionalities for creating, updating, searching, and managing records.
+`CustomPage` is a reusable component that provides a structured way to display and manage data in a table format. It includes functionalities for creating, updating, deleting, searching, and managing records.
 
 ## Props
 
