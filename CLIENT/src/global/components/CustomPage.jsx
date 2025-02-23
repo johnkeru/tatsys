@@ -100,7 +100,7 @@ CustomPage.propTypes = {
   hasAdd: PropTypes.bool,
   customAddElement: PropTypes.element,
   customEditElement: PropTypes.element,
-  additionalMenuOptions: PropTypes.arrayOf(PropTypes.elementType), // Accepts React components
+  additionalMenuOptions: PropTypes.arrayOf(PropTypes.elementType), // Accepts React components and with automatically passing this props:   row={row} endpoint={endpoint} parentClose={handleClose} dataListName={dataListName}
 };
 
 export default CustomPage;
