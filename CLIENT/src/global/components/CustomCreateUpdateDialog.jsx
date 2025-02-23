@@ -122,7 +122,7 @@ const CustomCreateUpdateDialog = ({
 
             if (field.type === "action") return null; // Skip non-renderable / action fields
 
-            return (
+            return field.type === "date" ? (
               <CustomTextField
                 key={key}
                 control={control}
@@ -131,7 +131,18 @@ const CustomCreateUpdateDialog = ({
                 type={field.type}
                 required={!!field.required}
                 row={3}
-                InputLabelProps={{ shrink: field.type === "date" }}
+                InputLabelProps={{ shrink: true }}
+                multiline={field.type === "textarea"}
+              />
+            ) : (
+              <CustomTextField
+                key={key}
+                control={control}
+                fieldName={key}
+                label={field.label}
+                type={field.type}
+                required={!!field.required}
+                row={3}
                 multiline={field.type === "textarea"}
               />
             );
