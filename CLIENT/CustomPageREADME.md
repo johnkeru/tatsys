@@ -8,14 +8,6 @@ This component helps developers quickly generate CRUD (Create, Read, Update, Del
 
 ---
 
-## Installation
-
-Ensure you have React and PropTypes installed in your project. If not, install them using:
-
-```sh
-npm install prop-types
-```
-
 Then, import the `CustomPage` component:
 
 ```jsx
