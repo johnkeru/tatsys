@@ -120,7 +120,12 @@ const CustomCreateUpdateDialog = ({
           {Object.keys(schema).map((key) => {
             const field = schema[key];
 
-            if (field.type === "action") return null; // Skip non-renderable / action fields
+            if (
+              field.type === "action" ||
+              key === "createdAt" ||
+              key === "updatedAt"
+            )
+              return null; // Skip non-renderable / action fields
 
             return field.type === "date" ? (
               <CustomTextField

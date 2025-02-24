@@ -32,6 +32,12 @@ const TestPage = () => {
       searchable: false,
       show: true,
     },
+    createdAt: {
+      type: "date",
+      label: "Created At",
+      searchable: true,
+      show: true,
+    },
     action: {
       type: "action",
       label: "Actions",
