@@ -1,5 +1,10 @@
 const Test = require("../models/test");
-const { processDate } = require("../utils/date-related");
+const {
+  numberFilter,
+  dateFilter,
+  textFilter,
+  booleanFilter,
+} = require("../utils/controller_get_process");
 
 exports.getAllTests = async (req, res) => {
   try {
@@ -35,40 +40,10 @@ exports.getAllTests = async (req, res) => {
     }
 
     // **Specific Field Search (Applied via Table Filters)**
-    if (title && title !== "undefined") {
-      query.title = { $regex: title, $options: "i" };
-    }
-    if (description && description !== "undefined") {
-      query.description = { $regex: description, $options: "i" };
-    }
-
-    // Boolean field filtering
-    if (isPublish && isPublish !== undefined && isPublish !== "undefined") {
-      query.isPublish = isPublish === "true";
-    }
-
-    // Numeric field filtering with operators
-    if (likes && !isNaN(Number(likes))) {
-      const numericAmount = Number(likes);
-      if (operator === "<") {
-        query.likes = { $lt: numericAmount }; // Less than
-      } else if (operator === ">") {
-        query.likes = { $gt: numericAmount }; // Greater than
-      } else if (operator === ">=") {
-        query.likes = { $gte: numericAmount }; // Greater than or equal
-      } else if (operator === "<=") {
-        query.likes = { $lte: numericAmount }; // Less than or equal
-      } else {
-        query.likes = numericAmount; // Default: exact match
-      }
-    }
-
-    // Apply date filtering based on `search` or `createdAt`
-    if (search && search.split("-").length === 3) {
-      // query.customDate = processDate(search);
-    } else if (createdAt) {
-      query.createdAt = processDate(createdAt);
-    }
+    textFilter(query, { title, description });
+    booleanFilter(query, { isPublish });
+    numberFilter(query, { likes }, operator);
+    dateFilter(query, { createdAt });
 
     // **Sorting**
     const sortByField = orderBy || "createdAt";
