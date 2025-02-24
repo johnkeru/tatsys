@@ -21,7 +21,6 @@ const TestPage = () => {
       type: "number",
       label: "Likes",
       default: 0,
-      searchable: false,
       customRender: (row) => <TextSearchable columnName={row.likes} />,
       show: true,
     },
@@ -29,13 +28,11 @@ const TestPage = () => {
       type: "boolean",
       label: "Published",
       default: true,
-      searchable: false,
       show: true,
     },
     createdAt: {
       type: "date",
       label: "Created At",
-      searchable: true,
       show: true,
     },
     action: {
