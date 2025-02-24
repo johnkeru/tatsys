@@ -80,6 +80,14 @@ exports.textFilter = (query, filters) => {
   });
 };
 
+exports.booleanFilter = (query, filters) => {
+  Object.entries(filters).forEach(([field, value]) => {
+    if (value && value !== "undefined") {
+      query[field] = value === "true";
+    }
+  });
+};
+
 exports.objectFilter = async (query, filters, relateModelName) => {
   try {
     for (const [field, value] of Object.entries(filters)) {
