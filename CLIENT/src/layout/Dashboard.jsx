@@ -16,14 +16,14 @@ import UserAvatarMenu from "../global/components/UserAvatarMenu";
 import env from "../utils/env";
 import CustomDrawer from "./CustomDrawer";
 
-const drawerWidth = 280;
+const drawerWidth = 260;
 
 const Dashboard = () => {
   const nav = useNavigate();
   const [open, setOpen] = React.useState(true);
 
   // Detect if screen size is small (breakpoint of 600px)
-  const isMdScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const isMdScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   const toggleDrawer = () => setOpen(!open);
 
   return (
@@ -45,9 +45,13 @@ const Dashboard = () => {
             aria-label="open drawer"
             onClick={toggleDrawer}
             edge="start"
-            sx={{ mr: 2 }}
+            sx={{ mr: { xs: 0, md: 2 } }}
           >
-            {open ? <FaCaretLeft /> : <GiHamburgerMenu />}
+            {open ? (
+              <FaCaretLeft title="hide" />
+            ) : (
+              <GiHamburgerMenu title="open" />
+            )}
           </IconButton>
           <img
             src="/2020-nia-logo.svg"
