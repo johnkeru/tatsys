@@ -1,19 +1,16 @@
 import TextField from "@mui/material/TextField";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { useController } from "react-hook-form";
 
 const CustomTextField = ({
   control,
-  fieldName = "",
+  fieldName,
   label = "",
-  type = "text",
-  sx = { bgcolor: "#ffffff", mb: 2 },
+  sx = { bgcolor: "#ffffff", mb: 0 },
   size = "small",
   variant = "outlined",
   required = false,
-  multiline = false,
-  rows = 3,
+  type = "text",
+  disabled,
   ...rest
 }) => {
   const {
@@ -22,32 +19,35 @@ const CustomTextField = ({
   } = useController({
     name: fieldName,
     control,
-    rules: required ? { required: "This field is required" } : undefined,
+    rules: required
+      ? {
+          required: label + ` is required`,
+          ...(type === "email"
+            ? { pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" } }
+            : {}),
+          ...(type === "number"
+            ? { min: { value: 1, message: label + ` is required` } }
+            : {}),
+        }
+      : undefined,
   });
-  // If the type is boolean, render a Switch instead
-  if (type === "boolean") {
-    return (
-      <FormControlLabel
-        control={<Switch {...field} checked={!!field.value} />}
-        label={label}
-      />
-    );
-  }
+
   return (
     <TextField
       {...field}
-      rows={rows}
-      multiline={multiline}
-      type={type}
-      label={label}
+      label={label + (required ? " *" : "")}
       value={field.value || ""}
       fullWidth
       size={size}
+      type={type}
       variant={variant}
-      required={required}
+      disabled={disabled}
       error={!!error}
       helperText={error ? error.message : ""}
       sx={sx}
+      InputLabelProps={{
+        shrink: type === "date" || undefined,
+      }}
       {...rest}
     />
   );
