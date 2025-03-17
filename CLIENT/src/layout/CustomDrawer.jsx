@@ -1,7 +1,7 @@
 import { Box, Divider, List, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { MdSpaceDashboard } from "react-icons/md";
-import DisplayRoles from "../global/components/DisplayRoles";
+// import DisplayRoles from "../global/components/DisplayRoles";
 import LinkTo from "../global/components/LinkTo";
 import { GrTest } from "react-icons/gr";
 
@@ -18,7 +18,7 @@ const CustomDrawer = () => {
     >
       <Box>
         <Toolbar />
-        <DisplayRoles />
+        {/* <DisplayRoles /> */}
         <Divider sx={{ borderColor: "secondary.light" }} />
         <List sx={{ py: 0 }}>
           <LinkTo
@@ -44,7 +44,7 @@ const CustomDrawer = () => {
           align="center"
           sx={{ color: "common.white", py: 2 }}
         >
-          &copy; {new Date().getFullYear()} NIA - FMIS
+          &copy; {new Date().getFullYear()} TATTOO SYSTEM
         </Typography>
       </Box>
     </Box>

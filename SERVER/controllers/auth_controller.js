@@ -1,89 +1,54 @@
-const assignedRole = require("../models/assigned_role");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const User = require("../models/user");
 
+// Login or create a dummy admin if not found
 exports.login = async (req, res) => {
-  const { username, password, rememberMe } = req.body;
+  const { username, password } = req.body;
+
   try {
-    const tokenApi = process.env.ACCOUNT_TOKEN_API_URL;
-    const clientId = process.env.CLIENT_ID;
-    const ownerId = process.env.OWNER_ID;
-    const encodedCredentials = Buffer.from(`${clientId}:${ownerId}`).toString(
-      "base64"
-    );
+    let user = await User.findOne({ username });
 
-    // Make the API request to get the credentials
-    const credentials = await (
-      await fetch(tokenApi, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${encodedCredentials}`,
-        },
-        body: new URLSearchParams({
-          grant_type: "password",
-          username,
-          password,
-        }),
-      })
-    ).json();
+    // If admin is not found, create it
+    if (!user && username === "admin" && password === "admin") {
+      user = new User({
+        username: "admin",
+        email: "admin@example.com",
+        password: await bcrypt.hash("admin", 10), // Hash admin password
+      });
+      await user.save();
+    }
 
-    // Calculate the expiration times based on rememberMe
-    const expiresIn = credentials.expires_in;
-    const cookieExpiration = expiresIn * 1000 * (rememberMe ? 2 : 1); // In milliseconds
-    const tokenExpiration = expiresIn * (rememberMe ? 2 : 1); // In seconds
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Set the access_token as a cookie
-    const accessToken = credentials.access_token;
-    // jwt time unit is seconds
-    const jwtToken = jwt.sign({ accessToken }, process.env.JWT_SECRET_KEY, {
-      expiresIn: tokenExpiration,
-    });
-    // cookie time unit is milliseconds
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
 
-    // 'domain' is removed because nodejs will automatically know what domain to set.
-    res.cookie("jwtToken", jwtToken, {
-      secure: true, // ensure secure if using https
-      sameSite: "None", // if required for cross-site access
-      httpOnly: true,
-      maxAge: cookieExpiration,
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
     });
 
-    // Return ok
-    res.sendStatus(200);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Server error" });
+    res.json({ user, jwtToken: token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
+// Get user details (excluding password)
 exports.getUser = async (req, res) => {
   try {
-    let roles = [];
-    const user = req.user;
-    let responseBody = null;
-    const assignedRoles = await assignedRole
-      .findOne({ user: user.Username[0] })
-      .populate({ path: "roles", select: "name" });
-    assignedRoles?.roles.forEach((role) => roles.push(role.name));
-    if (assignedRoles)
-      responseBody = {
-        ...user,
-        Roles: roles,
-      };
-    // override the Roles by FMIS own roles
-    else responseBody = { ...user, Roles: [] }; // override the Roles by FMIS own roles
-    res.json({ user: responseBody });
-  } catch (e) {
-    console.error(e);
-    res.json({ error: "Server error" });
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
+// Logout endpoint
 exports.logout = (req, res) => {
-  res.clearCookie("jwtToken", {
-    httpOnly: true, // For security (if necessary)
-    secure: true, // Use this if your site uses HTTPS
-  }); // Clear the cookie);
-
-  res.status(200).json({ message: "Logged out successfully" });
+  res.json({ message: "Logged out successfully" });
 };

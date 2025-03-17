@@ -21,8 +21,6 @@ const drawerWidth = 260;
 const Dashboard = () => {
   const nav = useNavigate();
   const [open, setOpen] = React.useState(true);
-
-  // Detect if screen size is small (breakpoint of 600px)
   const isMdScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   const toggleDrawer = () => setOpen(!open);
 
@@ -34,9 +32,9 @@ const Dashboard = () => {
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
           bgcolor: "primary.main",
-          boxShadow: 0,
-          borderBottom: 1,
-          borderColor: "secondary.main",
+          boxShadow: 1,
+          borderBottom: "2px solid",
+          borderColor: "secondary.light",
         }}
       >
         <Toolbar>
@@ -48,18 +46,18 @@ const Dashboard = () => {
             sx={{ mr: { xs: 0, md: 2 } }}
           >
             {open ? (
-              <FaCaretLeft title="hide" />
+              <FaCaretLeft title="Hide Menu" />
             ) : (
-              <GiHamburgerMenu title="open" />
+              <GiHamburgerMenu title="Open Menu" />
             )}
           </IconButton>
           <img
             src="/2020-nia-logo.svg"
             alt="Logo"
-            style={{ height: "40px", marginRight: "10px" }}
+            style={{ height: "40px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => nav("/")}
           />
-          <Typography variant="h6" noWrap flexGrow={1}>
+          <Typography variant="h6" noWrap flexGrow={1} color="white">
             {env("APP_TITLE")}
           </Typography>
           <UserAvatarMenu />
@@ -73,7 +71,7 @@ const Dashboard = () => {
             width: drawerWidth,
             boxSizing: "border-box",
             background:
-              "linear-gradient(169deg, rgba(55,94,56,1) 10%, rgba(0,0,0,0.8996848739495799) 100%)",
+              "linear-gradient(169deg, rgba(30, 58, 138, 1) 10%, rgba(59, 130, 246, 0.9) 100%)", // Business-friendly gradient
           },
         }}
         variant={isMdScreen ? "temporary" : "persistent"}
@@ -81,7 +79,6 @@ const Dashboard = () => {
         open={open}
         onClose={toggleDrawer}
       >
-        {/* CUSTOM DRAWER HERE! */}
         <CustomDrawer />
       </Drawer>
 
@@ -92,17 +89,12 @@ const Dashboard = () => {
           bgcolor: "background.default",
           transition: "margin 0.3s ease, padding 0.3s ease",
           marginLeft: open && !isMdScreen ? `${drawerWidth}px` : "0",
-          minHeight: "calc(100vh - 64px)", // Ensures content fills the screen below AppBar
-          overflowX: "hidden", // Prevents unwanted horizontal scrolling
+          minHeight: "calc(100vh - 64px)",
+          overflowX: "hidden",
         }}
       >
         <Toolbar />
-        <Box
-          sx={{
-            maxWidth: "100%",
-            overflowX: "auto", // Allows scrolling if content overflows
-          }}
-        >
+        <Box sx={{ maxWidth: "100%", overflowX: "auto" }}>
           <Outlet />
         </Box>
 
@@ -111,7 +103,7 @@ const Dashboard = () => {
           align="center"
           sx={{ px: 1.5, py: 2, color: "text.secondary" }}
         >
-          &copy; {new Date().getFullYear()} NIA - {env("APP_TITLE")}
+          &copy; {new Date().getFullYear()} {env("APP_TITLE")}
         </Typography>
       </Box>
     </Box>

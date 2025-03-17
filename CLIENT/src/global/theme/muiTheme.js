@@ -1,76 +1,62 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { grey, red } from "@mui/material/colors";
 
-// Define your custom theme
+// Define a business-friendly blue theme
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#264524", // Change to your custom color
-      contrastText: "#eee", // Text color for primary buttons
+      main: "#1E3A8A", // Medium business blue
+      contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#375e38", // Change to your custom color
-      contrastText: "#eee",
+      main: "#3B82F6", // Lighter blue for contrast
+      contrastText: "#FFFFFF",
     },
     error: {
-      main: red[400], // Error color for form validation errors
-      contrastText: "#eee", // Text color for error buttons
-    }, // Error color for form validation errors
+      main: red[400],
+      contrastText: "#FFFFFF",
+    },
     background: {
-      default: "#f4f6f8", // Background color for the app
-      paper: "#ffffff", // Background color for cards and other elements
+      default: "#F3F4F6", // Soft greyish-blue background
+      paper: "#E5E7EB", // Light paper-like background
     },
     text: {
-      primary: "#292929", // Set the main text color to #292929
-      secondary: "#666", // Secondary text color
-      // You can also define custom text colors if needed
-      customColor: "#292929", // Optional: add a custom color for specific use
+      primary: "#1E293B", // Dark blue-gray for readability
+      secondary: grey[600],
     },
   },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",
     h1: {
-      fontSize: "2.5rem",
+      fontSize: "2.2rem",
       fontWeight: 700,
-      letterSpacing: "0.1rem",
+      color: "#1E293B",
     },
     h2: {
-      fontSize: "2rem",
+      fontSize: "1.8rem",
       fontWeight: 600,
+      color: "#1E293B",
     },
     body1: {
       fontSize: "1rem",
       fontWeight: 400,
+      color: "#374151", // Softer text color
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: "6px 17px",
+          padding: "8px 18px",
           fontWeight: 600,
+          borderRadius: "6px", // Slightly rounded buttons
+          textTransform: "none",
         },
         containedPrimary: {
-          backgroundColor: "#375e38", // Secondary main color
-          color: "#ffffff", // Secondary contrastText color
+          backgroundColor: "#1E3A8A",
+          color: "#FFFFFF",
           "&:hover": {
-            backgroundColor: "#264524", // Darker shade of secondary color for hover effect
-          },
-        },
-      },
-    },
-    MuiTableSortLabel: {
-      styleOverrides: {
-        root: {
-          color: "#ffffff", // Default color
-          "&:hover": {
-            color: "#ffffff", // Hover effect color
-          },
-          "&.Mui-active": {
-            color: "#ffffff", // Active color
-          },
-          "& .MuiTableSortLabel-icon": {
-            color: "#ffffff !important", // Sort icon color
+            backgroundColor: "#1C3D8B", // Subtle hover effect
           },
         },
       },
@@ -78,45 +64,23 @@ const theme = createTheme({
     MuiTableCell: {
       styleOverrides: {
         root: {
-          fontWeight: 600, // Default font weight for TableCell
+          fontWeight: 600,
+          color: "#1E293B",
         },
         head: {
-          fontWeight: 700, // Stronger emphasis for header cells
-          color: "#ffffff",
+          fontWeight: 700,
+          backgroundColor: "#3B82F6",
+          color: "#FFFFFF",
         },
       },
     },
-    MuiTableHead: {
+    MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#375e38",
+          backgroundColor: "#1E3A8A",
         },
       },
     },
-    MuiDialogTitle: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#375e38",
-          color: "#ffffff",
-          fontWeight: "bold",
-          padding: "10px 20px",
-        },
-      },
-    },
-    MuiDialogActions: {
-      styleOverrides: {
-        root: {
-          backgroundColor: grey[100],
-        },
-      },
-    },
-    // MuiAppBar: {
-    //     styleOverrides: {
-    //         root: {
-    //             backgroundColor: '#1c313a', // Custom AppBar background
-    //         },
-    //     },
-    // },
   },
 });
 

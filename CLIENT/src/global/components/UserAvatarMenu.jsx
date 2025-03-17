@@ -23,12 +23,12 @@ const UserAvatarMenu = () => {
       <Box display="flex" alignItems="center" gap={2}>
         <Typography
           sx={{ display: { xs: "none", md: "block" } }}
-        >{`${currentUser.FirstName} ${currentUser.LastName}`}</Typography>
-        <Tooltip title={`${currentUser.FirstName}'s settings`}>
+        >{`${currentUser.email}`}</Typography>
+        <Tooltip title={`${currentUser.username}'s settings`}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt={currentUser.FirstName}
-              src={currentUser.ProfilePicture}
+              alt={currentUser.username}
+              // src={currentUser.ProfilePicture}
             />
           </IconButton>
         </Tooltip>

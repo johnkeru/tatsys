@@ -1,28 +1,20 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = async (req, res, next) => {
-  const jwtToken = req.cookies?.jwtToken;
+module.exports = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  if (!jwtToken)
-    return res.json({ error: "Access denied. No access_token provided." });
-  if (!jwt.verify(jwtToken, process.env.JWT_SECRET_KEY))
-    return res.status(401).json({ error: "Invalid token" });
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
-  const payload = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
-  const accessToken = payload.accessToken;
+  const token = authHeader.split(" ")[1];
 
   try {
-    const res = await fetch(process.env.ACCOUNT_USER_API_URL, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    if (!res.ok) return res.json({ error: "Access denied" });
-
-    const user = await res.json();
-
-    req.user = user;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    req.user = decoded;
     next();
-  } catch (e) {
-    return res.json({ error: "Access denied" });
+  } catch (error) {
+    console.error("JWT verification error:", error);
+    res.status(401).json({ message: "Unauthorized" });
   }
 };

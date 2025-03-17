@@ -8,7 +8,6 @@ const UserContext = createContext({
   currentUser: null,
   setCurrentUser: async () => {},
   isLoading: false,
-  error: null,
   logout: async () => {},
 });
 
@@ -16,14 +15,37 @@ const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const nav = useNavigate();
-  // only use in login
-  const handleSetUserInitialization = async () => {
-    const res = await api.get("/get-user");
-    setCurrentUser(res.data.user);
+
+  // Store token in localStorage
+  const storeToken = (token) => {
+    if (token) {
+      localStorage.setItem("token", token);
+    }
   };
+
+  // Get token from localStorage
+  const getToken = () => {
+    return localStorage.getItem("token") || null;
+  };
+
+  const handleSetUserInitialization = async () => {
+    try {
+      const res = await api.get("/get-user");
+      if (res.data.user) {
+        setCurrentUser(res.data.user);
+        if (res.data.jwtToken) {
+          storeToken(res.data.jwtToken);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+
   const handleLogout = async () => {
     await api.get("/logout");
     setCurrentUser(null);
+    localStorage.removeItem("token");
     location.href = env("AUTH_CLIENT_URL") + "/login";
   };
 
@@ -31,8 +53,14 @@ const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const res = await api.get("/get-user");
-        if (res.data.user) setCurrentUser(res.data.user);
-        else location.href = env("AUTH_CLIENT_URL") + "/login";
+        if (res.data.user) {
+          setCurrentUser(res.data.user);
+          if (res.data.jwtToken) {
+            storeToken(res.data.jwtToken);
+          }
+        } else {
+          location.href = env("AUTH_CLIENT_URL") + "/login";
+        }
       } catch (error) {
         console.error("Error fetching user:", error);
         location.href = env("AUTH_CLIENT_URL") + "/login";
@@ -41,13 +69,14 @@ const UserProvider = ({ children }) => {
       }
     };
     fetchUser();
-  }, [nav]); // Dependency array ensures useEffect runs once when the component mounts
+  }, []);
 
   const value = {
     currentUser,
     setCurrentUser: handleSetUserInitialization,
     logout: handleLogout,
     isLoading,
+    jwtToken: getToken(),
   };
 
   if (isLoading) return <Loading />;

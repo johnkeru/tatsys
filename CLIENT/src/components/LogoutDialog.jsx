@@ -43,7 +43,7 @@ const LogoutDialog = () => {
           <LuLogOut />
         </ListItemIcon>
         <Typography sx={{ textAlign: "center" }}>
-          Logout: {currentUser.Username[0]}
+          Logout: {currentUser.username}
         </Typography>
       </MenuItem>
 

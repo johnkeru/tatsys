@@ -22,18 +22,8 @@ import CustomButton from "../global/components/CustomButton";
 import env from "../utils/env";
 
 // Validation schema
-// Validation schema
 const schema = yup.object().shape({
-  username: yup
-    .string()
-    .test(
-      "is-username-or-email",
-      "Username must be a 6-digit number or a valid email address",
-      (value) =>
-        /^\d{6}$/.test(value) || // Check for 6-digit username
-        yup.string().email().isValidSync(value) // Check if it's a valid email
-    )
-    .required("Username is required"),
+  username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
 });
 
@@ -51,16 +41,27 @@ const LoginForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      await api.post("/login", data);
-      await setCurrentUser();
+      const response = await api.post("/login", data);
+
+      // Extract token and user from response
+      const { jwtToken, user } = response.data;
+
+      // Store token in localStorage (or cookies if needed)
+      localStorage.setItem("token", jwtToken);
+
+      // Set authenticated user in context
+      setCurrentUser(user);
+
+      // Redirect to dashboard
       nav("/dashboard");
       toast.success("Logged in successfully", { duration: 3000 });
-    } catch {
-      setSubmitError("An error occurred");
+    } catch (e) {
+      console.error("Login Error:", e);
+      toast.error(e?.response?.data?.message || "Login failed");
+      setSubmitError("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }

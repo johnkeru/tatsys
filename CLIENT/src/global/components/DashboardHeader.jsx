@@ -15,23 +15,25 @@ const DashboardHeader = ({
         pb: 2,
         px: 3,
         boxShadow: 2,
-        color: "white",
+        color: "#1E293B", // Business-friendly dark blue-gray
         backgroundImage:
-          "linear-gradient(to right, rgba(55, 94, 56, 0.9) 60%, rgba(55, 94, 56, 0.7) 100%)",
+          "linear-gradient(to right, rgba(30, 58, 138, 0.9) 60%, rgba(59, 130, 246, 0.7) 100%)", // Lighter blue gradient
       }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="end">
         <Box>
-          <Typography variant="h4" fontWeight="bold">
+          <Typography variant="h4" fontWeight="bold" color="#FFFFFF">
             {title}
           </Typography>
           {description && (
-            <Typography variant="body2">{description}</Typography>
+            <Typography variant="body2" color="grey.600">
+              {description}
+            </Typography>
           )}
         </Box>
-        <Box display="flex" gap={2}>
+        <Box display="flex" gap={2} alignItems="center">
           {childElement}
-          {searchable ? <TableSearchBar /> : undefined}
+          {searchable ? <TableSearchBar /> : null}
         </Box>
       </Box>
     </Box>

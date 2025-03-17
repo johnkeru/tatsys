@@ -3,7 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("./config/mongo_db")();
-const auth_router = require("./routers/auth_router");
+const authRouter = require("./routers/auth_router");
 const role_router = require("./routers/role_router");
 const setterDataRouter = require("./routers/setter_data");
 const testRouter = require("./routers/test_router");
@@ -26,7 +26,7 @@ app.use(cookieParser());
 // ROUTES
 app.use(setterDataRouter);
 
-app.use(auth_router);
+app.use(authRouter);
 app.use(role_router);
 
 app.get("/", (req, res) => res.json({ message: "server is UP!" }));
