@@ -6,7 +6,7 @@ const TransactionSchema = new mongoose.Schema({
     ref: "Employee",
     required: true,
   },
-  suppliesUsed: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inventory" }],
+  suppliesUsed: [{ type: mongoose.Schema.Types.ObjectId, ref: "Supply" }],
   date: { type: Date, default: Date.now },
   notes: { type: String },
 });

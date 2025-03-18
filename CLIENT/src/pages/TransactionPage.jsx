@@ -2,6 +2,7 @@ import React from "react";
 import CustomPage from "../global/components/CustomPage";
 import AddTransactionDialog from "../components/transaction/AddTransactionDialog";
 import TextSearchable from "../global/components/TextSearchable";
+import { Box, Chip } from "@mui/material";
 
 const TransactionPage = () => {
   const transactionSchema = {
@@ -18,6 +19,13 @@ const TransactionPage = () => {
       label: "Supplies Used",
       ref: "inventory",
       show: true,
+      customRender: (row) => (
+        <Box display="flex" gap={1}>
+          {row.suppliesUsed.map((su) => (
+            <Chip color="info" label={su.name} key={su._id} />
+          ))}
+        </Box>
+      ),
     },
     date: {
       type: "date",

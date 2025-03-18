@@ -48,16 +48,12 @@ exports.getAllTransactions = async (req, res) => {
     // **Fetch filtered, paginated, and sorted data**
     const transactions = await Transaction.find(query)
       .populate("employee", "name role") // Populate referenced Employee
-      .populate({
-        path: "suppliesUsed",
-        populate: { path: "item", select: "name category supplier" },
-      }) // Populate suppliesUsed, then populate item details
+      .populate("suppliesUsed", "name category supplier") // Populate referenced Inventory items
+      // Populate suppliesUsed, then populate item details
       .skip(skip)
       .limit(limitNum)
       .sort(sortQuery);
     const totalRecords = await Transaction.countDocuments(query);
-
-    console.log(transactions);
 
     return res.json({
       transactions,
