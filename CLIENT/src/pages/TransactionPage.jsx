@@ -1,6 +1,7 @@
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
 import AddTransactionDialog from "../components/transaction/AddTransactionDialog";
+import TextSearchable from "../global/components/TextSearchable";
 
 const TransactionPage = () => {
   const transactionSchema = {
@@ -9,14 +10,13 @@ const TransactionPage = () => {
       label: "Employee",
       ref: "employees",
       required: true,
-      searchable: true,
       show: true,
+      customRender: (row) => <TextSearchable columnName={row.employee.name} />,
     },
     suppliesUsed: {
       type: "reference",
       label: "Supplies Used",
       ref: "inventory",
-      multiple: true,
       show: true,
     },
     date: {

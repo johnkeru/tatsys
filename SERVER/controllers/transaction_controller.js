@@ -2,6 +2,7 @@ const Transaction = require("../models/transaction");
 const Employee = require("../models/employee");
 const Inventory = require("../models/inventory");
 const { dateFilter, textFilter } = require("../utils/controller_get_process");
+const { default: mongoose } = require("mongoose");
 
 // Get all transactions with filtering, searching, sorting, and pagination
 exports.getAllTransactions = async (req, res) => {
@@ -56,6 +57,8 @@ exports.getAllTransactions = async (req, res) => {
       .sort(sortQuery);
     const totalRecords = await Transaction.countDocuments(query);
 
+    console.log(transactions);
+
     return res.json({
       transactions,
       totalPages: Math.ceil(totalRecords / limitNum),
@@ -78,21 +81,11 @@ exports.addTransaction = async (req, res) => {
     }
 
     // Check if the referenced employee exists
-    const employeeExists = await Employee.findById(employee);
+    const employeeExists = await Employee.findById(
+      new mongoose.Types.ObjectId(employee)
+    );
     if (!employeeExists) {
       return res.status(404).json({ error: "Employee not found." });
-    }
-
-    // Validate suppliesUsed array
-    if (suppliesUsed && suppliesUsed.length > 0) {
-      for (const supplyId of suppliesUsed) {
-        const inventoryItem = await Inventory.findById(supplyId);
-        if (!inventoryItem) {
-          return res
-            .status(404)
-            .json({ error: `Inventory item with ID ${supplyId} not found.` });
-        }
-      }
     }
 
     const newTransaction = new Transaction({
