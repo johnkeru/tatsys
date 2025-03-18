@@ -17,9 +17,10 @@ import api from "../../config/api";
 import CustomAutoComplete from "../../global/components/CustomAutoComplete";
 import CustomButton from "../../global/components/CustomButton";
 import CustomTextField from "../../global/components/CustomTextField";
+import CustomAutoCompleteChips from "../../global/components/CustomAutoCompleteChips";
 
-// Validation Schema
-const AddInventoryDialog = ({ row, parentClose }) => {
+// Transaction Dialog Component
+const AddTransactionDialog = ({ row, parentClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const isEditing = Boolean(row);
@@ -32,30 +33,37 @@ const AddInventoryDialog = ({ row, parentClose }) => {
     formState: { isDirty },
   } = useForm({
     defaultValues: {
-      item: row?.item || "",
-      quantityUsed: row?.quantityUsed || "",
-      dateUsed: row?.dateUsed
-        ? row?.dateUsed.split("T")[0]
-        : new Date().toISOString().split("T")[0],
-      remarks: row?.remarks || "",
+      employee: row?.employee || "",
+      suppliesUsed: row?.suppliesUsed || [],
+      date: row?.date
+        ? row.date.split("T")[0]
+        : new Date().toISOString().split("T")[0], // Format date
+      notes: row?.notes || "",
     },
   });
 
   const mutation = useMutation({
     mutationFn: async (data) => {
       try {
-        const url = isEditing ? `/inventory/${row._id}` : "/inventory";
+        const url = isEditing ? `/transactions/${row._id}` : "/transactions";
         const method = isEditing ? "put" : "post";
-        const res = await api[method](url, { ...data, item: data.item._id });
+        const res = await api[method](url, {
+          ...data,
+          employee: data.employee._id,
+          suppliesUsed: data.suppliesUsed.map((item) => item._id),
+        });
         return res.data.message;
       } catch (e) {
-        toast.error(e.response?.data?.error || "Failed to save record");
-        setError("item", { type: "manual", message: e.response.data.error });
+        toast.error(e.response?.data?.error || "Failed to save transaction");
+        setError("employee", {
+          type: "manual",
+          message: e.response.data.error,
+        });
         throw e;
       }
     },
     onSuccess: (message) => {
-      queryClient.invalidateQueries(["inventory"]);
+      queryClient.invalidateQueries(["transactions"]);
       toast.success(message);
       reset();
       handleClose();
@@ -83,67 +91,68 @@ const AddInventoryDialog = ({ row, parentClose }) => {
           variant="contained"
           size="large"
           onClick={() => setIsOpen(true)}
-          aria-label="Add new inventory record"
+          aria-label="Add new transaction"
           startIcon={<IoMdAdd />}
         >
-          {isEditing ? "Edit Inventory" : "Add Inventory"}
+          {isEditing ? "Edit Transaction" : "Add Transaction"}
         </Button>
       )}
 
       <Dialog open={isOpen} onClose={handleClose}>
         <DialogTitle>
-          {isEditing ? "Edit Inventory Record" : "Add New Inventory Record"}
+          {isEditing ? "Edit Transaction" : "Add New Transaction"}
         </DialogTitle>
         <DialogContent dividers sx={{ width: "500px" }}>
           <Typography variant="body2" gutterBottom>
             {isEditing
               ? "Modify the details below and save changes."
-              : "Fill out the details below to add a new inventory record."}
+              : "Fill out the details below to add a new transaction."}
           </Typography>
 
-          {/* Select Item */}
+          {/* Select Employee */}
           <CustomAutoComplete
             control={control}
-            fieldName="item"
+            fieldName="employee"
+            apiList={{
+              api: api,
+              endpoint: "/employees",
+              listName: "employees",
+            }}
+            getObject
+            getOptionLabel="name"
+            label="Employee"
+            required
+            sx={{ mb: 2 }}
+          />
+
+          {/* Select Supplies Used */}
+          <CustomAutoCompleteChips
+            control={control}
+            fieldName="suppliesUsed"
             apiList={{
               api: api,
               endpoint: "/supplies",
               listName: "supplies",
             }}
-            // onChange={(value) => {
-            //   console.log(value);
-            // }}
-            getObject
             getOptionLabel="name"
-            label="Item"
-            required
+            label="Supplies Used"
           />
 
-          {/* Quantity Used */}
+          {/* Date */}
           <CustomTextField
-            fieldName="quantityUsed"
+            fieldName="date"
             control={control}
-            label="Quantity Used"
-            type="number"
-            required
-            sx={{ mt: 2 }}
-          />
-
-          {/* Date Used */}
-          <CustomTextField
-            fieldName="dateUsed"
-            control={control}
-            label="Date Used"
+            label="Date"
             type="date"
             required
             sx={{ my: 2 }}
           />
 
-          {/* Remarks */}
+          {/* Notes */}
           <CustomTextField
-            fieldName="remarks"
+            fieldName="notes"
             control={control}
-            label="Remarks (Optional)"
+            label="Notes (Optional)"
             sx={{ mb: 2 }}
           />
         </DialogContent>
@@ -164,4 +173,4 @@ const AddInventoryDialog = ({ row, parentClose }) => {
   );
 };
 
-export default AddInventoryDialog;
+export default AddTransactionDialog;

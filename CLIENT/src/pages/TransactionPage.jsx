@@ -1,5 +1,6 @@
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
+import AddTransactionDialog from "../components/transaction/AddTransactionDialog";
 
 const TransactionPage = () => {
   const transactionSchema = {
@@ -36,7 +37,15 @@ const TransactionPage = () => {
     },
   };
 
-  return <CustomPage dataListName="transactions" schema={transactionSchema} />;
+  return (
+    <CustomPage
+      dataListName="transactions"
+      customAddElement={<AddTransactionDialog />}
+      hasEdit={false}
+      additionalMenuOptions={[AddTransactionDialog]}
+      schema={transactionSchema}
+    />
+  );
 };
 
 export default TransactionPage;
