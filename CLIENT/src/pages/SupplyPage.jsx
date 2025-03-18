@@ -21,7 +21,7 @@ const SupplyPage = () => {
     quantity: {
       type: "number",
       label: "Quantity",
-      default: 0,
+      required: true,
       customRender: (row) => <TextSearchable columnName={row.quantity} />,
       show: true,
     },

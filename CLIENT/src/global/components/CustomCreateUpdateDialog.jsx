@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
@@ -52,16 +52,33 @@ const CustomCreateUpdateDialog = ({
     control,
     handleSubmit,
     reset,
+    setValue, // Add setValue to manually update fields in edit mode
     formState: { isDirty },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: isEditMode
-      ? row
-      : Object.keys(schema).reduce((acc, key) => {
-          acc[key] = schema[key].default ?? "";
-          return acc;
-        }, {}),
+    defaultValues: Object.keys(schema).reduce((acc, key) => {
+      if (isEditMode) {
+        acc[key] = row?.[key] ?? ""; // Use existing row data if editing
+        if (schema[key].type === "date" && row?.[key]) {
+          acc[key] = row[key].split("T")[0]; // Format existing date value
+        }
+      } else {
+        acc[key] = schema[key].default ?? "";
+      }
+      return acc;
+    }, {}),
   });
+
+  // Ensure the date field updates properly when switching to edit mode
+  useEffect(() => {
+    if (isEditMode) {
+      Object.keys(schema).forEach((key) => {
+        if (schema[key].type === "date" && row?.[key]) {
+          setValue(key, row[key].split("T")[0]); // Ensure proper format
+        }
+      });
+    }
+  }, [isEditMode, row, setValue]);
 
   const mutation = useMutation({
     mutationFn: async (data) => {
