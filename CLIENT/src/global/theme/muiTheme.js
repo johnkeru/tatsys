@@ -1,5 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import { grey, blue } from "@mui/material/colors";
+import { grey, blue, red } from "@mui/material/colors";
 
 // Define a clean and professional theme
 const theme = createTheme({
@@ -13,7 +13,7 @@ const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     error: {
-      main: blue[700], // Vibrant blue for warnings
+      main: red[700], // Vibrant blue for warnings
       contrastText: "#FFFFFF",
     },
     background: {

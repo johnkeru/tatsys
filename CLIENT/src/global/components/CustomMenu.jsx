@@ -1,14 +1,11 @@
+import { Button, MenuItem } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
+import Popover from "@mui/material/Popover";
 import { alpha, styled } from "@mui/material/styles";
-import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
-import { GrMore } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
+import { IoCaretDownSharp } from "react-icons/io5";
 import CustomCreateUpdateDialog from "./CustomCreateUpdateDialog";
 import CustomDeleteDialog from "./CustomDeleteDialog";
 
@@ -54,11 +51,14 @@ export default function CustomMenu({
 
   return (
     <div>
-      <Tooltip title="More Actions">
-        <IconButton onClick={handleClick} size="small">
-          <GrMore />
-        </IconButton>
-      </Tooltip>
+      <Button
+        startIcon={<IoCaretDownSharp />}
+        onClick={handleClick}
+        size="small"
+        variant="contained"
+      >
+        Actions
+      </Button>
 
       <StyledPopover
         id="custom-menu"
@@ -76,7 +76,7 @@ export default function CustomMenu({
       >
         <List>
           {/* Edit Option */}
-          {(hasEdit && customEditElement) || (
+          {hasEdit && (
             <CustomCreateUpdateDialog
               dataListName={dataListName}
               endpoint={endpoint}
@@ -85,19 +85,10 @@ export default function CustomMenu({
               schema={schema}
             />
           )}
-
           {/* Delete Option */}
-          {hasDelete && (
-            <CustomDeleteDialog
-              row={row}
-              endpoint={endpoint}
-              parentClose={handleClose}
-              dataListName={dataListName}
-            />
-          )}
 
+          {customEditElement && customEditElement}
           {/* Additional Options */}
-          {additionalMenuOptions.length > 0 && <Divider sx={{ my: 0.5 }} />}
           {additionalMenuOptions.map((Component, index) => (
             <Component
               key={index}
@@ -107,17 +98,22 @@ export default function CustomMenu({
               dataListName={dataListName}
             />
           ))}
+          <Divider />
 
-          <Divider sx={{ my: 0.5 }} />
+          {hasDelete && (
+            <CustomDeleteDialog
+              row={row}
+              endpoint={endpoint}
+              parentClose={handleClose}
+              dataListName={dataListName}
+            />
+          )}
 
           {/* Close Option */}
-          <ListItemButton
-            onClick={handleClose}
-            sx={{ display: "flex", gap: 1 }}
-          >
+          <MenuItem onClick={handleClose} sx={{ display: "flex", gap: 1 }}>
             <IoMdClose />
-            <ListItemText primary="Close" />
-          </ListItemButton>
+            Close
+          </MenuItem>
         </List>
       </StyledPopover>
     </div>

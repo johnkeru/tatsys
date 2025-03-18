@@ -1,5 +1,6 @@
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
+import AddEmployeeDialog from "../components/employee/AddEmployeeDialog";
 
 const EmployeePage = () => {
   const employeeSchema = {
@@ -36,7 +37,13 @@ const EmployeePage = () => {
     },
   };
 
-  return <CustomPage dataListName="employees" schema={employeeSchema} />;
+  return (
+    <CustomPage
+      dataListName="employees"
+      schema={employeeSchema}
+      customAddElement={<AddEmployeeDialog />}
+    />
+  );
 };
 
 export default EmployeePage;
