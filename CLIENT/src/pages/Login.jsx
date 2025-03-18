@@ -59,7 +59,7 @@ const LoginForm = () => {
       nav("/dashboard");
       toast.success("Logged in successfully", { duration: 3000 });
     } catch (e) {
-      console.error("Login Error:", e);
+      console.error(e);
       toast.error(e?.response?.data?.message || "Login failed");
       setSubmitError("Invalid credentials. Please try again.");
     } finally {
@@ -78,8 +78,8 @@ const LoginForm = () => {
       >
         <Toolbar>
           <img
-            src="/2020-nia-logo.svg" // Ensure the logo is available in the public folder
-            alt="NIA Logo"
+            src="/logo.svg" // Ensure the logo is available in the public folder
+            alt="Logo"
             style={{ height: 50, marginRight: 16 }}
           />
           <Typography variant="h6" style={{ flexGrow: 1 }}>
@@ -124,7 +124,7 @@ const LoginForm = () => {
             }}
           >
             <img
-              src="/2020-nia-logo.svg"
+              src="/logo.svg"
               alt="FMIS Logo"
               style={{
                 height: isSmallScreen ? "150px" : "224px", // Smaller logo on small screens

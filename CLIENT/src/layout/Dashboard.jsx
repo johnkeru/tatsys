@@ -52,7 +52,7 @@ const Dashboard = () => {
             )}
           </IconButton>
           <img
-            src="/2020-nia-logo.svg"
+            src="/logo.svg"
             alt="Logo"
             style={{ height: "40px", marginRight: "10px", cursor: "pointer" }}
             onClick={() => nav("/")}
