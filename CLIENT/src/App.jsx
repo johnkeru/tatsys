@@ -13,6 +13,7 @@ import EmployeePage from "./pages/EmployeePage";
 import SupplyPage from "./pages/SupplyPage";
 import InventoryPage from "./pages/InventoryPage";
 import TransactionPage from "./pages/TransactionPage";
+import Index from "./pages/Index";
 
 const App = () => {
   return (
@@ -28,7 +29,7 @@ const App = () => {
           </UserProvider>
         }
       >
-        <Route path="/dashboard" element={<h1>Home page</h1>} />
+        <Route path="/dashboard" element={<Index />} />
 
         {/* Module Routes */}
         <Route path="/test" element={<TestPage />} />
