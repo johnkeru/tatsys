@@ -1,9 +1,14 @@
 import { Box, Divider, List, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { MdSpaceDashboard } from "react-icons/md";
-// import DisplayRoles from "../global/components/DisplayRoles";
-import LinkTo from "../global/components/LinkTo";
 import { GrTest } from "react-icons/gr";
+import {
+  FaUserTie,
+  FaBoxes,
+  FaClipboardList,
+  FaExchangeAlt,
+} from "react-icons/fa";
+import LinkTo from "../global/components/LinkTo";
 
 const CustomDrawer = () => {
   return (
@@ -18,7 +23,6 @@ const CustomDrawer = () => {
     >
       <Box>
         <Toolbar />
-        {/* <DisplayRoles /> */}
         <Divider sx={{ borderColor: "secondary.light" }} />
         <List sx={{ py: 0 }}>
           <LinkTo
@@ -27,7 +31,26 @@ const CustomDrawer = () => {
             link="/dashboard"
             isAllow
           />
-          <LinkTo icon={<GrTest />} name="Test" link="/test" isAllow />
+          {/* <LinkTo icon={<GrTest />} name="Test" link="/test" isAllow /> */}
+          <LinkTo
+            icon={<FaUserTie />}
+            name="Employees"
+            link="/employees"
+            isAllow
+          />
+          <LinkTo icon={<FaBoxes />} name="Supplies" link="/supplies" isAllow />
+          <LinkTo
+            icon={<FaClipboardList />}
+            name="Inventory"
+            link="/inventory"
+            isAllow
+          />
+          <LinkTo
+            icon={<FaExchangeAlt />}
+            name="Transactions"
+            link="/transactions"
+            isAllow
+          />
         </List>
       </Box>
       <Box

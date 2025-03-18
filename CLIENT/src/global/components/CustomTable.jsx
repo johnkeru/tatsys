@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   IconButton,
   MenuItem,
   Paper,
@@ -31,16 +32,16 @@ import { formatDateToMDY, isValidDate } from "../../utils/formatDate";
 
 const CustomTable = ({
   columns,
-  tableKey,
   ROWS_PER_PAGE = 20,
   apiPath,
   dataListName = "",
+  orderByDefault = "updatedAt",
 }) => {
   const { searchValue, setSearchValue } = useSearch();
   const TEN_SECONDS_AGO = dayjs().subtract(10, "second");
 
   const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("updatedAt");
+  const [orderBy, setOrderBy] = useState(orderByDefault);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
@@ -53,7 +54,7 @@ const CustomTable = ({
   });
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: [tableKey, page],
+    queryKey: [dataListName, page],
     queryFn: async () => {
       const res = await api.get(apiPath, {
         params: {
@@ -125,8 +126,12 @@ const CustomTable = ({
     setFieldAndValue((prev) => ({ ...prev, value: "" }));
 
   const handleFilterClose = () => setFilterAnchorEl(null);
-  const handleCellClick = (rowIndex, columnKey) =>
-    setFocusedCell({ rowIndex, columnKey });
+
+  // _id from mongoDB
+  const handleCellClick = (rowIndex, columnKey, _id) => {
+    // console.log(_id);
+    setFocusedCell({ rowIndex, columnKey, _id });
+  };
 
   const handleChangePage = (event, newPage) => setPage(newPage);
 
@@ -257,32 +262,30 @@ const CustomTable = ({
             <Select
               size="small"
               value={
-                fieldAndValue.value !== undefined ? fieldAndValue.value : ""
+                fieldAndValue.value === true
+                  ? "true"
+                  : fieldAndValue.value === false
+                  ? "false"
+                  : "all"
               }
-              onChange={(e) =>
+              onChange={(e) => {
+                const newValue =
+                  e.target.value === "true"
+                    ? true
+                    : e.target.value === "false"
+                    ? false
+                    : null; // Use null for "All"
                 setFieldAndValue((prev) => ({
                   ...prev,
-                  value: e.target.value === "true",
-                }))
-              }
+                  value: newValue,
+                }));
+              }}
               fullWidth
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="all">All</MenuItem>
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>
-            {fieldAndValue.value !== undefined &&
-              fieldAndValue.value !== "" && (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={handleFilterClearValue}
-                  sx={{ my: 1 }}
-                >
-                  Clear
-                </Button>
-              )}
           </>
         );
       }
@@ -324,7 +327,9 @@ const CustomTable = ({
                 {/* Render the headers dynamically from columns */}
                 {columns.map((column) =>
                   column.type === "action" ? (
-                    <TableCell key={1}>Action</TableCell>
+                    <TableCell key={1} sx={{ width: column.width }}>
+                      {column.label}
+                    </TableCell>
                   ) : (
                     <TableCell
                       size="small"
@@ -413,15 +418,20 @@ const CustomTable = ({
                           <TableCell
                             key={column.field}
                             onClick={() =>
-                              handleCellClick(rowIndex, column.field)
+                              handleCellClick(
+                                rowIndex,
+                                column.field,
+                                row["_id"]
+                              )
                             } // Focus on click
                             sx={{
-                              maxWidth: "150px", // Adjust based on your design
+                              maxWidth: column.width || "150px", // Adjust based on your design
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               fontWeight: "500",
                               ...(focusedCell &&
+                                focusedCell._id === row["_id"] &&
                                 focusedCell.rowIndex === rowIndex &&
                                 focusedCell.columnKey === column.field && {
                                   outline: "2px solid lightblue", // Focused cell border
@@ -432,6 +442,7 @@ const CustomTable = ({
                                     ? "1px solid white"
                                     : `1px solid ${grey[200]}`
                                   : focusedCell &&
+                                    focusedCell._id === row["_id"] &&
                                     focusedCell.rowIndex === rowIndex &&
                                     focusedCell.columnKey === column.field,
                             }}
@@ -445,10 +456,31 @@ const CustomTable = ({
                                 formatCurrency(row[column.field])
                               ) : column.type === "boolean" ? (
                                 row[column.field] ? (
-                                  "Yes"
+                                  column.isChip ? (
+                                    <Chip
+                                      size="small"
+                                      label="Yes"
+                                      color="success"
+                                    />
+                                  ) : (
+                                    <span
+                                      style={{
+                                        color: "green",
+                                        fontWeight: "bold",
+                                      }}
+                                    >
+                                      Yes
+                                    </span>
+                                  )
+                                ) : column.isChip ? (
+                                  <Chip size="small" label="No" color="error" />
                                 ) : (
-                                  "No"
-                                ) // Display "Yes" for true, "No" for false
+                                  <span
+                                    style={{ color: "red", fontWeight: "bold" }}
+                                  >
+                                    No
+                                  </span>
+                                )
                               ) : (
                                 row[column.field]
                               )

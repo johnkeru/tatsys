@@ -9,6 +9,10 @@ import RolesTable from "./pages/role/RolesTable";
 import RolesAssignedTable from "./pages/role/RolesAssignedTable";
 import HomePage from "./pages/HomePage";
 import TestPage from "./pages/TestPage";
+import EmployeePage from "./pages/EmployeePage";
+import SupplyPage from "./pages/SupplyPage";
+import InventoryPage from "./pages/InventoryPage";
+import TransactionPage from "./pages/TransactionPage";
 
 const App = () => {
   return (
@@ -25,9 +29,15 @@ const App = () => {
         }
       >
         <Route path="/dashboard" element={<h1>Home page</h1>} />
-        {/* replace dashboard with your own component */}
-        <Route path="/test" element={<TestPage />} />
 
+        {/* Module Routes */}
+        <Route path="/test" element={<TestPage />} />
+        <Route path="/employees" element={<EmployeePage />} />
+        <Route path="/supplies" element={<SupplyPage />} />
+        <Route path="/inventory" element={<InventoryPage />} />
+        <Route path="/transactions" element={<TransactionPage />} />
+
+        {/* Role Management Routes */}
         <Route
           path="role-management"
           element={

@@ -7,10 +7,10 @@ const authRouter = require("./routers/auth_router");
 const role_router = require("./routers/role_router");
 const setterDataRouter = require("./routers/setter_data");
 const testRouter = require("./routers/test_router");
-const employeeRouter = require("./routers/test_router");
-const supplyRouter = require("./routers/test_router");
-const inventoryRouter = require("./routers/test_router");
-const transactionRouter = require("./routers/test_router");
+const employeeRouter = require("./routers/employee_router");
+const supplyRouter = require("./routers/supply_router");
+const inventoryRouter = require("./routers/inventory_router");
+const transactionRouter = require("./routers/transaction_router");
 
 const app = express();
 

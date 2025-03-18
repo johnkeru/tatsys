@@ -61,8 +61,8 @@ exports.getAllSupplies = async (req, res) => {
       .skip(skip)
       .limit(limitNum)
       .sort(sortQuery);
-    const totalRecords = await Supply.countDocuments(query);
 
+    const totalRecords = await Supply.countDocuments(query);
     return res.json({
       supplies,
       totalPages: Math.ceil(totalRecords / limitNum),
