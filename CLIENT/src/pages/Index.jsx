@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { FaBoxOpen, FaUserTie, FaClipboardList, FaTruck } from "react-icons/fa";
 import api from "../config/api";
+import ModernTable from "../components/dashboard/ModernTable";
 
 const Dashboard = () => {
   // Fetch data from APIs
@@ -194,11 +195,11 @@ const Dashboard = () => {
 
       {/* Data Tables */}
       <Grid container spacing={3} sx={{ mt: 3 }}>
-        {[
-          {
-            title: "Recent Transactions",
-            data: transactions,
-            columns: [
+        <Grid item xs={12} md={6}>
+          <ModernTable
+            title="Recent Transactions"
+            data={transactions}
+            columns={[
               { label: "Employee", render: (row) => row.employee?.name },
               {
                 label: "Supplies Used",
@@ -209,85 +210,43 @@ const Dashboard = () => {
                 label: "Date",
                 render: (row) => new Date(row.date).toLocaleDateString(),
               },
-            ],
-          },
-          {
-            title: "Inventory Overview",
-            data: inventory,
-            columns: [
+            ]}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <ModernTable
+            title="Inventory Overview"
+            data={inventory}
+            columns={[
               { label: "Item", render: (row) => row.item.name },
               { label: "Quantity", render: (row) => row.quantityUsed },
-            ],
-          },
-          {
-            title: "Employees",
-            data: employees,
-            columns: [
+            ]}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <ModernTable
+            title="Employees"
+            data={employees}
+            columns={[
               { label: "Name", render: (row) => row.name },
               { label: "Role", render: (row) => row.role },
-            ],
-          },
-          {
-            title: "Supplies",
-            data: supplies,
-            columns: [
+            ]}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <ModernTable
+            title="Supplies"
+            data={supplies}
+            columns={[
               { label: "Name", render: (row) => row.name },
               { label: "Category", render: (row) => row.category },
               { label: "Supplier", render: (row) => row.supplier },
-            ],
-          },
-        ].map((table, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <Paper
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                boxShadow: 3,
-                background: "#fff",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                "&:hover": { transform: "scale(1.02)", boxShadow: 5 },
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", mb: 2, color: "#333" }}
-              >
-                {table.title}
-              </Typography>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow sx={{ bgcolor: "#f7f9fc" }}>
-                      {table.columns.map((col, colIndex) => (
-                        <TableCell
-                          key={colIndex}
-                          sx={{ fontWeight: "bold", color: "#444" }}
-                        >
-                          {col.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {table.data?.slice(0, 5).map((row, rowIndex) => (
-                      <TableRow
-                        key={rowIndex}
-                        hover
-                        sx={{ "&:nth-of-type(odd)": { bgcolor: "#fafafa" } }}
-                      >
-                        {table.columns.map((col, colIndex) => (
-                          <TableCell key={colIndex}>
-                            {col.render(row)}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
-          </Grid>
-        ))}
+            ]}
+          />
+        </Grid>
       </Grid>
     </Box>
   );
