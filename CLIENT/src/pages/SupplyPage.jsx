@@ -42,6 +42,7 @@ const SupplyPage = () => {
       type: "date",
       label: "Expiry Date",
       show: true,
+      required: true,
     },
     action: {
       type: "action",

@@ -6,7 +6,7 @@ const SupplySchema = new mongoose.Schema({
   quantity: { type: Number, required: true, default: 0 },
   supplier: { type: String, required: true },
   purchaseDate: { type: Date, default: Date.now },
-  expiryDate: { type: Date },
+  expiryDate: { type: Date, required: true },
 });
 
 const Supply = mongoose.model("Supply", SupplySchema);

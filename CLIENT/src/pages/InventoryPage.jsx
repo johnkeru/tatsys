@@ -1,6 +1,7 @@
 import React from "react";
 import CustomPage from "../global/components/CustomPage";
 import TextSearchable from "../global/components/TextSearchable";
+import AddInventoryDialog from "../components/inventory/AddInventoryDialog";
 
 const InventoryPage = () => {
   const inventorySchema = {
@@ -36,7 +37,13 @@ const InventoryPage = () => {
     },
   };
 
-  return <CustomPage dataListName="inventory" schema={inventorySchema} />;
+  return (
+    <CustomPage
+      customAddElement={<AddInventoryDialog />}
+      dataListName="inventory"
+      schema={inventorySchema}
+    />
+  );
 };
 
 export default InventoryPage;
