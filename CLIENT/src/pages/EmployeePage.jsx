@@ -33,7 +33,7 @@ const EmployeePage = () => {
     },
     action: {
       type: "action",
-      label: "Actions",
+      label: "",
     },
   };
 
@@ -42,6 +42,8 @@ const EmployeePage = () => {
       dataListName="employees"
       schema={employeeSchema}
       customAddElement={<AddEmployeeDialog />}
+      hasEdit={false}
+      additionalMenuOptions={[AddEmployeeDialog]}
     />
   );
 };
