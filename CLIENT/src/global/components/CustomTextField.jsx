@@ -5,7 +5,7 @@ const CustomTextField = ({
   control,
   fieldName,
   label = "",
-  sx = { bgcolor: "#ffffff", mb: 0 },
+  sx,
   size = "small",
   variant = "outlined",
   required = false,
@@ -44,7 +44,7 @@ const CustomTextField = ({
       disabled={disabled}
       error={!!error}
       helperText={error ? error.message : ""}
-      sx={sx}
+      sx={{ ...sx, bgcolor: "#ffffff" }}
       InputLabelProps={{
         shrink: type === "date" || undefined,
       }}

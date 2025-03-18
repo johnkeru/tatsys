@@ -21,14 +21,12 @@ const DashboardHeader = ({
       }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="end">
-        <Box>
+        <Box color="white">
           <Typography variant="h4" fontWeight="bold" color="#FFFFFF">
             {title}
           </Typography>
           {description && (
-            <Typography variant="body2" color="grey.600">
-              {description}
-            </Typography>
+            <Typography variant="body2">{description}</Typography>
           )}
         </Box>
         <Box display="flex" gap={2} alignItems="center">

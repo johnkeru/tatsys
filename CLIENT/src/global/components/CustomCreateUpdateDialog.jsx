@@ -17,6 +17,7 @@ import api from "../../config/api";
 import CustomButton from "./CustomButton";
 import CustomTextField from "./CustomTextField";
 import { formatLabel } from "../../utils/formatLabel";
+import CustomCheckbox from "./CustomCheckBox";
 
 const CustomCreateUpdateDialog = ({
   schema,
@@ -138,6 +139,16 @@ const CustomCreateUpdateDialog = ({
                 row={3}
                 InputLabelProps={{ shrink: true }}
                 multiline={field.type === "textarea"}
+                sx={{ mb: 2 }}
+              />
+            ) : field.type === "boolean" ? (
+              <CustomCheckbox
+                key={key}
+                control={control}
+                fieldName={key}
+                label={field.label}
+                type={field.type}
+                sx={{ mb: 2 }}
               />
             ) : (
               <CustomTextField
@@ -149,6 +160,7 @@ const CustomCreateUpdateDialog = ({
                 required={!!field.required}
                 row={3}
                 multiline={field.type === "textarea"}
+                sx={{ mb: 2 }}
               />
             );
           })}

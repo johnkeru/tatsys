@@ -5,6 +5,7 @@ import {
   ListItemText,
   Collapse,
   List,
+  Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
@@ -32,6 +33,8 @@ const LinkTo = ({ icon, name = "", link = "", subLinks, isAllow }) => {
           to={link}
           onClick={subLinks ? handleToggle : undefined}
           sx={{
+            color: "white",
+            py: 1.5,
             bgcolor: isActive ? "rgba(255, 255, 255, 0.15)" : "transparent",
             "&:hover": {
               bgcolor: "rgba(255, 255, 255, 0.2)",
@@ -39,7 +42,7 @@ const LinkTo = ({ icon, name = "", link = "", subLinks, isAllow }) => {
           }}
         >
           <ListItemIcon sx={{ color: "white" }}>{icon}</ListItemIcon>
-          <ListItemText primary={name} sx={{ color: "white" }} />
+          <Typography color="white">{name}</Typography>
           {subLinks &&
             (open ? (
               <IoMdArrowDropup style={{ color: "white" }} />
@@ -61,6 +64,7 @@ const LinkTo = ({ icon, name = "", link = "", subLinks, isAllow }) => {
                     to={subLink.link}
                     sx={{
                       borderLeft: "2px solid rgba(255, 255, 255, 0.3)",
+                      py: 1.5,
                       bgcolor:
                         location.pathname === subLink.link
                           ? "rgba(255, 255, 255, 0.15)"
@@ -73,10 +77,7 @@ const LinkTo = ({ icon, name = "", link = "", subLinks, isAllow }) => {
                     <ListItemIcon sx={{ color: "white" }}>
                       {subLink.icon}
                     </ListItemIcon>
-                    <ListItemText
-                      primary={subLink.name}
-                      sx={{ color: "white" }}
-                    />
+                    <Typography color="white">{name}</Typography>
                   </ListItem>
                 )
             )}

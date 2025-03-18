@@ -22,7 +22,7 @@ const UserAvatarMenu = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Box display="flex" alignItems="center" gap={2}>
         <Typography
-          sx={{ display: { xs: "none", md: "block" } }}
+          sx={{ display: { xs: "none", md: "block" }, color: "white" }}
         >{`${currentUser.email}`}</Typography>
         <Tooltip title={`${currentUser.username}'s settings`}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
