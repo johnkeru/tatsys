@@ -1,4 +1,22 @@
-const mongoose = require("mongoose");
+exports.searchFilter = (query, search, fields) => {
+  if (search) {
+    query.$or = fields.map((field) => ({
+      [field]: { $regex: search, $options: "i" },
+    }));
+  }
+};
+
+exports.searchFilterForNumber = (query, search, field) => {
+  if (search) {
+    const searchNumber = !isNaN(Number(search)) ? Number(search) : null;
+
+    // Only add the field if it's a valid number
+    if (searchNumber !== null) {
+      query.$or = query.$or || [];
+      query.$or.push({ [field]: searchNumber });
+    }
+  }
+};
 
 // DATE CONDITIONS
 exports.processDate = (dateString) => {
@@ -88,25 +106,46 @@ exports.booleanFilter = (query, filters) => {
   });
 };
 
-exports.objectFilter = async (query, filters, relateModelName) => {
+exports.objectFilter = async (
+  Model1,
+  Model2,
+  filters,
+  relationKey,
+  query = {}
+) => {
   try {
-    for (const [field, value] of Object.entries(filters)) {
-      if (value && value !== "undefined") {
-        // Query the related model for matching records
-        const relatedDocs = await mongoose.model(relateModelName).find({
-          [field]: { $regex: value, $options: "i" },
-        });
+    // 1️⃣ Convert filter values to case-insensitive regex & remove empty values
+    const cleanedFilters = Object.entries(filters)
+      .filter(([_, value]) => value !== undefined && value !== "")
+      .map(([key, value]) => ({ [key]: { $regex: value, $options: "i" } }));
 
-        // Extract matching IDs
-        const relatedIds = relatedDocs.map((doc) => doc._id);
-
-        // Add to query (assuming a foreign key relationship)
-        if (relatedIds.length > 0) {
-          query[field] = { $in: relatedIds };
-        }
-      }
+    // 2️⃣ Ensure filters are valid
+    if (cleanedFilters.length === 0) {
+      return { success: false, message: "No valid filters provided" };
     }
+
+    // 3️⃣ Use `$or` to allow matching **any** filter condition
+    const document = await Model1.findOne({ $or: cleanedFilters });
+    if (!document) {
+      return { success: false, message: `No matching document found` };
+    }
+
+    // 4️⃣ Add `payor` condition inside `$or` in the query
+    if (!query.$or) {
+      query.$or = [];
+    }
+    query.$or.push({ [relationKey]: document._id });
+
+    // 5️⃣ Fetch results from Model2 (e.g., Billing)
+    const results = await Model2.find(query).exec();
+
+    return {
+      success: true,
+      totalResults: results.length,
+      data: results,
+    };
   } catch (error) {
-    console.error("Error filtering by related model:", error);
+    console.error("Error in objectFilter:", error);
+    return { success: false, message: "Server error", error: error.message };
   }
 };
