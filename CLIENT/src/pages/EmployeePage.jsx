@@ -28,6 +28,7 @@ const EmployeePage = () => {
       type: "date",
       label: "Date Hired",
       show: true,
+      default: new Date().toISOString().split("T")[0],
     },
     action: {
       type: "action",
