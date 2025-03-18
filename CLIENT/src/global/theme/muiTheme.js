@@ -1,62 +1,73 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import { grey, red } from "@mui/material/colors";
+import { grey, blue } from "@mui/material/colors";
 
-// Define a business-friendly blue theme
+// Define a clean and professional theme
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1E3A8A", // Medium business blue
+      main: "#2C3E50", // Deep professional blue
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#3B82F6", // Lighter blue for contrast
+      main: "#6C757D", // Muted gray for a balanced look
       contrastText: "#FFFFFF",
     },
     error: {
-      main: red[400],
+      main: blue[700], // Vibrant blue for warnings
       contrastText: "#FFFFFF",
     },
     background: {
-      default: "#F3F4F6", // Soft greyish-blue background
-      paper: "#E5E7EB", // Light paper-like background
+      default: "#F4F6F8", // Soft light gray background
+      paper: "#FFFFFF", // Clean white for content areas
     },
     text: {
-      primary: "#1E293B", // Dark blue-gray for readability
-      secondary: grey[600],
+      primary: "#2C3E50", // Dark navy for professional readability
+      secondary: grey[600], // Softer contrast
     },
   },
   typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
+    fontFamily: "'Poppins', 'Roboto', sans-serif", // Clean, modern, and professional
     h1: {
-      fontSize: "2.2rem",
+      fontSize: "2.5rem",
       fontWeight: 700,
-      color: "#1E293B",
+      color: "#2C3E50", // Dark blue for strong contrast
+      textTransform: "capitalize",
     },
     h2: {
-      fontSize: "1.8rem",
+      fontSize: "2rem",
       fontWeight: 600,
-      color: "#1E293B",
+      color: "#34495E", // Slightly lighter blue-gray
+      textTransform: "capitalize",
     },
     body1: {
       fontSize: "1rem",
       fontWeight: 400,
-      color: "#374151", // Softer text color
+      color: "#5D6D7E", // Balanced gray for easy reading
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: "8px 18px",
+          padding: "10px 20px",
           fontWeight: 600,
-          borderRadius: "6px", // Slightly rounded buttons
-          textTransform: "none",
+          borderRadius: "6px",
+          textTransform: "uppercase",
+          fontFamily: "'Poppins', sans-serif",
         },
         containedPrimary: {
-          backgroundColor: "#1E3A8A",
+          backgroundColor: "#2C3E50", // Professional deep blue
           color: "#FFFFFF",
           "&:hover": {
-            backgroundColor: "#1C3D8B", // Subtle hover effect
+            backgroundColor: "#1F2E3C", // Slightly darker blue
+          },
+        },
+        outlinedPrimary: {
+          borderColor: "#2C3E50",
+          color: "#2C3E50",
+          "&:hover": {
+            backgroundColor: "#2C3E50",
+            color: "#FFFFFF",
           },
         },
       },
@@ -65,11 +76,11 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 600,
-          color: "#1E293B",
+          color: "#2C3E50",
         },
         head: {
           fontWeight: 700,
-          backgroundColor: "#3B82F6",
+          backgroundColor: "#2C3E50",
           color: "#FFFFFF",
         },
       },
@@ -77,7 +88,8 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#1E3A8A",
+          backgroundColor: "#2C3E50", // Deep and refined blue
+          borderBottom: "3px solid #6C757D", // Subtle contrast
         },
       },
     },

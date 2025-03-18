@@ -1,7 +1,6 @@
 import { Box, Divider, List, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { MdSpaceDashboard } from "react-icons/md";
-import { GrTest } from "react-icons/gr";
 import {
   FaUserTie,
   FaBoxes,
@@ -9,6 +8,7 @@ import {
   FaExchangeAlt,
 } from "react-icons/fa";
 import LinkTo from "../global/components/LinkTo";
+import env from "../utils/env";
 
 const CustomDrawer = () => {
   return (
@@ -19,11 +19,12 @@ const CustomDrawer = () => {
         height: "100%",
         justifyContent: "space-between",
         position: "relative",
+        background: "linear-gradient(180deg, #2C3E50 10%, #6C757D 100%)", // Smooth professional gradient
       }}
     >
       <Box>
         <Toolbar />
-        <Divider sx={{ borderColor: "secondary.light" }} />
+        <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.2)" }} />
         <List sx={{ py: 0 }}>
           <LinkTo
             icon={<MdSpaceDashboard />}
@@ -31,7 +32,6 @@ const CustomDrawer = () => {
             link="/dashboard"
             isAllow
           />
-          {/* <LinkTo icon={<GrTest />} name="Test" link="/test" isAllow /> */}
           <LinkTo
             icon={<FaUserTie />}
             name="Employees"
@@ -53,21 +53,30 @@ const CustomDrawer = () => {
           />
         </List>
       </Box>
+
+      {/* Footer Section */}
       <Box
         sx={{
           position: "sticky",
           bottom: 0,
-          background: "rgba(0,0,0,0.7996848739495799)",
-          backdropFilter: "blur(2px)",
+          background: "rgba(44, 62, 80, 0.85)", // Softer background
+          backdropFilter: "blur(5px)",
+          py: 2,
         }}
       >
-        <Divider sx={{ borderColor: "primary.light" }} />
+        <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.15)" }} />
         <Typography
           variant="body2"
           align="center"
-          sx={{ color: "common.white", py: 2 }}
+          sx={{
+            color: "#F4F6F8",
+            fontSize: "0.85rem",
+            fontWeight: 500,
+            letterSpacing: "0.5px",
+            textTransform: "uppercase",
+          }}
         >
-          &copy; {new Date().getFullYear()} TATTOO SYSTEM
+          &copy; {new Date().getFullYear()} {env("APP_TITLE")}
         </Typography>
       </Box>
     </Box>

@@ -11,27 +11,45 @@ const DashboardHeader = ({
   return (
     <Box
       sx={{
-        pt: 1.8,
-        pb: 2,
+        pt: 2,
+        pb: 2.5,
         px: 3,
-        boxShadow: 2,
-        color: "#1E293B", // Business-friendly dark blue-gray
+        boxShadow: 3,
         backgroundImage:
-          "linear-gradient(to right, rgba(30, 58, 138, 0.9) 60%, rgba(59, 130, 246, 0.7) 100%)", // Lighter blue gradient
+          "linear-gradient(120deg, rgba(44, 62, 80, 0.95) 40%, rgba(108, 117, 125, 0.85) 100%)", // Professional blue-gray gradient
+        borderBottom: "2px solid #2C3E50", // Subtle, refined border
       }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="end">
-        <Box color="white">
-          <Typography variant="h4" fontWeight="bold" color="#FFFFFF">
+        <Box>
+          <Typography
+            variant="h4"
+            fontWeight="600"
+            sx={{
+              fontFamily: "'Poppins', sans-serif",
+              textTransform: "capitalize",
+              letterSpacing: "1px",
+              color: "#E0E0E0", // Soft white for clarity
+            }}
+          >
             {title}
           </Typography>
           {description && (
-            <Typography variant="body2">{description}</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "#B0BEC5", // Muted gray-blue for readability
+                fontSize: "1rem",
+                fontStyle: "italic",
+              }}
+            >
+              {description}
+            </Typography>
           )}
         </Box>
         <Box display="flex" gap={2} alignItems="center">
           {childElement}
-          {searchable ? <TableSearchBar /> : null}
+          {searchable && <TableSearchBar />}
         </Box>
       </Box>
     </Box>

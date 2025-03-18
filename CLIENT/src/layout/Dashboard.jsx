@@ -25,16 +25,15 @@ const Dashboard = () => {
   const toggleDrawer = () => setOpen(!open);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", bgcolor: "background.default" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          bgcolor: "primary.main",
-          boxShadow: 1,
-          borderBottom: "2px solid",
-          borderColor: "secondary.light",
+          bgcolor: "#2C3E50", // Deep neutral blue-gray
+          boxShadow: "0px 2px 8px rgba(0,0,0,0.3)",
+          borderBottom: "2px solid #6C757D", // Subtle gray border
         }}
       >
         <Toolbar>
@@ -54,10 +53,24 @@ const Dashboard = () => {
           <img
             src="/logo.svg"
             alt="Logo"
-            style={{ height: "40px", marginRight: "10px", cursor: "pointer" }}
+            style={{
+              height: "40px",
+              marginRight: "12px",
+              cursor: "pointer",
+            }}
             onClick={() => nav("/")}
           />
-          <Typography variant="h6" noWrap flexGrow={1} color="white">
+          <Typography
+            variant="h6"
+            noWrap
+            flexGrow={1}
+            sx={{
+              fontFamily: "'Poppins', sans-serif",
+              letterSpacing: "1px",
+              fontWeight: 600,
+              color: "#F4F6F8", // Soft light color for contrast
+            }}
+          >
             {env("APP_TITLE")}
           </Typography>
           <UserAvatarMenu />
@@ -70,8 +83,8 @@ const Dashboard = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            background:
-              "linear-gradient(169deg, rgba(30, 58, 138, 1) 10%, rgba(59, 130, 246, 0.9) 100%)", // Business-friendly gradient
+            background: "linear-gradient(180deg, #2C3E50 10%, #6C757D 100%)", // Professional gray-blue gradient
+            borderRight: "2px solid #6C757D",
           },
         }}
         variant={isMdScreen ? "temporary" : "persistent"}
@@ -101,7 +114,15 @@ const Dashboard = () => {
         <Typography
           variant="body2"
           align="center"
-          sx={{ px: 1.5, py: 2, color: "text.secondary" }}
+          sx={{
+            px: 1.5,
+            py: 2,
+            color: "#6C757D", // Muted gray for footer
+            fontSize: "0.85rem",
+            fontWeight: 500,
+            letterSpacing: "0.5px",
+            textTransform: "uppercase",
+          }}
         >
           &copy; {new Date().getFullYear()} {env("APP_TITLE")}
         </Typography>
