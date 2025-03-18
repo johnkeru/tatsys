@@ -10,8 +10,8 @@ const InventoryPage = () => {
       label: "Item",
       ref: "supplies",
       required: true,
-      searchable: true,
       show: true,
+      customRender: (row) => <TextSearchable columnName={row.item.name} />,
     },
     quantityUsed: {
       type: "number",
@@ -40,6 +40,8 @@ const InventoryPage = () => {
   return (
     <CustomPage
       customAddElement={<AddInventoryDialog />}
+      hasEdit={false}
+      additionalMenuOptions={[AddInventoryDialog]}
       dataListName="inventory"
       schema={inventorySchema}
     />

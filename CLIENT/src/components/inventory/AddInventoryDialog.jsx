@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
@@ -24,31 +24,29 @@ const AddInventoryDialog = ({ row, parentClose }) => {
   const queryClient = useQueryClient();
   const isEditing = Boolean(row);
 
-  const { control, handleSubmit, reset, setError, setValue } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { isDirty },
+  } = useForm({
     defaultValues: {
-      item: "",
-      quantityUsed: "",
-      dateUsed: new Date().toISOString().split("T")[0],
-      remarks: "",
+      item: row?.item || "",
+      quantityUsed: row?.quantityUsed || "",
+      dateUsed: row?.dateUsed
+        ? row?.dateUsed.split("T")[0]
+        : new Date().toISOString().split("T")[0],
+      remarks: row?.remarks || "",
     },
   });
-
-  // Set form values when editing an existing record
-  useEffect(() => {
-    if (row) {
-      setValue("item", row.item || "");
-      setValue("quantityUsed", row.quantityUsed || "");
-      setValue("dateUsed", row.dateUsed ? row.dateUsed.split("T")[0] : "");
-      setValue("remarks", row.remarks || "");
-    }
-  }, [row, setValue]);
 
   const mutation = useMutation({
     mutationFn: async (data) => {
       try {
         const url = isEditing ? `/inventory/${row._id}` : "/inventory";
         const method = isEditing ? "put" : "post";
-        const res = await api[method](url, data);
+        const res = await api[method](url, { ...data, item: data.item._id });
         return res.data.message;
       } catch (e) {
         toast.error(e.response?.data?.error || "Failed to save record");
@@ -60,7 +58,7 @@ const AddInventoryDialog = ({ row, parentClose }) => {
       queryClient.invalidateQueries(["inventory"]);
       toast.success(message);
       reset();
-      setIsOpen(false);
+      handleClose();
     },
   });
 
@@ -112,6 +110,10 @@ const AddInventoryDialog = ({ row, parentClose }) => {
               endpoint: "/supplies",
               listName: "supplies",
             }}
+            // onChange={(value) => {
+            //   console.log(value);
+            // }}
+            getObject
             getOptionLabel="name"
             label="Item"
             required
@@ -152,6 +154,7 @@ const AddInventoryDialog = ({ row, parentClose }) => {
           <CustomButton
             loading={mutation.isLoading}
             onClick={handleSubmit(mutation.mutate)}
+            allow={!isDirty}
           >
             {isEditing ? "Save Changes" : "Add"}
           </CustomButton>
