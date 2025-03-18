@@ -127,44 +127,78 @@ const Dashboard = () => {
       </Typography>
 
       {/* Overview Stats */}
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Total Supplies"
-            value={supplies?.length || 0}
-            icon={<FaBoxOpen />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Total Transactions"
-            value={transactions?.length || 0}
-            icon={<FaClipboardList />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Total Employees"
-            value={employees?.length || 0}
-            icon={<FaUserTie />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Total Inventory Items"
-            value={inventory?.length || 0}
-            icon={<FaTruck />}
-          />
-        </Grid>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          mt: 2,
+          justifyContent: "center",
+        }}
+      >
+        {[
+          {
+            title: "Total Supplies",
+            value: supplies?.length || 0,
+            icon: <FaBoxOpen />,
+            color: "#FF8C00",
+          },
+          {
+            title: "Total Transactions",
+            value: transactions?.length || 0,
+            icon: <FaClipboardList />,
+            color: "#1E88E5",
+          },
+          {
+            title: "Total Employees",
+            value: employees?.length || 0,
+            icon: <FaUserTie />,
+            color: "#43A047",
+          },
+          {
+            title: "Total Inventory Items",
+            value: inventory?.length || 0,
+            icon: <FaTruck />,
+            color: "#D81B60",
+          },
+        ].map((stat, index) => (
+          <Grid item xs={12} sm={6} md={3} key={index}>
+            <Card
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                p: 3,
+                borderRadius: 3,
+                boxShadow: 4,
+                background: `linear-gradient(135deg, ${stat.color} 30%, #ffffff 130%)`,
+                color: "#fff",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: 6,
+                },
+              }}
+            >
+              <Box sx={{ fontSize: 50, mr: 2, opacity: 0.9 }}>{stat.icon}</Box>
+              <CardContent>
+                <Typography variant="h6" sx={{ fontWeight: "bold", mb: 0.5 }}>
+                  {stat.title}
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                  {stat.value}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
 
       {/* Data Tables */}
       <Grid container spacing={3} sx={{ mt: 3 }}>
-        <Grid item xs={12} md={6}>
-          <StyledTable
-            title="Recent Transactions"
-            data={transactions}
-            columns={[
+        {[
+          {
+            title: "Recent Transactions",
+            data: transactions,
+            columns: [
               { label: "Employee", render: (row) => row.employee?.name },
               {
                 label: "Supplies Used",
@@ -175,43 +209,85 @@ const Dashboard = () => {
                 label: "Date",
                 render: (row) => new Date(row.date).toLocaleDateString(),
               },
-            ]}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <StyledTable
-            title="Inventory Overview"
-            data={inventory}
-            columns={[
+            ],
+          },
+          {
+            title: "Inventory Overview",
+            data: inventory,
+            columns: [
               { label: "Item", render: (row) => row.item.name },
               { label: "Quantity", render: (row) => row.quantityUsed },
-            ]}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <StyledTable
-            title="Employees"
-            data={employees}
-            columns={[
+            ],
+          },
+          {
+            title: "Employees",
+            data: employees,
+            columns: [
               { label: "Name", render: (row) => row.name },
               { label: "Role", render: (row) => row.role },
-            ]}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <StyledTable
-            title="Supplies"
-            data={supplies}
-            columns={[
+            ],
+          },
+          {
+            title: "Supplies",
+            data: supplies,
+            columns: [
               { label: "Name", render: (row) => row.name },
               { label: "Category", render: (row) => row.category },
               { label: "Supplier", render: (row) => row.supplier },
-            ]}
-          />
-        </Grid>
+            ],
+          },
+        ].map((table, index) => (
+          <Grid item xs={12} md={6} key={index}>
+            <Paper
+              sx={{
+                p: 3,
+                borderRadius: 3,
+                boxShadow: 3,
+                background: "#fff",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                "&:hover": { transform: "scale(1.02)", boxShadow: 5 },
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", mb: 2, color: "#333" }}
+              >
+                {table.title}
+              </Typography>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ bgcolor: "#f7f9fc" }}>
+                      {table.columns.map((col, colIndex) => (
+                        <TableCell
+                          key={colIndex}
+                          sx={{ fontWeight: "bold", color: "#444" }}
+                        >
+                          {col.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {table.data?.slice(0, 5).map((row, rowIndex) => (
+                      <TableRow
+                        key={rowIndex}
+                        hover
+                        sx={{ "&:nth-of-type(odd)": { bgcolor: "#fafafa" } }}
+                      >
+                        {table.columns.map((col, colIndex) => (
+                          <TableCell key={colIndex}>
+                            {col.render(row)}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
