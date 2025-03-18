@@ -64,7 +64,6 @@ const CustomDrawer = () => {
           py: 2,
         }}
       >
-        <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.15)" }} />
         <Typography
           variant="body2"
           align="center"
