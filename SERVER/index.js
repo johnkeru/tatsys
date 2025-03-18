@@ -7,6 +7,10 @@ const authRouter = require("./routers/auth_router");
 const role_router = require("./routers/role_router");
 const setterDataRouter = require("./routers/setter_data");
 const testRouter = require("./routers/test_router");
+const employeeRouter = require("./routers/test_router");
+const supplyRouter = require("./routers/test_router");
+const inventoryRouter = require("./routers/test_router");
+const transactionRouter = require("./routers/test_router");
 
 const app = express();
 
@@ -24,14 +28,20 @@ app.use(express.json());
 app.use(cookieParser());
 
 // ROUTES
+
+app.use(employeeRouter);
+app.use(supplyRouter);
+app.use(inventoryRouter);
+app.use(transactionRouter);
+
 app.use(setterDataRouter);
 
 app.use(authRouter);
 app.use(role_router);
 
-app.get("/", (req, res) => res.json({ message: "server is UP!" }));
 app.use(testRouter);
 
+app.get("/", (req, res) => res.json({ message: "server is UP!" }));
 app.listen(process.env.APP_PORT, () =>
   console.log(`🚀: http://localhost:${process.env.APP_PORT}`)
 );
