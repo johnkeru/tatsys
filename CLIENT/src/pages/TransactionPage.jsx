@@ -20,9 +20,13 @@ const TransactionPage = () => {
       ref: "inventory",
       show: true,
       customRender: (row) => (
-        <Box display="flex" gap={1}>
-          {row.suppliesUsed.map((su) => (
-            <Chip color="info" label={su.name} key={su._id} />
+        <Box display="flex" gap={1} flexWrap="wrap">
+          {row.suppliesUsed.map((su, index) => (
+            <Chip
+              color="info"
+              label={`${su.supply.name} (Qty: ${su.quantityUsed})`}
+              key={`${su.supply._id}-${index}`}
+            />
           ))}
         </Box>
       ),

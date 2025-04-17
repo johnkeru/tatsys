@@ -1,6 +1,6 @@
 const Transaction = require("../models/transaction");
 const Employee = require("../models/employee");
-const Inventory = require("../models/inventory");
+const Supply = require("../models/supply");
 const { dateFilter, textFilter } = require("../utils/controller_get_process");
 const { default: mongoose } = require("mongoose");
 
@@ -13,7 +13,6 @@ exports.getAllTransactions = async (req, res) => {
       search, // Global search: searches across multiple fields
       orderBy,
       order = "asc",
-
       employee, // Employee ID
       date,
       notes,
@@ -48,8 +47,7 @@ exports.getAllTransactions = async (req, res) => {
     // **Fetch filtered, paginated, and sorted data**
     const transactions = await Transaction.find(query)
       .populate("employee", "name role") // Populate referenced Employee
-      .populate("suppliesUsed", "name category supplier") // Populate referenced Inventory items
-      // Populate suppliesUsed, then populate item details
+      .populate("suppliesUsed.supply", "name category supplier") // Populate supply within suppliesUsed
       .skip(skip)
       .limit(limitNum)
       .sort(sortQuery);
@@ -82,6 +80,24 @@ exports.addTransaction = async (req, res) => {
     );
     if (!employeeExists) {
       return res.status(404).json({ error: "Employee not found." });
+    }
+
+    // Validate suppliesUsed array
+    if (suppliesUsed && suppliesUsed.length > 0) {
+      for (const item of suppliesUsed) {
+        if (!item.supply || !item.quantityUsed || item.quantityUsed <= 0) {
+          return res.status(400).json({
+            error:
+              "Each supply item must have a valid supply ID and positive quantity.",
+          });
+        }
+        const supplyExists = await Supply.findById(item.supply);
+        if (!supplyExists) {
+          return res
+            .status(404)
+            .json({ error: `Supply with ID ${item.supply} not found.` });
+        }
+      }
     }
 
     const newTransaction = new Transaction({
@@ -118,12 +134,18 @@ exports.editTransaction = async (req, res) => {
 
     // Validate suppliesUsed array
     if (suppliesUsed && suppliesUsed.length > 0) {
-      for (const supplyId of suppliesUsed) {
-        const inventoryItem = await Inventory.findById(supplyId);
-        if (!inventoryItem) {
+      for (const item of suppliesUsed) {
+        if (!item.supply || !item.quantityUsed || item.quantityUsed <= 0) {
+          return res.status(400).json({
+            error:
+              "Each supply item must have a valid supply ID and positive quantity.",
+          });
+        }
+        const supplyExists = await Supply.findById(item.supply);
+        if (!supplyExists) {
           return res
             .status(404)
-            .json({ error: `Inventory item with ID ${supplyId} not found.` });
+            .json({ error: `Supply with ID ${item.supply} not found.` });
         }
       }
     }
@@ -132,7 +154,9 @@ exports.editTransaction = async (req, res) => {
       id,
       { employee, suppliesUsed, date, notes },
       { new: true, runValidators: true }
-    );
+    )
+      .populate("employee", "name role")
+      .populate("suppliesUsed.supply", "name category supplier");
 
     if (!updatedTransaction) {
       return res.status(404).json({ error: "Transaction not found." });
